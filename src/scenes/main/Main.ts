@@ -5,7 +5,8 @@ import {
   createLayers,
   createMap,
   createPlayer,
-  createTileset
+  createTileset,
+  createTitleTexts
 } from "./functions/create";
 import { initPlayerCollider } from "./functions/collider";
 import { initPlayerCamera } from "./functions/camera";
@@ -14,7 +15,11 @@ import { setPlayerInputs } from "./functions/inputs";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
-    super("game");
+    super("main");
+  }
+
+  init(data: { language: string }) {
+    this.data.set("language", data.language);
   }
 
   preload() {
@@ -24,6 +29,7 @@ export default class GameScene extends Phaser.Scene {
   create() {
     const map = createMap(this);
     const tileset = createTileset(map);
+    const language = this.data.get("language");
 
     if (tileset) {
       const { etcLayer, wallsLayer } = createLayers(map, tileset);
@@ -51,6 +57,8 @@ export default class GameScene extends Phaser.Scene {
         }
       }
     }
+
+    createTitleTexts(this, language);
 
     // 플레이어,타일 영역 디버그용
 

@@ -55,6 +55,14 @@ export default class TownScene extends Phaser.Scene {
           setTownPlayerInput(this.input.keyboard, player);
         }
       }
+
+      //   this.physics.add.collider(
+      //     player,
+      //     jin,
+      //     this.handleDialogInteraction,
+      //     null,
+      //     this
+      //   );
     }
   }
 
