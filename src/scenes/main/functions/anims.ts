@@ -103,3 +103,18 @@ export const createPlayerAnims = (scene: Phaser.Scene): void => {
     repeat: -1
   });
 };
+
+export const createCatAnims = (scene: Phaser.Scene): void => {
+  scene.anims.create({
+    key: "cat_idle",
+
+    frames: scene.anims.generateFrameNumbers("cat", {
+      start: 0,
+      end: 9
+    }),
+
+    frameRate: 10,
+
+    repeat: -1
+  });
+};
