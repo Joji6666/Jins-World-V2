@@ -2,6 +2,7 @@ import Phaser from "phaser";
 
 import { mainPreload } from "./functions/preload";
 import {
+  createIcons,
   createLayers,
   createMap,
   createPlayer,
@@ -13,7 +14,12 @@ import { initPlayerCamera } from "./functions/camera";
 import { createPlayerAnims } from "./functions/anims";
 import { setPlayerInputs } from "./functions/inputs";
 
+import { handleInteraction } from "./functions/interaction";
+
 export default class GameScene extends Phaser.Scene {
+  private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
+  private currentBubble!: Phaser.GameObjects.Text | null;
+
   constructor() {
     super("main");
   }
@@ -52,24 +58,23 @@ export default class GameScene extends Phaser.Scene {
 
         createPlayerAnims(this);
 
+        const { icons, speechBubbles } = createIcons(this, language);
+        icons.forEach((icon) => {
+          this.physics.add.collider(player, icon);
+        });
+
+        this.speechBubbles = speechBubbles;
+
         if (this.input.keyboard) {
           setPlayerInputs(this.input.keyboard, player);
+          this.input.keyboard?.on("keydown-SPACE", () =>
+            handleInteraction(this, this.currentBubble, this.speechBubbles)
+          );
         }
       }
     }
 
     createTitleTexts(this, language);
-
-    // 플레이어,타일 영역 디버그용
-
-    // const debugGraphics = this.add.graphics().setAlpha(0.7);
-    // wallsLayer.renderDebug(debugGraphics, {
-    //   tileColor: null,
-    //   collidingTileColor: new Phaser.Display.Color(243, 243, 48, 255),
-    //   faceColor: new Phaser.Display.Color(40, 39, 27, 255),
-    // });
-
-    // this.physics.add.collider(player, cat);
   }
 
   update() {
@@ -88,5 +93,22 @@ export default class GameScene extends Phaser.Scene {
     ) {
       this.scene.start("town-scene");
     }
+
+    if (this.currentBubble) {
+      this.currentBubble.setVisible(false);
+      this.currentBubble = null;
+    }
+
+    Object.entries(this.speechBubbles).forEach(([key, bubble]) => {
+      const icon = this.data.get(key) as Phaser.GameObjects.Image;
+
+      if (
+        icon &&
+        Phaser.Math.Distance.Between(player.x, player.y, icon.x, icon.y) < 50
+      ) {
+        bubble.setVisible(true);
+        this.currentBubble = bubble;
+      }
+    });
   }
 }
