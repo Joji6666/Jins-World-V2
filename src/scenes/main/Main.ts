@@ -2,6 +2,7 @@ import Phaser from "phaser";
 
 import { mainPreload } from "./functions/preload";
 import {
+  createCat,
   createIcons,
   createLayers,
   createMap,
@@ -11,7 +12,7 @@ import {
 } from "./functions/create";
 import { initPlayerCollider } from "./functions/collider";
 import { initPlayerCamera } from "./functions/camera";
-import { createPlayerAnims } from "./functions/anims";
+import { createCatAnims, createPlayerAnims } from "./functions/anims";
 import { setPlayerInputs } from "./functions/inputs";
 
 import { handleInteraction } from "./functions/interaction";
@@ -19,6 +20,7 @@ import { handleInteraction } from "./functions/interaction";
 export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
   private currentBubble!: Phaser.GameObjects.Text | null;
+  private isCatDistanceOn!: boolean;
 
   constructor() {
     super("main");
@@ -45,6 +47,7 @@ export default class GameScene extends Phaser.Scene {
         etcLayer.setCollisionByProperty({ colides: true });
 
         const player = createPlayer(this);
+        const cat = createCat(this);
 
         initPlayerCollider(this, player, wallsLayer);
         initPlayerCollider(this, player, etcLayer);
@@ -57,6 +60,9 @@ export default class GameScene extends Phaser.Scene {
         initPlayerCamera(this, { mapWidth, mapHeight }, player);
 
         createPlayerAnims(this);
+        createCatAnims(this);
+
+        cat.anims.play("cat_idle", true);
 
         const { icons, speechBubbles } = createIcons(this, language);
         icons.forEach((icon) => {
@@ -80,6 +86,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     const player = this.data.get("player");
     const map = this.data.get("map");
+    const cat = this.data.get("cat");
 
     // 맵의 크기를 가져옵니다.
     const mapWidth = map.widthInPixels;
@@ -97,6 +104,44 @@ export default class GameScene extends Phaser.Scene {
     if (this.currentBubble) {
       this.currentBubble.setVisible(false);
       this.currentBubble = null;
+    }
+
+    if (cat) {
+      const distance = Phaser.Math.Distance.Between(
+        player.x,
+        player.y,
+        cat.x,
+        cat.y
+      );
+
+      if (distance < 50) {
+        if (!this.data.get("catBubble")) {
+          // 새로운 말풍선 생성 (한 번만 생성)
+          const catBubble = this.add
+            .text(cat.x, cat.y - 50, "🐱 Go GitHub!", {
+              fontFamily: "PixelFont",
+              fontSize: "12px",
+              color: "#ffffff",
+              backgroundColor: "#000000",
+              padding: { x: 8, y: 4 }
+            })
+            .setOrigin(0.5)
+            .setDepth(15) // 다른 오브젝트 위에 표시
+            .setVisible(true);
+
+          this.isCatDistanceOn = true;
+          this.data.set("catBubble", catBubble);
+        } else {
+          // 이미 존재하면 보이게 설정
+          this.isCatDistanceOn = false;
+          this.data.get("catBubble").setVisible(true);
+        }
+      } else {
+        // 플레이어가 멀어지면 숨김
+        if (this.data.get("catBubble")) {
+          this.data.get("catBubble").setVisible(false);
+        }
+      }
     }
 
     Object.entries(this.speechBubbles).forEach(([key, bubble]) => {

@@ -47,6 +47,35 @@ export const createPlayer = (scene: Phaser.Scene): Player => {
   return player;
 };
 
+export const createCat = (
+  scene: Phaser.Scene
+): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
+  const cat = scene.physics.add.sprite(875, 125, `cat`).setName("cat");
+
+  cat.body.immovable = true;
+  cat.body.offset.y = 7;
+  scene.data.set("cat", cat);
+
+  const githubIcon = scene.physics.add
+    .image(cat.x - 5, cat.y - 40, "github")
+    .setOrigin(0.5, 0.5);
+  githubIcon.setImmovable(true);
+  githubIcon.scale = 0.025;
+
+  githubIcon.body.setAllowGravity(false);
+
+  scene.tweens.add({
+    targets: [githubIcon],
+    y: "+=8",
+    duration: 1000,
+    yoyo: true,
+    repeat: -1,
+    ease: "Sine.easeInOut"
+  });
+
+  return cat;
+};
+
 export const createTitleTexts = (
   scene: Phaser.Scene,
   language: string

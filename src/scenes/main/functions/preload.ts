@@ -5,11 +5,17 @@ export const mainPreload = (scene: Phaser.Scene): void => {
   scene.load.image("leaf", "/assets/icons/leaf.png");
   scene.load.image("scroll", "/assets/icons/scroll.png");
   scene.load.image("skill-book", "/assets/icons/skill_book.png");
+  scene.load.image("github", "/assets/icons/github.png");
 
   scene.load.tilemapTiledJSON("map", "/assets/map.json");
 
   scene.load.spritesheet("jin", "/assets/jin.png", {
     frameWidth: 50,
     frameHeight: 74
+  });
+
+  scene.load.spritesheet("cat", "/assets/cat_idle.png", {
+    frameWidth: 32,
+    frameHeight: 32
   });
 };
