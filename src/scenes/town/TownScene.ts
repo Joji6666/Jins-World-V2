@@ -3,13 +3,14 @@ import { townPreload } from "./functions/preload";
 import {
   createTownLayers,
   createTownMap,
-  createTownPlayer,
   createTownTileset
 } from "./functions/create";
 import { initTownCamera, initTownPlayerCamera } from "./functions/camera";
 import type { Player } from "../../shared/types";
 import { setTownPlayerInput } from "./functions/inputs";
-import { createPlayerAnims } from "../main/functions/anims";
+import { createPlayerAnims } from "../../shared/functions/anims";
+import { playerPreload } from "../../shared/functions/preload";
+import { createPlayer } from "../../shared/functions/create";
 
 export default class TownScene extends Phaser.Scene {
   constructor() {
@@ -18,6 +19,7 @@ export default class TownScene extends Phaser.Scene {
 
   preload() {
     townPreload(this);
+    playerPreload(this);
   }
 
   create() {
@@ -30,7 +32,7 @@ export default class TownScene extends Phaser.Scene {
       if (wallsLayer) {
         wallsLayer.setCollisionByProperty({ colides: true });
 
-        const player = createTownPlayer(this);
+        const player = createPlayer(this);
 
         const mapWidth = map.widthInPixels;
         const mapHeight = map.heightInPixels;

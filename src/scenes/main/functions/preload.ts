@@ -9,13 +9,8 @@ export const mainPreload = (scene: Phaser.Scene): void => {
 
   scene.load.tilemapTiledJSON("map", "/assets/map.json");
 
-  scene.load.spritesheet("jin", "/assets/jin.png", {
-    frameWidth: 50,
-    frameHeight: 74
-  });
-
-  scene.load.spritesheet("cat", "/assets/cat_idle.png", {
-    frameWidth: 32,
-    frameHeight: 32
+  scene.load.spritesheet("octocat", "/assets/octocat.png", {
+    frameWidth: 200,
+    frameHeight: 300
   });
 };

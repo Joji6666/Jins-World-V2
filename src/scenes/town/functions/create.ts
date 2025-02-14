@@ -28,15 +28,3 @@ export const createTownLayers = (
 
   return { groundLayer, wallsLayer };
 };
-
-export const createTownPlayer = (scene: Phaser.Scene): Player => {
-  const player = scene.physics.add
-    .sprite(100, 300, `jin`)
-    .setName("jin") as Player;
-  player.moveState = "";
-  player.body.immovable = true;
-  player.body.offset.y = 7;
-  scene.data.set("player", player);
-
-  return player;
-};
