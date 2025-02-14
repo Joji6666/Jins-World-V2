@@ -2,20 +2,22 @@ import Phaser from "phaser";
 
 import { mainPreload } from "./functions/preload";
 import {
-  createCat,
+  createOctocat,
   createIcons,
   createLayers,
   createMap,
-  createPlayer,
   createTileset,
   createTitleTexts
 } from "./functions/create";
 import { initPlayerCollider } from "./functions/collider";
 import { initPlayerCamera } from "./functions/camera";
-import { createCatAnims, createPlayerAnims } from "./functions/anims";
-import { setPlayerInputs } from "./functions/inputs";
+import { createCatAnims } from "./functions/anims";
 
 import { handleInteraction } from "./functions/interaction";
+import { createPlayerAnims } from "../../shared/functions/anims";
+import { createPlayer } from "../../shared/functions/create";
+import { playerPreload } from "../../shared/functions/preload";
+import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
 
 export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
@@ -32,6 +34,7 @@ export default class GameScene extends Phaser.Scene {
 
   preload() {
     mainPreload(this);
+    playerPreload(this);
   }
 
   create() {
@@ -47,7 +50,7 @@ export default class GameScene extends Phaser.Scene {
         etcLayer.setCollisionByProperty({ colides: true });
 
         const player = createPlayer(this);
-        const cat = createCat(this);
+        const octocat = createOctocat(this);
 
         initPlayerCollider(this, player, wallsLayer);
         initPlayerCollider(this, player, etcLayer);
@@ -62,7 +65,8 @@ export default class GameScene extends Phaser.Scene {
         createPlayerAnims(this);
         createCatAnims(this);
 
-        cat.anims.play("cat_idle", true);
+        player.anims.play("player_idle_front");
+        octocat.anims.play("octocat_idle");
 
         const { icons, speechBubbles } = createIcons(this, language);
         icons.forEach((icon) => {
@@ -74,7 +78,12 @@ export default class GameScene extends Phaser.Scene {
         if (this.input.keyboard) {
           setPlayerInputs(this.input.keyboard, player);
           this.input.keyboard?.on("keydown-SPACE", () =>
-            handleInteraction(this, this.currentBubble, this.speechBubbles)
+            handleInteraction(
+              this,
+              this.currentBubble,
+              this.speechBubbles,
+              this.isCatDistanceOn
+            )
           );
         }
       }
@@ -86,7 +95,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     const player = this.data.get("player");
     const map = this.data.get("map");
-    const cat = this.data.get("cat");
+    const octocat = this.data.get("octocat");
 
     // 맵의 크기를 가져옵니다.
     const mapWidth = map.widthInPixels;
@@ -106,19 +115,18 @@ export default class GameScene extends Phaser.Scene {
       this.currentBubble = null;
     }
 
-    if (cat) {
+    if (octocat) {
       const distance = Phaser.Math.Distance.Between(
         player.x,
         player.y,
-        cat.x,
-        cat.y
+        octocat.x,
+        octocat.y
       );
 
       if (distance < 50) {
         if (!this.data.get("catBubble")) {
-          // 새로운 말풍선 생성 (한 번만 생성)
           const catBubble = this.add
-            .text(cat.x, cat.y - 50, "🐱 Go GitHub!", {
+            .text(octocat.x, octocat.y - 50, "🐱 Go GitHub!", {
               fontFamily: "PixelFont",
               fontSize: "12px",
               color: "#ffffff",
@@ -126,19 +134,17 @@ export default class GameScene extends Phaser.Scene {
               padding: { x: 8, y: 4 }
             })
             .setOrigin(0.5)
-            .setDepth(15) // 다른 오브젝트 위에 표시
+            .setDepth(15)
             .setVisible(true);
 
           this.isCatDistanceOn = true;
           this.data.set("catBubble", catBubble);
         } else {
-          // 이미 존재하면 보이게 설정
-          this.isCatDistanceOn = false;
           this.data.get("catBubble").setVisible(true);
         }
       } else {
-        // 플레이어가 멀어지면 숨김
         if (this.data.get("catBubble")) {
+          this.isCatDistanceOn = false;
           this.data.get("catBubble").setVisible(false);
         }
       }

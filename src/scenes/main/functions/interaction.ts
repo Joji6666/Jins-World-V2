@@ -1,8 +1,16 @@
 export const handleInteraction = (
   scene: Phaser.Scene,
   currentBubble: Phaser.GameObjects.Text | null,
-  speechBubbles: { [key: string]: Phaser.GameObjects.Text }
+  speechBubbles: { [key: string]: Phaser.GameObjects.Text },
+  isCatDistanceOn: boolean
 ): void => {
+  if (isCatDistanceOn) {
+    console.log(isCatDistanceOn, "first");
+    window.open("https://github.com/Joji6666");
+
+    return;
+  }
+
   if (!currentBubble) return;
 
   if (currentBubble.text === "SPACE") {

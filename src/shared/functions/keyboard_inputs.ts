@@ -1,4 +1,4 @@
-import type { Player } from "../../../shared/types";
+import { Player } from "../types";
 
 export const setPlayerInputs = (
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin,
@@ -8,14 +8,14 @@ export const setPlayerInputs = (
     player.setVelocityX(-160);
     player.moveState = "left";
     player.setVelocityY(0);
-    player.anims.play("left", true);
+    player.anims.play("player_run_left", true);
   });
 
   keyboard.on("keyup-LEFT", () => {
     if (player.moveState === "left") {
       player.setVelocityX(0);
       player.moveState = "idle_left";
-      player.anims.play("turn_left", true);
+      player.anims.play("player_idle_left", true);
     }
   });
 
@@ -23,14 +23,14 @@ export const setPlayerInputs = (
     player.setVelocityX(160);
     player.moveState = "right";
     player.setVelocityY(0);
-    player.anims.play("right", true);
+    player.anims.play("player_run_right", true);
   });
 
   keyboard.on("keyup-RIGHT", () => {
     if (player.moveState === "right") {
       player.setVelocityX(0);
       player.moveState = "idle_right";
-      player.anims.play("turn_right", true);
+      player.anims.play("player_idle_right", true);
     }
   });
 
@@ -38,14 +38,14 @@ export const setPlayerInputs = (
     player.setVelocityY(-160);
     player.moveState = "up";
     player.setVelocityX(0);
-    player.anims.play("up", true);
+    player.anims.play("player_run_back", true);
   });
 
   keyboard.on("keyup-UP", () => {
     if (player.moveState === "up") {
       player.setVelocityY(0);
       player.moveState = "idle_up";
-      player.anims.play("turn_up", true);
+      player.anims.play("player_idle_back", true);
     }
   });
 
@@ -53,14 +53,14 @@ export const setPlayerInputs = (
     player.setVelocityY(160);
     player.moveState = "down";
     player.setVelocityX(0);
-    player.anims.play("down", true);
+    player.anims.play("player_run_front", true);
   });
 
   keyboard.on("keyup-DOWN", () => {
     if (player.moveState === "down") {
       player.setVelocityY(0);
       player.moveState = "idle_down";
-      player.anims.play("turn_down", true);
+      player.anims.play("player_idle_front", true);
     }
   });
 };

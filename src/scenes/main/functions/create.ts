@@ -35,29 +35,20 @@ export const createLayers = (
   return { groundLayer, etcLayer, wallsLayer };
 };
 
-export const createPlayer = (scene: Phaser.Scene): Player => {
-  const player = scene.physics.add
-    .sprite(1050, 325, `jin`)
-    .setName("jin") as Player;
-  player.moveState = "";
-  player.body.immovable = true;
-  player.body.offset.y = 7;
-  scene.data.set("player", player);
-
-  return player;
-};
-
-export const createCat = (
+export const createOctocat = (
   scene: Phaser.Scene
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
-  const cat = scene.physics.add.sprite(875, 125, `cat`).setName("cat");
+  const octocat = scene.physics.add
+    .sprite(875, 125, `octocat`)
+    .setName("octocat");
 
-  cat.body.immovable = true;
-  cat.body.offset.y = 7;
-  scene.data.set("cat", cat);
+  octocat.body.immovable = true;
+  octocat.body.offset.y = 7;
+  octocat.scale = 0.2;
+  scene.data.set("octocat", octocat);
 
   const githubIcon = scene.physics.add
-    .image(cat.x - 5, cat.y - 40, "github")
+    .image(octocat.x, octocat.y - 40, "github")
     .setOrigin(0.5, 0.5);
   githubIcon.setImmovable(true);
   githubIcon.scale = 0.025;
@@ -73,7 +64,7 @@ export const createCat = (
     ease: "Sine.easeInOut"
   });
 
-  return cat;
+  return octocat;
 };
 
 export const createTitleTexts = (
