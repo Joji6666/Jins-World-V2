@@ -8,8 +8,8 @@ import IntroScene from "./scenes/intro/Intro";
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 1281,
-  height: 749,
+  width: 1440,
+  height: 960,
   parent: "game-container",
   backgroundColor: "#028af8",
   scale: {
@@ -17,6 +17,7 @@ const config: Types.Core.GameConfig = {
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
   scene: [IntroScene, Main, TownScene],
+
   physics: {
     default: "arcade",
     arcade: {
