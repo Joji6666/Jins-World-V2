@@ -1,5 +1,3 @@
-import type { Player } from "../../../shared/types";
-
 const arrowTextStyle = {
   fontFamily: "KoreanPixelFont",
   fontSize: "20px",
@@ -9,13 +7,14 @@ const arrowTextStyle = {
 export const createMap = (scene: Phaser.Scene): Phaser.Tilemaps.Tilemap => {
   const map = scene.make.tilemap({ key: "map" });
   scene.data.set("map", map);
+
   return map;
 };
 
 export const createTileset = (
   map: Phaser.Tilemaps.Tilemap
 ): Phaser.Tilemaps.Tileset | null => {
-  const tileset = map.addTilesetImage("tileset", "tiles");
+  const tileset = map.addTilesetImage("atlas_48x", "atlas_48x");
 
   return tileset;
 };
@@ -24,15 +23,35 @@ export const createLayers = (
   map: Phaser.Tilemaps.Tilemap,
   titleset: Phaser.Tilemaps.Tileset
 ): {
-  groundLayer: Phaser.Tilemaps.TilemapLayer | null;
-  etcLayer: Phaser.Tilemaps.TilemapLayer | null;
-  wallsLayer: Phaser.Tilemaps.TilemapLayer | null;
+  bgLayer: Phaser.Tilemaps.TilemapLayer | null;
+  floorLayer: Phaser.Tilemaps.TilemapLayer | null;
+  floor2Layer: Phaser.Tilemaps.TilemapLayer | null;
+  wallLayer: Phaser.Tilemaps.TilemapLayer | null;
+  wallObjectLayer: Phaser.Tilemaps.TilemapLayer | null;
+  objectLayer: Phaser.Tilemaps.TilemapLayer | null;
+  windowLayer: Phaser.Tilemaps.TilemapLayer | null;
+  cuttonLayer: Phaser.Tilemaps.TilemapLayer | null;
 } => {
-  const groundLayer = map.createLayer("Ground", titleset);
-  const etcLayer = map.createLayer("etc", titleset);
-  const wallsLayer = map.createLayer("walls", titleset);
+  const bgLayer = map.createLayer("bg", titleset);
+  const floorLayer = map.createLayer("floor", titleset);
+  const floor2Layer = map.createLayer("floor2", titleset);
+  const wallLayer = map.createLayer("wall", titleset);
+  const wallObjectLayer = map.createLayer("wall_objet", titleset);
+  const objectLayer = map.createLayer("object", titleset);
+  const windowLayer = map.createLayer("window", titleset);
+  const cuttonLayer = map.createLayer("cutton", titleset);
 
-  return { groundLayer, etcLayer, wallsLayer };
+  return {
+    bgLayer,
+    floor2Layer,
+    floorLayer,
+    wallLayer,
+    wallObjectLayer,
+
+    objectLayer,
+    windowLayer,
+    cuttonLayer
+  };
 };
 
 export const createOctocat = (

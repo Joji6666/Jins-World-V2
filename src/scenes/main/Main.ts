@@ -43,17 +43,21 @@ export default class GameScene extends Phaser.Scene {
     const language = this.data.get("language");
 
     if (tileset) {
-      const { etcLayer, wallsLayer } = createLayers(map, tileset);
+      const { wallLayer, wallObjectLayer } = createLayers(map, tileset);
 
-      if (etcLayer && wallsLayer) {
-        wallsLayer.setCollisionByProperty({ colides: true });
-        etcLayer.setCollisionByProperty({ colides: true });
+      if (wallLayer && wallObjectLayer) {
+        wallLayer.setCollisionByProperty({ isWall: true });
+        wallObjectLayer.setCollisionByProperty({ isWall: true });
 
         const player = createPlayer(this);
         const octocat = createOctocat(this);
 
-        initPlayerCollider(this, player, wallsLayer);
-        initPlayerCollider(this, player, etcLayer);
+        initPlayerCollider(this, player, wallLayer);
+        initPlayerCollider(this, player, wallObjectLayer);
+
+        // ✅ 충돌이 안된다면 모든 타일 충돌 활성화
+        wallLayer?.setCollisionBetween(1, 999);
+        wallObjectLayer?.setCollisionBetween(1, 999);
 
         // this.cameras.main.startFollow(player, true);
 
@@ -76,7 +80,7 @@ export default class GameScene extends Phaser.Scene {
         this.speechBubbles = speechBubbles;
 
         if (this.input.keyboard) {
-          setPlayerInputs(this.input.keyboard, player);
+          setPlayerInputs(this, this.input.keyboard, player);
           this.input.keyboard?.on("keydown-SPACE", () =>
             handleInteraction(
               this,
