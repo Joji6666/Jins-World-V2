@@ -16,15 +16,15 @@ export const setPlayerInputs = (
   keyboard.on("keydown", (event: KeyboardEvent) => {
     keysPressed.add(event.code);
 
-    const isRunOn = scene.data.get(PLAYER_KEYS.IS_RUN_ON) || false;
+    const isRunOn: boolean = scene.data.get(PLAYER_KEYS.IS_RUN_ON) || false;
 
-    const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
-    const sword = scene.data.get("sword");
-    const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
-
-    if (playerWeaponStatus !== "hand" && isWeaponDraw) {
-      player.anims.play(`char_${playerWeaponStatus}_move_left`, true);
-    }
+    const playerWeaponStatus: string = scene.data.get(
+      PLAYER_KEYS.PLAYER_WEAPON_STATUS
+    );
+    const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("sword");
+    const isWeaponDraw: boolean = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
+    setPlayerAndWeaponDepth(isWeaponDraw, player, sword, event.code);
 
     switch (event.code) {
       case "ArrowUp":
@@ -125,7 +125,7 @@ export const setPlayerInputs = (
 
     const playerAnim = player.anims.currentAnim;
 
-    if (playerAnim && playerWeaponStatus !== "hand") {
+    if (playerAnim && playerWeaponStatus !== "hand" && event.code !== "KeyP") {
       let animationName = playerAnim.key.replace("char", "");
 
       if (animationName.includes(playerWeaponStatus)) {
@@ -145,7 +145,7 @@ export const setPlayerInputs = (
     const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
     const sword = scene.data.get("sword");
     const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
-
+    setPlayerAndWeaponDepth(isWeaponDraw, player, sword, event.code);
     if (
       keysPressed.has("ArrowUp") ||
       keysPressed.has("ArrowDown") ||
@@ -217,7 +217,7 @@ export const setPlayerInputs = (
 
     const playerAnim = player.anims.currentAnim;
 
-    if (playerAnim && playerWeaponStatus !== "hand") {
+    if (playerAnim && playerWeaponStatus !== "hand" && event.code !== "KeyP") {
       let animationName = playerAnim.key.replace("char", "");
 
       if (animationName.includes(playerWeaponStatus)) {
@@ -272,4 +272,64 @@ export const setPlayerWeaponInputs = (
       scene.data.set(PLAYER_KEYS.IS_WEAPON_DRAW, true);
     }
   });
+};
+
+const setPlayerAndWeaponDepth = (
+  isWeaponDraw: boolean,
+  player: Player,
+  sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody,
+  pressedKey: string
+): void => {
+  switch (pressedKey) {
+    case "ArrowUp":
+      {
+        if (isWeaponDraw) {
+          player.depth = 2;
+          sword.depth = 1;
+        } else {
+          player.depth = 1;
+          sword.depth = 2;
+        }
+      }
+
+      break;
+    case "ArrowDown":
+      {
+        if (isWeaponDraw) {
+          player.depth = 1;
+          sword.depth = 2;
+        } else {
+          player.depth = 2;
+          sword.depth = 1;
+        }
+      }
+
+      break;
+
+    case "ArrowRight":
+      {
+        if (isWeaponDraw) {
+          player.depth = 1;
+          sword.depth = 2;
+        } else {
+          player.depth = 2;
+          sword.depth = 1;
+        }
+      }
+
+      break;
+
+    case "ArrowLeft":
+      {
+        if (isWeaponDraw) {
+          player.depth = 1;
+          sword.depth = 2;
+        } else {
+          player.depth = 2;
+          sword.depth = 1;
+        }
+      }
+
+      break;
+  }
 };
