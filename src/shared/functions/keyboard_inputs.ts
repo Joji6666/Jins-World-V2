@@ -31,8 +31,7 @@ export const setPlayerInputs = (
         scene.data.set(PLAYER_KEYS.PLAYER_SIDE, PLAYER_SIDE_KEYS.BACK);
         player.setVelocityY(isRunOn ? -200 : -160);
         player.setVelocityX(0);
-        sword.setVelocityY(isRunOn ? -200 : -160);
-        sword.setVelocityX(0);
+
         scene.data.set(
           PLAYER_KEYS.PLAYER_MOVE_STATE,
           isRunOn
@@ -53,8 +52,6 @@ export const setPlayerInputs = (
         scene.data.set(PLAYER_KEYS.PLAYER_SIDE, PLAYER_SIDE_KEYS.FRONT);
         player.setVelocityY(isRunOn ? 200 : 160);
         player.setVelocityX(0);
-        sword.setVelocityY(isRunOn ? 200 : 160);
-        sword.setVelocityX(0);
 
         scene.data.set(
           PLAYER_KEYS.PLAYER_MOVE_STATE,
@@ -76,9 +73,6 @@ export const setPlayerInputs = (
         player.setVelocityX(isRunOn ? 200 : 160);
         player.setVelocityY(0);
 
-        sword.setVelocityY(0);
-        sword.setVelocityX(isRunOn ? 200 : 160);
-
         scene.data.set(
           PLAYER_KEYS.PLAYER_MOVE_STATE,
           isRunOn
@@ -98,9 +92,6 @@ export const setPlayerInputs = (
         scene.data.set(PLAYER_KEYS.PLAYER_SIDE, PLAYER_SIDE_KEYS.LEFT);
         player.setVelocityX(isRunOn ? -200 : -160);
         player.setVelocityY(0);
-
-        sword.setVelocityY(0);
-        sword.setVelocityX(isRunOn ? -200 : -160);
 
         scene.data.set(
           PLAYER_KEYS.PLAYER_MOVE_STATE,
@@ -162,7 +153,6 @@ export const setPlayerInputs = (
           PLAYER_MOVE_STATE_KEYS.BACK_IDLE
         );
         player.setVelocityY(0);
-        sword.setVelocityY(0);
 
         player.anims.play(
           isWeaponDraw
@@ -177,7 +167,7 @@ export const setPlayerInputs = (
           PLAYER_MOVE_STATE_KEYS.FRONT_IDLE
         );
         player.setVelocityY(0);
-        sword.setVelocityY(0);
+
         player.anims.play(
           isWeaponDraw
             ? `char_${playerWeaponStatus}_idle_front`
@@ -191,7 +181,7 @@ export const setPlayerInputs = (
           PLAYER_MOVE_STATE_KEYS.RIGHT_IDLE
         );
         player.setVelocityX(0);
-        sword.setVelocityX(0);
+
         player.anims.play(
           isWeaponDraw
             ? `char_${playerWeaponStatus}_idle_right`
@@ -205,7 +195,7 @@ export const setPlayerInputs = (
           PLAYER_MOVE_STATE_KEYS.LEFT_IDLE
         );
         player.setVelocityX(0);
-        sword.setVelocityX(0);
+
         player.anims.play(
           isWeaponDraw
             ? `char_${playerWeaponStatus}_idle_left`

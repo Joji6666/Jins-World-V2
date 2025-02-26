@@ -64,6 +64,10 @@ export default class GameScene extends Phaser.Scene {
         const player = createPlayer(this);
         const octocat = createOctocat(this);
         const orc1 = createOrc(this, 1);
+        const sword = this.data.get("sword");
+
+        this.physics.add.collider(sword, wallLayer);
+        this.physics.add.collider(sword, wallObjectLayer);
 
         initPlayerCollider(this, player, wallLayer);
         initPlayerCollider(this, player, wallObjectLayer);
@@ -114,6 +118,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     const player = this.data.get("player");
+    const sword = this.data.get("sword");
     const map = this.data.get("map");
     const octocat = this.data.get("octocat");
     const orc: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
@@ -137,6 +142,9 @@ export default class GameScene extends Phaser.Scene {
         player
       );
     }
+
+    sword.x = player.x;
+    sword.y = player.y;
 
     // 맵의 크기를 가져옵니다.
     const mapWidth = map.widthInPixels;
