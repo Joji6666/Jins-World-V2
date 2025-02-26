@@ -28,3 +28,18 @@ export const createTownLayers = (
 
   return { groundLayer, wallsLayer };
 };
+
+export const createOrc = (
+  scene: Phaser.Scene,
+  numbering: number
+): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
+  const orc = scene.physics.add.sprite(400, 600, `orc_${numbering}_idle_front`);
+
+  orc.body.immovable = true;
+  orc.setCollideWorldBounds(true);
+  orc.body.offset.y = 7;
+  orc.scale = 2;
+  scene.data.set("orc", orc);
+
+  return orc;
+};

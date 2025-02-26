@@ -47,3 +47,5 @@ export const PLAYER_ANIMATION_KEYS = {
   CHAR_RIGHT: "char_right",
   CHAR_LEFT: "char_left"
 } as const;
+
+export const SIDES = ["front", "back", "right", "left"];
