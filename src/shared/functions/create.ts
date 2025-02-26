@@ -27,7 +27,7 @@ export const createPlayer = (scene: Phaser.Scene): Player => {
   scene.data.set("sword", sword);
   sword.body.setSize(35, 30);
   sword.body.setOffset(5, 15);
-
+  sword.setCollideWorldBounds(true);
   sword.depth = 1;
   player.depth = 2;
 
