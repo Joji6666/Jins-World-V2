@@ -27,6 +27,7 @@ import {
 import { orcPreload } from "../town/functions/preload";
 import { createOrc } from "../town/functions/create";
 import { createOrcAnims } from "../town/functions/anims";
+import { updateMonster } from "../town/functions/interaction";
 
 export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
@@ -115,6 +116,27 @@ export default class GameScene extends Phaser.Scene {
     const player = this.data.get("player");
     const map = this.data.get("map");
     const octocat = this.data.get("octocat");
+    const orc: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      this.data.get("orc");
+
+    if (orc && player) {
+      updateMonster(
+        {
+          sprite: orc,
+          speed: 50,
+          chaseRange: 200,
+          attackRange: 50,
+          patrolPoints: [
+            { x: 100, y: 100 },
+            { x: 500, y: 100 },
+            { x: 500, y: 500 },
+            { x: 100, y: 500 }
+          ],
+          patrolIndex: 0
+        },
+        player
+      );
+    }
 
     // 맵의 크기를 가져옵니다.
     const mapWidth = map.widthInPixels;
