@@ -253,8 +253,6 @@ export const setPlayerWeaponInputs = (
     } else {
       const sword = scene.data.get(`sword`);
 
-      console.log(playerSide, "playerSide@");
-
       sword.anims.play(`sword_draw_${playerSide}`, true);
       player.anims.play(`char_sword_draw_${playerSide}`, true);
 
@@ -271,6 +269,10 @@ export const setPlayerWeaponInputs = (
       }
       scene.data.set(PLAYER_KEYS.IS_WEAPON_DRAW, true);
     }
+  });
+
+  keyboard.on("keydown-SPACE", () => {
+    playerAttack(scene);
   });
 };
 
@@ -331,5 +333,28 @@ const setPlayerAndWeaponDepth = (
       }
 
       break;
+  }
+};
+
+const playerAttack = (scene: Phaser.Scene) => {
+  const player = scene.data.get(PLAYER_KEYS.PLAYER);
+  const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
+  const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
+  const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
+
+  if (playerWeaponStatus !== "hand" && isWeaponDraw) {
+    const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("sword");
+
+    sword.anims.play(`sword_attack_${playerSide}`, true);
+    player.anims.play(`char_sword_attack_${playerSide}`, true);
+
+    player.on(`animationcomplete-char_sword_attack_${playerSide}`, () => {
+      player.anims.play(`char_sword_idle_${playerSide}`, true);
+    });
+
+    sword.on(`animationcomplete-sword_attack_${playerSide}`, () => {
+      sword.anims.play(`sword_idle_${playerSide}`, true);
+    });
   }
 };
