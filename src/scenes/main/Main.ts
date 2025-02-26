@@ -24,6 +24,9 @@ import {
   setPlayerInputs,
   setPlayerWeaponInputs
 } from "../../shared/functions/keyboard_inputs";
+import { orcPreload } from "../town/functions/preload";
+import { createOrc } from "../town/functions/create";
+import { createOrcAnims } from "../town/functions/anims";
 
 export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
@@ -42,6 +45,7 @@ export default class GameScene extends Phaser.Scene {
     mainPreload(this);
     playerPreload(this);
     weaponPreload(this);
+    orcPreload(this, 1);
   }
 
   create() {
@@ -58,6 +62,7 @@ export default class GameScene extends Phaser.Scene {
 
         const player = createPlayer(this);
         const octocat = createOctocat(this);
+        const orc1 = createOrc(this, 1);
 
         initPlayerCollider(this, player, wallLayer);
         initPlayerCollider(this, player, wallObjectLayer);
@@ -76,8 +81,10 @@ export default class GameScene extends Phaser.Scene {
         createPlayerAnims(this);
         createCatAnims(this);
         createWeaponAnims(this);
+        createOrcAnims(this, 1);
 
         octocat.anims.play("octocat_idle");
+        orc1.anims.play("orc_1_idle_front");
 
         const { icons, speechBubbles } = createIcons(this, language);
         icons.forEach((icon) => {
