@@ -14,10 +14,16 @@ import { initPlayerCamera } from "./functions/camera";
 import { createCatAnims } from "./functions/anims";
 
 import { handleInteraction } from "./functions/interaction";
-import { createPlayerAnims } from "../../shared/functions/anims";
+import {
+  createPlayerAnims,
+  createWeaponAnims
+} from "../../shared/functions/anims";
 import { createPlayer } from "../../shared/functions/create";
-import { playerPreload } from "../../shared/functions/preload";
-import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
+import { playerPreload, weaponPreload } from "../../shared/functions/preload";
+import {
+  setPlayerInputs,
+  setPlayerWeaponInputs
+} from "../../shared/functions/keyboard_inputs";
 
 export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
@@ -35,6 +41,7 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     mainPreload(this);
     playerPreload(this);
+    weaponPreload(this);
   }
 
   create() {
@@ -68,8 +75,8 @@ export default class GameScene extends Phaser.Scene {
 
         createPlayerAnims(this);
         createCatAnims(this);
+        createWeaponAnims(this);
 
-        player.anims.play("player_idle_front");
         octocat.anims.play("octocat_idle");
 
         const { icons, speechBubbles } = createIcons(this, language);
@@ -81,6 +88,7 @@ export default class GameScene extends Phaser.Scene {
 
         if (this.input.keyboard) {
           setPlayerInputs(this, this.input.keyboard, player);
+          setPlayerWeaponInputs(this, this.input.keyboard);
           this.input.keyboard?.on("keydown-SPACE", () =>
             handleInteraction(
               this,
