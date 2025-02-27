@@ -3,4 +3,5 @@ export interface Player
   moveState: string;
   isDialogFinish: boolean;
   isDialogOn: boolean;
+  isHit: boolean;
 }

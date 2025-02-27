@@ -11,9 +11,12 @@ export const setPlayerInputs = (
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin,
   player: Player
 ): void => {
+  if (player.isHit) return;
   const keysPressed = new Set<string>();
 
   keyboard.on("keydown", (event: KeyboardEvent) => {
+    const currentPlayer: Player = scene.data.get("player");
+    if (currentPlayer.isHit) return;
     keysPressed.add(event.code);
 
     const isRunOn: boolean = scene.data.get(PLAYER_KEYS.IS_RUN_ON) || false;
@@ -227,7 +230,10 @@ export const setPlayerWeaponInputs = (
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin
 ): void => {
   keyboard.on("keydown-P", () => {
-    const player = scene.data.get(PLAYER_KEYS.PLAYER);
+    const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
+
+    if (player.isHit) return;
+
     const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
 
     const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
@@ -262,6 +268,10 @@ export const setPlayerWeaponInputs = (
   });
 
   keyboard.on("keydown-SPACE", () => {
+    const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
+
+    if (player.isHit) return;
+
     playerAttack(scene);
   });
 };
