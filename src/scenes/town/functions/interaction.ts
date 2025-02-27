@@ -4,8 +4,10 @@ import { Player } from "../../../shared/types";
 
 export const updateMonster = (
   monster: Monster,
-  player: Player
-  //   wallLayer: Phaser.Tilemaps.TilemapLayer // 🔥 벽 충돌 감지를 위해 추가
+  player: Player,
+  scene: Phaser.Scene,
+  wallLayer: Phaser.Tilemaps.TilemapLayer,
+  wallObjectLayer: Phaser.Tilemaps.TilemapLayer
 ) => {
   const { sprite, chaseRange, attackRange } = monster;
 
@@ -28,7 +30,7 @@ export const updateMonster = (
   }
 
   // 🔥 벽 충돌 감지 및 반대 방향 이동
-  //   checkWallCollision(monster, wallLayer);
+  checkWallCollision(monster, wallLayer, wallObjectLayer, scene);
 
   // 🔥 플레이어를 항상 바라보도록 설정
   //   lookAtPlayer(monster, player);
@@ -136,32 +138,60 @@ const patrolMovement = (monster: Monster) => {
   sprite.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
 };
 
-// /** ✅ 몬스터가 벽에 충돌하면 반대 방향으로 이동 */
-// const checkWallCollision = (
-//   monster: Monster,
-//   wallLayer: Phaser.Tilemaps.TilemapLayer
-// ) => {
-//   // 벽과 충돌 여부 확인
-//   if (wallLayer.physics.world.collide(monster.sprite, wallLayer)) {
-//     console.log("🚧 몬스터가 벽에 충돌!");
+const checkWallCollision = (
+  monster: Monster,
+  wallLayer: Phaser.Tilemaps.TilemapLayer,
+  wallObjectLayer: Phaser.Tilemaps.TilemapLayer,
+  scene: Phaser.Scene
+) => {
+  const { sprite, patrolPoints } = monster;
 
-//     // 현재 이동 방향을 반대로 설정
-//     const velocityX = monster.sprite.body.velocity.x;
-//     const velocityY = monster.sprite.body.velocity.y;
+  // 1️⃣ 벽과 충돌 감지
+  if (scene.physics.world.collide(sprite, wallLayer || wallObjectLayer)) {
+    console.log("🚧 몬스터가 벽에 충돌!");
 
-//     if (velocityX !== 0) {
-//       monster.sprite.setVelocityX(-velocityX); // 🔄 X축 방향 반전
-//     }
-//     if (velocityY !== 0) {
-//       monster.sprite.setVelocityY(-velocityY); // 🔄 Y축 방향 반전
-//     }
+    reverseMonsterDirection(monster);
+    updatePatrolRange(monster);
+  }
 
-//     // 순찰 방향도 반대로 변경
-//     monster.patrolIndex =
-//       (monster.patrolIndex + monster.patrolPoints.length - 1) %
-//       monster.patrolPoints.length;
-//   }
-// };
+  // 2️⃣ 씬의 가장자리(경계) 충돌 감지
+  if (
+    sprite.x <= 0 ||
+    sprite.x >= scene.scale.width ||
+    sprite.y <= 0 ||
+    sprite.y >= scene.scale.height
+  ) {
+    console.log("🌍 씬의 가장자리에 충돌!");
+
+    reverseMonsterDirection(monster);
+    updatePatrolRange(monster);
+  }
+};
+
+/** 🔄 몬스터 이동 방향 반전 */
+const reverseMonsterDirection = (monster: Monster) => {
+  const { sprite } = monster;
+  const velocityX = sprite.body.velocity.x;
+  const velocityY = sprite.body.velocity.y;
+
+  if (velocityX !== 0) {
+    sprite.setVelocityX(-velocityX);
+  }
+  if (velocityY !== 0) {
+    sprite.setVelocityY(-velocityY);
+  }
+};
+
+/** 🔄 패트롤 범위 업데이트 */
+const updatePatrolRange = (monster: Monster) => {
+  console.log("🔄 패트롤 경로 업데이트");
+
+  // 패트롤 범위를 줄이거나 랜덤하게 재설정
+  const newPatrolIndex = Math.floor(
+    Math.random() * monster.patrolPoints.length
+  );
+  monster.patrolIndex = newPatrolIndex;
+};
 
 /** ✅ 몬스터가 플레이어를 공격하는 기능 */
 const attackPlayer = (monster: Monster) => {

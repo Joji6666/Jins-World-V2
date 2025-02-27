@@ -57,7 +57,7 @@ export default class GameScene extends Phaser.Scene {
     const language = this.data.get("language");
 
     if (tileset) {
-      const { wallLayer, wallObjectLayer } = createLayers(map, tileset);
+      const { wallLayer, wallObjectLayer } = createLayers(map, tileset, this);
 
       if (wallLayer && wallObjectLayer) {
         wallLayer.setCollisionByProperty({ isWall: true });
@@ -123,10 +123,13 @@ export default class GameScene extends Phaser.Scene {
     const sword = this.data.get("sword");
     const map = this.data.get("map");
     const octocat = this.data.get("octocat");
+    const wallLayer = this.data.get("wallLayer");
+
+    const wallObjectLayer = this.data.get("wallObjectLayer");
 
     if (player) {
       this.monsters.forEach((monster) => {
-        updateMonster(monster, player);
+        updateMonster(monster, player, this, wallLayer, wallObjectLayer);
       });
     }
 
