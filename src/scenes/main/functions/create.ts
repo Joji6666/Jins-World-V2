@@ -21,7 +21,8 @@ export const createTileset = (
 
 export const createLayers = (
   map: Phaser.Tilemaps.Tilemap,
-  titleset: Phaser.Tilemaps.Tileset
+  titleset: Phaser.Tilemaps.Tileset,
+  scene: Phaser.Scene
 ): {
   bgLayer: Phaser.Tilemaps.TilemapLayer | null;
   floorLayer: Phaser.Tilemaps.TilemapLayer | null;
@@ -40,6 +41,10 @@ export const createLayers = (
   const objectLayer = map.createLayer("object", titleset);
   const windowLayer = map.createLayer("window", titleset);
   const cuttonLayer = map.createLayer("cutton", titleset);
+
+  scene.data.set("wallLayer", wallLayer);
+
+  scene.data.set("wallObjectLayer", wallObjectLayer);
 
   return {
     bgLayer,
