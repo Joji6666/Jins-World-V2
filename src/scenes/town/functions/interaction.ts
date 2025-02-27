@@ -24,7 +24,10 @@ export const updateMonster = (
     chasePlayer(monster, player);
   } else if (distance <= attackRange) {
     monster.lastDirection = monster.side;
-    attackPlayer(monster);
+
+    if (player.isHit || monster.isAttack) return;
+
+    attackPlayer(monster, player, scene);
   } else {
     patrolMovement(monster);
   }
@@ -194,25 +197,72 @@ const updatePatrolRange = (monster: Monster) => {
 };
 
 /** ✅ 몬스터가 플레이어를 공격하는 기능 */
-const attackPlayer = (monster: Monster) => {
+
+const attackPlayer = (
+  monster: Monster,
+  player: Player,
+  scene: Phaser.Scene
+) => {
+  if (player.isHit) return;
   monster.isAttack = true;
   monster.sprite.setVelocity(0, 0);
 
-  monster.sprite.anims.play(
-    `orc_${monster.numbering}_attack_${monster.lastDirection}`,
-    true
-  );
+  const attackAnimationKey = `orc_${monster.numbering}_attack_${monster.lastDirection}`;
+  const idleAnimationKey = `orc_${monster.numbering}_idle_${monster.lastDirection}`;
 
-  console.log(monster.lastDirection, "last Direction~");
+  monster.sprite.anims.play(attackAnimationKey, true);
 
+  // 🔥 특정 프레임에서 공격 판정
   monster.sprite.on(
-    `animationcomplete-orc_${monster.numbering}_attack_${monster.lastDirection}`,
-    () => {
-      monster.sprite.anims.play(
-        `orc_${monster.numbering}_idle_${monster.lastDirection}`,
-        true
-      );
-      monster.isAttack = false;
+    "animationupdate",
+    (
+      anim: Phaser.Animations.Animation,
+      frame: Phaser.Animations.AnimationFrame
+    ) => {
+      if (
+        anim.key === attackAnimationKey &&
+        (frame.index === 4 || frame.index === 5)
+      ) {
+        if (isPlayerInAttackRange(monster, player) && !player.isHit) {
+          triggerAttackEvent(monster, player, scene);
+        }
+      }
     }
   );
+
+  // ✅ 공격 애니메이션이 끝나면 idle 애니메이션으로 전환
+  monster.sprite.on(`animationcomplete-${attackAnimationKey}`, () => {
+    monster.sprite.anims.play(idleAnimationKey, true);
+    monster.isAttack = false;
+  });
+};
+
+/** ✅ 플레이어가 몬스터의 공격 범위 안에 있는지 체크 */
+const isPlayerInAttackRange = (monster: Monster, player: Player): boolean => {
+  const attackRange = 50; // 공격 범위 (픽셀 단위)
+  const distance = Phaser.Math.Distance.Between(
+    monster.sprite.x,
+    monster.sprite.y,
+    player.x,
+    player.y
+  );
+
+  return distance <= attackRange;
+};
+
+/** ✅ 공격 이벤트 트리거 (데미지 적용 등) */
+const triggerAttackEvent = (
+  monster: Monster,
+  player: Player,
+  scene: Phaser.Scene
+) => {
+  if (player.isHit) return; // 이미 맞고 있는 상태라면 중복 실행 방지
+
+  player.isHit = true;
+  player.anims.play(`char_sword_hurt_${monster.lastDirection}`);
+
+  scene.time.delayedCall(1100, () => {
+    player.anims.play(`char_${monster.lastDirection}`, true);
+    player.isHit = false;
+  });
 };
