@@ -1,4 +1,5 @@
 import type { Player } from "../../../shared/types";
+import { Monster } from "../types";
 
 export const createTownMap = (scene: Phaser.Scene): Phaser.Tilemaps.Tilemap => {
   const map = scene.make.tilemap({ key: "town-map" });
@@ -31,7 +32,8 @@ export const createTownLayers = (
 
 export const createOrc = (
   scene: Phaser.Scene,
-  numbering: number
+  numbering: number,
+  monsters: Monster[]
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
   const orc = scene.physics.add.sprite(400, 600, `orc_${numbering}_idle_front`);
 
@@ -40,6 +42,24 @@ export const createOrc = (
   orc.body.offset.y = 7;
   orc.scale = 2;
   scene.data.set("orc", orc);
+
+  monsters.push({
+    sprite: orc,
+    speed: 50,
+    chaseRange: 200,
+    attackRange: 50,
+    patrolPoints: [
+      { x: 100, y: 100 },
+      { x: 500, y: 100 },
+      { x: 500, y: 500 },
+      { x: 100, y: 500 }
+    ],
+    patrolIndex: 0,
+    side: "front",
+    isAttack: false,
+    lastDirection: "front",
+    numbering: 1
+  });
 
   return orc;
 };

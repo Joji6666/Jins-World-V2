@@ -5,4 +5,8 @@ export interface Monster {
   attackRange: number;
   patrolPoints: { x: number; y: number }[];
   patrolIndex: number;
+  side: string;
+  isAttack: boolean;
+  lastDirection: string;
+  numbering: number;
 }

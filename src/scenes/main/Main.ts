@@ -28,11 +28,13 @@ import { orcPreload } from "../town/functions/preload";
 import { createOrc } from "../town/functions/create";
 import { createOrcAnims } from "../town/functions/anims";
 import { updateMonster } from "../town/functions/interaction";
+import { Monster } from "../town/types";
 
 export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
   private currentBubble!: Phaser.GameObjects.Text | null;
   private isCatDistanceOn!: boolean;
+  private monsters: Monster[] = [];
 
   constructor() {
     super("main");
@@ -63,7 +65,7 @@ export default class GameScene extends Phaser.Scene {
 
         const player = createPlayer(this);
         const octocat = createOctocat(this);
-        const orc1 = createOrc(this, 1);
+        const orc1 = createOrc(this, 1, this.monsters);
         const sword = this.data.get("sword");
 
         this.physics.add.collider(sword, wallLayer);
@@ -121,26 +123,11 @@ export default class GameScene extends Phaser.Scene {
     const sword = this.data.get("sword");
     const map = this.data.get("map");
     const octocat = this.data.get("octocat");
-    const orc: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
-      this.data.get("orc");
 
-    if (orc && player) {
-      updateMonster(
-        {
-          sprite: orc,
-          speed: 50,
-          chaseRange: 200,
-          attackRange: 50,
-          patrolPoints: [
-            { x: 100, y: 100 },
-            { x: 500, y: 100 },
-            { x: 500, y: 500 },
-            { x: 100, y: 500 }
-          ],
-          patrolIndex: 0
-        },
-        player
-      );
+    if (player) {
+      this.monsters.forEach((monster) => {
+        updateMonster(monster, player);
+      });
     }
 
     sword.x = player.x;
