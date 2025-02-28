@@ -258,11 +258,16 @@ const triggerAttackEvent = (
 ) => {
   if (player.isHit) return; // 이미 맞고 있는 상태라면 중복 실행 방지
 
+  const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+    scene.data.get("sword");
   player.isHit = true;
+  sword.visible = false;
   player.anims.play(`char_sword_hurt_${monster.lastDirection}`);
 
   scene.time.delayedCall(1100, () => {
     player.anims.play(`char_${monster.lastDirection}`, true);
+    player.hp = player.hp - 10;
     player.isHit = false;
+    sword.visible = true;
   });
 };

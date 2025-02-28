@@ -4,4 +4,5 @@ export interface Player
   isDialogFinish: boolean;
   isDialogOn: boolean;
   isHit: boolean;
+  hp: number;
 }
