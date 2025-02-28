@@ -8,14 +8,14 @@ export const playerPreload = (scene: Phaser.Scene): void => {
     "death_back",
     "death_right",
     "death_left",
-    "front_walk",
-    "back_walk",
-    "right_walk",
-    "left_walk",
-    "front_run",
-    "back_run",
-    "right_run",
-    "left_run"
+    "walk_front",
+    "walk_back",
+    "walk_right",
+    "walk_left",
+    "run_front",
+    "run_back",
+    "run_right",
+    "run_left"
   ];
 
   const swordAnimations = [

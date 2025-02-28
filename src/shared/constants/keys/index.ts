@@ -34,14 +34,14 @@ export const PLAYER_MOVE_STATE_KEYS = {
 } as const;
 
 export const PLAYER_ANIMATION_KEYS = {
-  CHAR_BACK_RUN: "char_back_run",
-  CHAR_BACK_WALK: "char_back_walk",
-  CHAR_FRONT_RUN: "char_front_run",
-  CHAR_FRONT_WALK: "char_front_walk",
-  CHAR_RIGHT_RUN: "char_right_run",
-  CHAR_RIGHT_WALK: "char_right_walk",
-  CHAR_LEFT_RUN: "char_left_run",
-  CHAR_LEFT_WALK: "char_left_walk",
+  CHAR_BACK_RUN: "char_run_back",
+  CHAR_BACK_WALK: "char_walk_back",
+  CHAR_FRONT_RUN: "char_run_front",
+  CHAR_FRONT_WALK: "char_walk_front",
+  CHAR_RIGHT_RUN: "char_run_right",
+  CHAR_RIGHT_WALK: "char_walk_right",
+  CHAR_LEFT_RUN: "char_run_left",
+  CHAR_LEFT_WALK: "char_walk_left",
   CHAR_BACK: "char_back",
   CHAR_FRONT: "char_front",
   CHAR_RIGHT: "char_right",
