@@ -17,6 +17,7 @@ export const createPlayer = (scene: Phaser.Scene): Player => {
   player.setCollideWorldBounds(true);
   player.body.offset.y = 7;
   player.scale = 2;
+  player.hp = 100;
   scene.data.set(PLAYER_KEYS.PLAYER, player);
   scene.data.set(PLAYER_KEYS.PLAYER_WEAPON_STATUS, "hand");
   scene.data.set(PLAYER_KEYS.IS_WEAPON_DRAW, false);
