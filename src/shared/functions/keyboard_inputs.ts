@@ -111,10 +111,10 @@ export const setPlayerInputs = (
           true
         );
         break;
-      case "ShiftLeft":
-      case "ShiftRight":
-        scene.data.set(PLAYER_KEYS.IS_RUN_ON, !isRunOn);
-        break;
+      // case "ShiftLeft":
+      // case "ShiftRight":
+      //   scene.data.set(PLAYER_KEYS.IS_RUN_ON, !isRunOn);
+      //   break;
     }
 
     const playerAnim = player.anims.currentAnim;
