@@ -266,8 +266,54 @@ const triggerAttackEvent = (
 
   scene.time.delayedCall(1100, () => {
     player.anims.play(`char_${monster.lastDirection}`, true);
+    if (player.hp - 10 === 0) {
+      handleGameOver(scene, player, monster.lastDirection);
+      return;
+    }
     player.hp = player.hp - 10;
     player.isHit = false;
     sword.visible = true;
   });
+};
+
+const handleGameOver = (
+  scene: Phaser.Scene,
+  player: Player,
+  direction: string
+) => {
+  if (scene.input.keyboard) {
+    scene.input.keyboard.enabled = false;
+
+    // 플레이어 사망 애니메이션 실행
+    player.anims.play(`char_death_${direction}`);
+
+    // 게임 오버 텍스트 추가
+    const gameOverText = scene.add
+      .text(
+        scene.cameras.main.width / 2,
+        scene.cameras.main.height / 2,
+        "Game Over\nPress SPACE to Restart",
+        {
+          fontSize: "32px",
+          fontFamily: "Arial",
+          color: "#ff0000",
+          align: "center"
+        }
+      )
+      .setOrigin(0.5);
+
+    scene.time.delayedCall(2000, () => {
+      // Space 키 입력 시 메인 씬 다시 실행
+
+      if (scene.input.keyboard) {
+        scene.input.keyboard.once("keydown-SPACE", () => {
+          scene.cameras.main.fadeIn(1000, 0, 0, 0);
+          scene.scene.start("intro"); // "main" 씬 다시 실행
+        });
+
+        // 입력 활성화 (Space 키만)
+        scene.input.keyboard.enabled = true;
+      }
+    });
+  }
 };
