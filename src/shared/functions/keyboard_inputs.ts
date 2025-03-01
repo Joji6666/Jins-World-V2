@@ -26,6 +26,10 @@ export const setPlayerInputs = (
     );
     const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("sword");
+
+    const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("clothes");
+
     const isWeaponDraw: boolean = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
     setPlayerAndWeaponDepth(isWeaponDraw, player, sword, event.code);
 
@@ -119,6 +123,13 @@ export const setPlayerInputs = (
 
     const playerAnim = player.anims.currentAnim;
 
+    if (playerAnim && playerWeaponStatus === "hand") {
+      const animationName = playerAnim.key.replace("char", "");
+
+      clothes.anims.play(`clothes${animationName}`, true);
+      sword.anims.play(`sword${animationName}`, true);
+    }
+
     if (playerAnim && playerWeaponStatus !== "hand" && event.code !== "KeyP") {
       let animationName = playerAnim.key.replace("char", "");
 
@@ -128,7 +139,7 @@ export const setPlayerInputs = (
           ""
         );
       }
-
+      clothes.anims.play(`clothes_${playerWeaponStatus}${animationName}`, true);
       sword.anims.play(`${playerWeaponStatus}${animationName}`, true);
     }
   });
@@ -137,7 +148,10 @@ export const setPlayerInputs = (
     keysPressed.delete(event.code);
 
     const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
-    const sword = scene.data.get("sword");
+    const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("sword");
+    const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("clothes");
     const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
     setPlayerAndWeaponDepth(isWeaponDraw, player, sword, event.code);
     if (
@@ -210,6 +224,13 @@ export const setPlayerInputs = (
 
     const playerAnim = player.anims.currentAnim;
 
+    if (playerAnim && playerWeaponStatus === "hand") {
+      const animationName = playerAnim.key.replace("char", "");
+
+      clothes.anims.play(`clothes${animationName}`, true);
+      sword.anims.play(`sword${animationName}`, true);
+    }
+
     if (playerAnim && playerWeaponStatus !== "hand" && event.code !== "KeyP") {
       let animationName = playerAnim.key.replace("char", "");
 
@@ -220,6 +241,7 @@ export const setPlayerInputs = (
         );
       }
 
+      clothes.anims.play(`clothes_${playerWeaponStatus}${animationName}`, true);
       sword.anims.play(`${playerWeaponStatus}${animationName}`, true);
     }
   });
@@ -241,14 +263,22 @@ export const setPlayerWeaponInputs = (
 
     if (isWeaponDraw) {
       player.anims.play(`char_${playerSide}`, true);
-      const sword = scene.data.get(`sword`);
+      const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+        scene.data.get("sword");
+      const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+        scene.data.get("clothes");
+      clothes.anims.play(`clothes_${playerSide}`, true);
       sword.anims.play(`sword_${playerSide}`, true);
       scene.data.set(PLAYER_KEYS.IS_WEAPON_DRAW, false);
       player.depth = 2;
       sword.depth = 1;
     } else {
-      const sword = scene.data.get(`sword`);
+      const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+        scene.data.get("sword");
+      const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+        scene.data.get("clothes");
 
+      clothes.anims.play(`clothes_sword_draw_${playerSide}`, true);
       sword.anims.play(`sword_draw_${playerSide}`, true);
       player.anims.play(`char_sword_draw_${playerSide}`, true);
 
@@ -260,6 +290,9 @@ export const setPlayerWeaponInputs = (
         sword.anims.play(`sword_idle_${playerSide}`, true);
       });
 
+      clothes.on(`animationcomplete-clothes_draw_${playerSide}`, () => {
+        clothes.anims.play(`clothes_idle_${playerSide}`, true);
+      });
       if (playerWeaponStatus === "hand") {
         scene.data.set(PLAYER_KEYS.PLAYER_WEAPON_STATUS, "sword");
       }
@@ -346,8 +379,12 @@ const playerAttack = (scene: Phaser.Scene) => {
     const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("sword");
 
+    const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("clothes");
+
     sword.anims.play(`sword_attack_${playerSide}`, true);
     player.anims.play(`char_sword_attack_${playerSide}`, true);
+    clothes.anims.play(`clothes_sword_attack_${playerSide}`, true);
 
     player.on(`animationcomplete-char_sword_attack_${playerSide}`, () => {
       player.anims.play(`char_sword_idle_${playerSide}`, true);
@@ -355,6 +392,10 @@ const playerAttack = (scene: Phaser.Scene) => {
 
     sword.on(`animationcomplete-sword_attack_${playerSide}`, () => {
       sword.anims.play(`sword_idle_${playerSide}`, true);
+    });
+
+    clothes.on(`animationcomplete-clothes_sword_attack_${playerSide}`, () => {
+      clothes.anims.play(`clothes_sword_idle_${playerSide}`, true);
     });
   }
 };

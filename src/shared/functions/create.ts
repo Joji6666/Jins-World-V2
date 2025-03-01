@@ -32,5 +32,16 @@ export const createPlayer = (scene: Phaser.Scene): Player => {
   sword.depth = 1;
   player.depth = 2;
 
+  const clothes = scene.physics.add
+    .sprite(player.x, player.y, `clothes_front`)
+    .setScale(2);
+
+  scene.data.set("clothes", clothes);
+  clothes.body.immovable = true;
+  clothes.setCollideWorldBounds(true);
+  clothes.body.offset.y = 7;
+  clothes.scale = 2;
+  clothes.depth = 3;
+
   return player;
 };

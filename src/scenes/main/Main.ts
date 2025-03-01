@@ -15,11 +15,16 @@ import { createCatAnims } from "./functions/anims";
 
 import { handleInteraction } from "./functions/interaction";
 import {
+  createClothesAnims,
   createPlayerAnims,
   createWeaponAnims
 } from "../../shared/functions/anims";
 import { createPlayer } from "../../shared/functions/create";
-import { playerPreload, weaponPreload } from "../../shared/functions/preload";
+import {
+  playerClothesPreload,
+  playerPreload,
+  weaponPreload
+} from "../../shared/functions/preload";
 import {
   setPlayerInputs,
   setPlayerWeaponInputs
@@ -48,6 +53,7 @@ export default class GameScene extends Phaser.Scene {
     mainPreload(this);
     playerPreload(this);
     weaponPreload(this);
+    playerClothesPreload(this, 1);
     orcPreload(this, 1);
   }
 
@@ -88,6 +94,7 @@ export default class GameScene extends Phaser.Scene {
         createPlayerAnims(this);
         createCatAnims(this);
         createWeaponAnims(this);
+        createClothesAnims(this);
         createOrcAnims(this, 1);
 
         octocat.anims.play("octocat_idle");
@@ -121,6 +128,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     const player = this.data.get("player");
     const sword = this.data.get("sword");
+    const clothes = this.data.get("clothes");
     const map = this.data.get("map");
     const octocat = this.data.get("octocat");
     const wallLayer = this.data.get("wallLayer");
@@ -135,6 +143,9 @@ export default class GameScene extends Phaser.Scene {
 
     sword.x = player.x;
     sword.y = player.y;
+
+    clothes.x = player.x;
+    clothes.y = player.y;
 
     // 맵의 크기를 가져옵니다.
     const mapWidth = map.widthInPixels;

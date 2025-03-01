@@ -260,12 +260,19 @@ const triggerAttackEvent = (
 
   const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
     scene.data.get("sword");
+
+  const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+    scene.data.get("clothes");
+
   player.isHit = true;
   sword.visible = false;
   player.anims.play(`char_sword_hurt_${monster.lastDirection}`);
+  clothes.anims.play(`clothes_hurt_${monster.lastDirection}`);
 
   scene.time.delayedCall(1100, () => {
     player.anims.play(`char_${monster.lastDirection}`, true);
+    clothes.anims.play(`clothes_${monster.lastDirection}`, true);
+    sword.anims.play(`sword_${monster.lastDirection}`, true);
     if (player.hp - 10 === 0) {
       handleGameOver(scene, player, monster.lastDirection);
       return;
@@ -286,6 +293,11 @@ const handleGameOver = (
 
     // 플레이어 사망 애니메이션 실행
     player.anims.play(`char_death_${direction}`);
+
+    const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("clothes");
+
+    clothes.anims.play(`clothes_death_${direction}`);
 
     // 게임 오버 텍스트 추가
     const gameOverText = scene.add

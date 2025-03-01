@@ -56,3 +56,32 @@ export const createWeaponAnims = (scene: Phaser.Scene): void => {
     });
   });
 };
+
+export const createClothesAnims = (scene: Phaser.Scene): void => {
+  const animationConfig = [
+    { key: `clothes`, frames: 0, frameRate: 60, repeat: 0 },
+    { key: `clothes_walk`, frames: 5, frameRate: 10, repeat: -1 },
+    { key: `clothes_hurt`, frames: 0, frameRate: 10, repeat: 0 },
+    { key: `clothes_death`, frames: 1, frameRate: 10, repeat: 0 },
+    { key: `clothes_sword_draw`, frames: 2, frameRate: 10, repeat: 0 },
+    { key: `clothes_sword_idle`, frames: 3, frameRate: 10, repeat: -1 },
+    { key: `clothes_sword_move`, frames: 3, frameRate: 10, repeat: -1 },
+    { key: `clothes_sword_attack`, frames: 3, frameRate: 30, repeat: 0 }
+  ];
+
+  const directions = ["front", "back", "right", "left"];
+
+  animationConfig.forEach(({ key, frames, frameRate, repeat }) => {
+    directions.forEach((dir) => {
+      scene.anims.create({
+        key: `${key}_${dir}`,
+        frames: scene.anims.generateFrameNumbers(`${key}_${dir}`, {
+          start: 0,
+          end: frames
+        }),
+        frameRate,
+        repeat
+      });
+    });
+  });
+};
