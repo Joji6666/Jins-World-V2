@@ -269,7 +269,63 @@ const triggerAttackEvent = (
   player.anims.play(`char_sword_hurt_${monster.lastDirection}`);
   clothes.anims.play(`clothes_hurt_${monster.lastDirection}`);
 
-  scene.time.delayedCall(1100, () => {
+  // 🔥 1️⃣ 플레이어가 lastDirection 방향으로 밀려나도록 설정
+  const knockbackDistance = 35; // 뒤로 밀려나는 거리
+  let knockbackX = 0;
+  let knockbackY = 0;
+
+  switch (monster.lastDirection) {
+    case "back":
+      knockbackY = -knockbackDistance;
+      break;
+    case "front":
+      knockbackY = knockbackDistance;
+      break;
+    case "left":
+      knockbackX = -knockbackDistance;
+      break;
+    case "right":
+      knockbackX = knockbackDistance;
+      break;
+  }
+
+  scene.tweens.add({
+    targets: player,
+    x: player.x + knockbackX,
+    y: player.y + knockbackY,
+    duration: 200, // 0.2초 동안 밀려남
+    ease: "Power2",
+    onComplete: () => {
+      // 밀려난 후 제자리 복귀
+      scene.tweens.add({
+        targets: player,
+        x: player.x,
+        y: player.y,
+        duration: 200,
+        ease: "Power2"
+      });
+    }
+  });
+
+  // 🔥 2️⃣ 피격 시 번쩍이는 효과 (깜빡임)
+  scene.tweens.add({
+    targets: player,
+    alpha: 0, // 투명도 0 (사라짐)
+    duration: 100,
+    yoyo: true, // 다시 원래대로 복귀
+    repeat: 4 // 4번 깜빡임
+  });
+
+  // 🔥 2️⃣ 피격 시 번쩍이는 효과 (깜빡임)
+  scene.tweens.add({
+    targets: clothes,
+    alpha: 0, // 투명도 0 (사라짐)
+    duration: 100,
+    yoyo: true, // 다시 원래대로 복귀
+    repeat: 4 // 4번 깜빡임
+  });
+
+  scene.time.delayedCall(600, () => {
     player.anims.play(`char_${monster.lastDirection}`, true);
     clothes.anims.play(`clothes_${monster.lastDirection}`, true);
     sword.anims.play(`sword_${monster.lastDirection}`, true);

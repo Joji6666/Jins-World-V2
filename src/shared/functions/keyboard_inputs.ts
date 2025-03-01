@@ -31,7 +31,7 @@ export const setPlayerInputs = (
       scene.data.get("clothes");
 
     const isWeaponDraw: boolean = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
-    setPlayerAndWeaponDepth(isWeaponDraw, player, sword, event.code);
+    setPlayerAndWeaponDepth(isWeaponDraw, player, sword, clothes, event.code);
 
     switch (event.code) {
       case "ArrowUp":
@@ -153,7 +153,7 @@ export const setPlayerInputs = (
     const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("clothes");
     const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
-    setPlayerAndWeaponDepth(isWeaponDraw, player, sword, event.code);
+    setPlayerAndWeaponDepth(isWeaponDraw, player, sword, clothes, event.code);
     if (
       keysPressed.has("ArrowUp") ||
       keysPressed.has("ArrowDown") ||
@@ -231,7 +231,12 @@ export const setPlayerInputs = (
       sword.anims.play(`sword${animationName}`, true);
     }
 
-    if (playerAnim && playerWeaponStatus !== "hand" && event.code !== "KeyP") {
+    if (
+      playerAnim &&
+      playerWeaponStatus !== "hand" &&
+      event.code !== "KeyP" &&
+      event.code !== "Space"
+    ) {
       let animationName = playerAnim.key.replace("char", "");
 
       if (animationName.includes(playerWeaponStatus)) {
@@ -262,6 +267,7 @@ export const setPlayerWeaponInputs = (
     const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
 
     if (isWeaponDraw) {
+      scene.data.set(PLAYER_KEYS.PLAYER_WEAPON_STATUS, "hand");
       player.anims.play(`char_${playerSide}`, true);
       const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
         scene.data.get("sword");
@@ -290,9 +296,13 @@ export const setPlayerWeaponInputs = (
         sword.anims.play(`sword_idle_${playerSide}`, true);
       });
 
-      clothes.on(`animationcomplete-clothes_draw_${playerSide}`, () => {
-        clothes.anims.play(`clothes_idle_${playerSide}`, true);
+      clothes.on(`animationcomplete-clothes_sword_draw_${playerSide}`, () => {
+        clothes.anims.play(`clothes_sword_idle_${playerSide}`, true);
       });
+
+      sword.depth = 3;
+      clothes.depth = 2;
+      player.depth = 1;
       if (playerWeaponStatus === "hand") {
         scene.data.set(PLAYER_KEYS.PLAYER_WEAPON_STATUS, "sword");
       }
@@ -313,6 +323,7 @@ const setPlayerAndWeaponDepth = (
   isWeaponDraw: boolean,
   player: Player,
   sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody,
+  clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody,
   pressedKey: string
 ): void => {
   switch (pressedKey) {
@@ -320,10 +331,12 @@ const setPlayerAndWeaponDepth = (
       {
         if (isWeaponDraw) {
           player.depth = 2;
+          clothes.depth = 3;
           sword.depth = 1;
         } else {
+          clothes.depth = 2;
           player.depth = 1;
-          sword.depth = 2;
+          sword.depth = 3;
         }
       }
 
@@ -332,8 +345,10 @@ const setPlayerAndWeaponDepth = (
       {
         if (isWeaponDraw) {
           player.depth = 1;
-          sword.depth = 2;
+          sword.depth = 3;
+          clothes.depth = 2;
         } else {
+          clothes.depth = 3;
           player.depth = 2;
           sword.depth = 1;
         }
@@ -344,9 +359,11 @@ const setPlayerAndWeaponDepth = (
     case "ArrowRight":
       {
         if (isWeaponDraw) {
+          clothes.depth = 2;
           player.depth = 1;
-          sword.depth = 2;
+          sword.depth = 3;
         } else {
+          clothes.depth = 3;
           player.depth = 2;
           sword.depth = 1;
         }
@@ -357,9 +374,11 @@ const setPlayerAndWeaponDepth = (
     case "ArrowLeft":
       {
         if (isWeaponDraw) {
+          clothes.depth = 2;
           player.depth = 1;
-          sword.depth = 2;
+          sword.depth = 3;
         } else {
+          clothes.depth = 3;
           player.depth = 2;
           sword.depth = 1;
         }
