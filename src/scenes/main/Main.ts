@@ -55,7 +55,7 @@ export default class GameScene extends Phaser.Scene {
     mainPreload(this);
     playerPreload(this);
     weaponPreload(this);
-    hairPreload(this, 1);
+    hairPreload(this, 2);
     playerClothesPreload(this, 1);
     orcPreload(this, 1);
   }
