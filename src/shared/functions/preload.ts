@@ -93,71 +93,6 @@ export const weaponPreload = (scene: Phaser.Scene): void => {
   });
 };
 
-export const playerClothesPreload = (
-  scene: Phaser.Scene,
-  number: number
-): void => {
-  const animations = [
-    "front",
-    "back",
-    "right",
-    "left",
-    "death_front",
-    "death_back",
-    "death_right",
-    "death_left",
-    "walk_front",
-    "walk_back",
-    "walk_right",
-    "walk_left",
-    "hurt_front",
-    "hurt_back",
-    "hurt_right",
-    "hurt_left"
-  ];
-
-  const swordAnimations = [
-    "sword_draw_front",
-    "sword_draw_back",
-    "sword_draw_right",
-    "sword_draw_left",
-    "sword_idle_front",
-    "sword_idle_back",
-    "sword_idle_right",
-    "sword_idle_left",
-    "sword_move_front",
-    "sword_move_back",
-    "sword_move_right",
-    "sword_move_left",
-    "sword_attack_front",
-    "sword_attack_back",
-    "sword_attack_right",
-    "sword_attack_left"
-  ];
-
-  animations.forEach((anim) => {
-    scene.load.spritesheet(
-      `clothes_${anim}`,
-      `/assets/player/clothes/clothes_${number}/clothes_${number}_${anim}.png`,
-      {
-        frameWidth: 64,
-        frameHeight: 64
-      }
-    );
-  });
-
-  swordAnimations.forEach((anim) => {
-    scene.load.spritesheet(
-      `clothes_${anim}`,
-      `/assets/player/clothes/clothes_${number}/clothes_${number}_${anim}.png`,
-      {
-        frameWidth: 64,
-        frameHeight: 64
-      }
-    );
-  });
-};
-
 export const hairPreload = (scene: Phaser.Scene, number: number) => {
   scene.load.spritesheet(
     `hair_front`,
@@ -198,6 +133,53 @@ export const hairPreload = (scene: Phaser.Scene, number: number) => {
   scene.load.spritesheet(
     `hair_sword_3`,
     `/assets/player/hair/hair_${number}/hair_${number}_sword_3.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+};
+
+export const clothesPreload = (scene: Phaser.Scene, number: number) => {
+  scene.load.spritesheet(
+    `clothes_front`,
+    `/assets/player/clothes/clothes_${number}/clothes_${number}_front.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `clothes`,
+    `/assets/player/clothes/clothes_${number}/clothes_${number}.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `clothes_sword_1`,
+    `/assets/player/clothes/clothes_${number}/clothes_${number}_sword_1.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `clothes_sword_2`,
+    `/assets/player/clothes/clothes_${number}/clothes_${number}_sword_2.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `clothes_sword_3`,
+    `/assets/player/clothes/clothes_${number}/clothes_${number}_sword_3.png`,
     {
       frameWidth: 64,
       frameHeight: 64

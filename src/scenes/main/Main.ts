@@ -23,7 +23,7 @@ import {
 import { createPlayer } from "../../shared/functions/create";
 import {
   hairPreload,
-  playerClothesPreload,
+  clothesPreload,
   playerPreload,
   weaponPreload
 } from "../../shared/functions/preload";
@@ -56,7 +56,7 @@ export default class GameScene extends Phaser.Scene {
     playerPreload(this);
     weaponPreload(this);
     hairPreload(this, 2);
-    playerClothesPreload(this, 1);
+    clothesPreload(this, 1);
     orcPreload(this, 1);
   }
 
