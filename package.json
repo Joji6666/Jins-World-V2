@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@vercel/node": "^5.1.10",
+    "googleapis": "^146.0.0",
     "pdfjs-dist": "^4.10.38",
     "phaser": "^3.87.0",
     "webfontloader": "^1.6.28"
