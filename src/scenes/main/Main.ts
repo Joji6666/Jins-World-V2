@@ -16,11 +16,13 @@ import { createCatAnims } from "./functions/anims";
 import { handleInteraction } from "./functions/interaction";
 import {
   createClothesAnims,
+  createHairAnims,
   createPlayerAnims,
   createWeaponAnims
 } from "../../shared/functions/anims";
 import { createPlayer } from "../../shared/functions/create";
 import {
+  hairPreload,
   playerClothesPreload,
   playerPreload,
   weaponPreload
@@ -53,6 +55,7 @@ export default class GameScene extends Phaser.Scene {
     mainPreload(this);
     playerPreload(this);
     weaponPreload(this);
+    hairPreload(this, 1);
     playerClothesPreload(this, 1);
     orcPreload(this, 1);
   }
@@ -95,6 +98,7 @@ export default class GameScene extends Phaser.Scene {
         createCatAnims(this);
         createWeaponAnims(this);
         createClothesAnims(this);
+        createHairAnims(this);
         createOrcAnims(this, 1);
 
         octocat.anims.play("octocat_idle");
@@ -129,6 +133,7 @@ export default class GameScene extends Phaser.Scene {
     const player = this.data.get("player");
     const sword = this.data.get("sword");
     const clothes = this.data.get("clothes");
+    const hair = this.data.get("hair");
     const map = this.data.get("map");
     const octocat = this.data.get("octocat");
     const wallLayer = this.data.get("wallLayer");
@@ -146,6 +151,9 @@ export default class GameScene extends Phaser.Scene {
 
     clothes.x = player.x;
     clothes.y = player.y;
+
+    hair.x = player.x;
+    hair.y = player.y;
 
     // 맵의 크기를 가져옵니다.
     const mapWidth = map.widthInPixels;

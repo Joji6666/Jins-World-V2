@@ -30,6 +30,9 @@ export const setPlayerInputs = (
     const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("clothes");
 
+    const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("hair");
+
     const isWeaponDraw: boolean = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
     setPlayerAndWeaponDepth(isWeaponDraw, player, sword, clothes, event.code);
 
@@ -126,6 +129,7 @@ export const setPlayerInputs = (
     if (playerAnim && playerWeaponStatus === "hand") {
       const animationName = playerAnim.key.replace("char", "");
 
+      hair.anims.play(`hair${animationName}`, true);
       clothes.anims.play(`clothes${animationName}`, true);
       sword.anims.play(`sword${animationName}`, true);
     }
@@ -139,6 +143,7 @@ export const setPlayerInputs = (
           ""
         );
       }
+      hair.anims.play(`hair_${playerWeaponStatus}${animationName}`, true);
       clothes.anims.play(`clothes_${playerWeaponStatus}${animationName}`, true);
       sword.anims.play(`${playerWeaponStatus}${animationName}`, true);
     }
@@ -152,6 +157,10 @@ export const setPlayerInputs = (
       scene.data.get("sword");
     const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("clothes");
+
+    const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("hair");
+
     const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
     setPlayerAndWeaponDepth(isWeaponDraw, player, sword, clothes, event.code);
     if (
@@ -229,6 +238,7 @@ export const setPlayerInputs = (
 
       clothes.anims.play(`clothes${animationName}`, true);
       sword.anims.play(`sword${animationName}`, true);
+      hair.anims.play(`hair${animationName}`, true);
     }
 
     if (
@@ -246,6 +256,7 @@ export const setPlayerInputs = (
         );
       }
 
+      hair.anims.play(`hair_${playerWeaponStatus}${animationName}`, true);
       clothes.anims.play(`clothes_${playerWeaponStatus}${animationName}`, true);
       sword.anims.play(`${playerWeaponStatus}${animationName}`, true);
     }
@@ -273,6 +284,11 @@ export const setPlayerWeaponInputs = (
         scene.data.get("sword");
       const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
         scene.data.get("clothes");
+
+      const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+        scene.data.get("hair");
+
+      hair.anims.play(`hair_${playerSide}`, true);
       clothes.anims.play(`clothes_${playerSide}`, true);
       sword.anims.play(`sword_${playerSide}`, true);
       scene.data.set(PLAYER_KEYS.IS_WEAPON_DRAW, false);
@@ -283,6 +299,11 @@ export const setPlayerWeaponInputs = (
         scene.data.get("sword");
       const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
         scene.data.get("clothes");
+
+      const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+        scene.data.get("hair");
+
+      hair.anims.play(`hair_sword_draw_${playerSide}`, true);
 
       clothes.anims.play(`clothes_sword_draw_${playerSide}`, true);
       sword.anims.play(`sword_draw_${playerSide}`, true);
@@ -298,6 +319,10 @@ export const setPlayerWeaponInputs = (
 
       clothes.on(`animationcomplete-clothes_sword_draw_${playerSide}`, () => {
         clothes.anims.play(`clothes_sword_idle_${playerSide}`, true);
+      });
+
+      hair.on(`animationcomplete-hair_sword_draw_${playerSide}`, () => {
+        hair.anims.play(`hair_sword_idle_${playerSide}`, true);
       });
 
       sword.depth = 3;
@@ -400,7 +425,10 @@ const playerAttack = (scene: Phaser.Scene) => {
 
     const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("clothes");
+    const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("hair");
 
+    hair.anims.play(`hair_sword_attack_${playerSide}`, true);
     sword.anims.play(`sword_attack_${playerSide}`, true);
     player.anims.play(`char_sword_attack_${playerSide}`, true);
     clothes.anims.play(`clothes_sword_attack_${playerSide}`, true);
@@ -415,6 +443,10 @@ const playerAttack = (scene: Phaser.Scene) => {
 
     clothes.on(`animationcomplete-clothes_sword_attack_${playerSide}`, () => {
       clothes.anims.play(`clothes_sword_idle_${playerSide}`, true);
+    });
+
+    hair.on(`animationcomplete-hair_sword_attack_${playerSide}`, () => {
+      hair.anims.play(`hair_sword_idle_${playerSide}`, true);
     });
   }
 };

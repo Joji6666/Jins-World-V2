@@ -157,3 +157,50 @@ export const playerClothesPreload = (
     );
   });
 };
+
+export const hairPreload = (scene: Phaser.Scene, number: number) => {
+  scene.load.spritesheet(
+    `hair_front`,
+    `/assets/player/hair/hair_${number}/hair_${number}_front.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `hair`,
+    `/assets/player/hair/hair_${number}/hair_${number}.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `hair_sword_1`,
+    `/assets/player/hair/hair_${number}/hair_${number}_sword_1.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `hair_sword_2`,
+    `/assets/player/hair/hair_${number}/hair_${number}_sword_2.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `hair_sword_3`,
+    `/assets/player/hair/hair_${number}/hair_${number}_sword_3.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+};

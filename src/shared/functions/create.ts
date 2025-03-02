@@ -43,5 +43,16 @@ export const createPlayer = (scene: Phaser.Scene): Player => {
   clothes.scale = 2;
   clothes.depth = 3;
 
+  const hair = scene.physics.add
+    .sprite(player.x, player.y, `hair_front`)
+    .setScale(2);
+
+  scene.data.set("hair", hair);
+  hair.body.immovable = true;
+  hair.setCollideWorldBounds(true);
+  hair.body.offset.y = 7;
+  hair.scale = 2;
+  hair.depth = 4;
+
   return player;
 };
