@@ -3,6 +3,8 @@ import path from "path";
 import fs from "fs";
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
+  console.log("🚀 [API 호출됨] 요청 URL:", req.url);
+  console.log("📂 요청된 파일:", req.query.name);
   try {
     const name = req.query.name as string;
     if (!name) {
