@@ -5,6 +5,5 @@
       "maxDuration": 30
     }
   },
-  "routes": [{ "src": "/api/assets/(.*)", "dest": "/api/getAsset.ts?name=$1" }],
-  "includeFiles": ["vercel-assets/**/*"]
+  "routes": [{ "src": "/api/assets/(.*)", "dest": "/api/getAsset.ts?name=$1" }]
 }
