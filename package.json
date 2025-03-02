@@ -33,6 +33,6 @@
     "webfontloader": "^1.6.28"
   },
   "engines": {
-    "node": "22.x"
+    "node": "18.x"
   }
 }
