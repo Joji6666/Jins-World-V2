@@ -44,7 +44,7 @@ export const playerPreload = (scene: Phaser.Scene): void => {
   animations.forEach((anim) => {
     scene.load.spritesheet(
       `char_${anim}`,
-      `/assets/player/char/char_${anim}.png`,
+      `/api/assets/player/char/char_${anim}.png`,
       {
         frameWidth: 64,
         frameHeight: 64
@@ -55,7 +55,7 @@ export const playerPreload = (scene: Phaser.Scene): void => {
   swordAnimations.forEach((anim) => {
     scene.load.spritesheet(
       `char_${anim}`,
-      `/assets/player/char/weapon/sword/${anim}.png`,
+      `/api/assets/player/char/weapon/sword/${anim}.png`,
       {
         frameWidth: 64,
         frameHeight: 64
@@ -71,7 +71,7 @@ export const weaponPreload = (scene: Phaser.Scene): void => {
   directions.forEach((dir) => {
     scene.load.spritesheet(
       `sword_${dir}`,
-      `/assets/weapon/sword/sword_${dir}.png`,
+      `/api/assets/weapon/sword/sword_${dir}.png`,
       {
         frameWidth: 64,
         frameHeight: 64
@@ -83,7 +83,7 @@ export const weaponPreload = (scene: Phaser.Scene): void => {
     actions.forEach((action) => {
       scene.load.spritesheet(
         `sword_${action}_${dir}`,
-        `/assets/weapon/sword/sword_${action}_${dir}.png`,
+        `/api/assets/weapon/sword/sword_${action}_${dir}.png`,
         {
           frameWidth: 64,
           frameHeight: 64
@@ -96,7 +96,7 @@ export const weaponPreload = (scene: Phaser.Scene): void => {
 export const hairPreload = (scene: Phaser.Scene, number: number) => {
   scene.load.spritesheet(
     `hair_front`,
-    `/assets/player/hair/hair_${number}/hair_${number}_front.png`,
+    `/api/assets/player/hair/hair_${number}/hair_${number}_front.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -105,7 +105,7 @@ export const hairPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `hair`,
-    `/assets/player/hair/hair_${number}/hair_${number}.png`,
+    `/api/assets/player/hair/hair_${number}/hair_${number}.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -114,7 +114,7 @@ export const hairPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `hair_sword_1`,
-    `/assets/player/hair/hair_${number}/hair_${number}_sword_1.png`,
+    `/api/assets/player/hair/hair_${number}/hair_${number}_sword_1.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -123,7 +123,7 @@ export const hairPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `hair_sword_2`,
-    `/assets/player/hair/hair_${number}/hair_${number}_sword_2.png`,
+    `/api/assets/player/hair/hair_${number}/hair_${number}_sword_2.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -132,7 +132,7 @@ export const hairPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `hair_sword_3`,
-    `/assets/player/hair/hair_${number}/hair_${number}_sword_3.png`,
+    `/api/assets/player/hair/hair_${number}/hair_${number}_sword_3.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -143,7 +143,7 @@ export const hairPreload = (scene: Phaser.Scene, number: number) => {
 export const clothesPreload = (scene: Phaser.Scene, number: number) => {
   scene.load.spritesheet(
     `clothes_front`,
-    `/assets/player/clothes/clothes_${number}/clothes_${number}_front.png`,
+    `/api/assets/player/clothes/clothes_${number}/clothes_${number}_front.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -152,7 +152,7 @@ export const clothesPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `clothes`,
-    `/assets/player/clothes/clothes_${number}/clothes_${number}.png`,
+    `/api/assets/player/clothes/clothes_${number}/clothes_${number}.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -161,7 +161,7 @@ export const clothesPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `clothes_sword_1`,
-    `/assets/player/clothes/clothes_${number}/clothes_${number}_sword_1.png`,
+    `/api/assets/player/clothes/clothes_${number}/clothes_${number}_sword_1.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -170,7 +170,7 @@ export const clothesPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `clothes_sword_2`,
-    `/assets/player/clothes/clothes_${number}/clothes_${number}_sword_2.png`,
+    `/api/assets/player/clothes/clothes_${number}/clothes_${number}_sword_2.png`,
     {
       frameWidth: 64,
       frameHeight: 64
@@ -179,7 +179,7 @@ export const clothesPreload = (scene: Phaser.Scene, number: number) => {
 
   scene.load.spritesheet(
     `clothes_sword_3`,
-    `/assets/player/clothes/clothes_${number}/clothes_${number}_sword_3.png`,
+    `/api/assets/player/clothes/clothes_${number}/clothes_${number}_sword_3.png`,
     {
       frameWidth: 64,
       frameHeight: 64

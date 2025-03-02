@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "functions": {
+    "api/getAsset.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [{ "src": "/api/assets/(.*)", "dest": "/api/getAsset.ts?name=$1" }]
+}
