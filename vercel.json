@@ -1,10 +1,4 @@
 {
-  "version": 2,
-  "functions": {
-    "api/getAsset.ts": {
-      "maxDuration": 30
-    }
-  },
-  "routes": [{ "src": "/api/assets/(.*)", "dest": "/api/getAsset.ts?name=$1" }],
-  "includeFiles": ["vercel-assets/**/*"]
+  "version": 3,
+  "routes": [{ "src": "/assets/(.*)", "dest": "/static/assets/$1" }]
 }
