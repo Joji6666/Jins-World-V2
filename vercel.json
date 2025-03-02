@@ -1,5 +1,4 @@
 {
   "version": 2,
-
   "routes": [{ "src": "/api/assets/(.*)", "dest": "/api/getAsset.ts?name=$1" }]
 }
