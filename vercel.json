@@ -1,4 +1,11 @@
 {
   "version": 2,
-  "routes": [{ "src": "/assets/(.*)", "dest": "/static/assets/$1" }]
+  "builds": [
+    {
+      "src": "vercel-build.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [{ "src": "/assets/(.*)", "dest": "/static/assets/$1" }],
+  "outputDirectory": "vercel-build-output"
 }
