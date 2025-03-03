@@ -20,7 +20,7 @@ export default defineConfig({
   base: "/",
   logLevel: "warning",
   build: {
-    outDir: "vercel-build-output",
+    outDir: "public",
     rollupOptions: {
       output: {
         manualChunks: {

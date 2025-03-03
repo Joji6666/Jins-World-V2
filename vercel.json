@@ -1,13 +1,4 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "vercel-build.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    { "src": "/assets/(.*)", "dest": "/vercel-build-output/static/assets/$1" },
-    { "src": "/(.*)", "dest": "/vercel-build-output/index.html" }
-  ]
+  "routes": [{ "src": "/assets/(.*)", "dest": "/public/assets/$1" }]
 }
