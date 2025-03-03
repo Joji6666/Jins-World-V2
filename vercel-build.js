@@ -9,7 +9,15 @@ const auth = new google.auth.GoogleAuth({
 });
 const drive = google.drive({ version: "v3", auth });
 
+const response = await drive.files.list({
+  q: `'${process.env.GOOGLE_DRIVE_FOLDER_ID}' in parents`,
+  fields: "files(id, name)",
+  pageSize: 10
+});
+console.log("📂 폴더 내 파일 목록:", response.data.files);
+
 /**
+ *
  * 🔹 특정 폴더의 모든 파일 & 서브폴더 리스트 가져오기
  */
 async function listFilesAndFolders(folderId) {
