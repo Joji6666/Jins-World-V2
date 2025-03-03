@@ -6,6 +6,8 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [{ "src": "/assets/(.*)", "dest": "/static/assets/$1" }],
-  "outputDirectory": "vercel-build-output"
+  "routes": [
+    { "src": "/assets/(.*)", "dest": "/vercel-build-output/static/assets/$1" },
+    { "src": "/(.*)", "dest": "/vercel-build-output/index.html" }
+  ]
 }
