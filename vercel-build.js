@@ -16,6 +16,7 @@ const response = await drive.files.list({
 });
 console.log("📂 폴더 내 파일 목록:", response.data.files);
 
+console.log(response, "google drive response ");
 /**
  *
  * 🔹 특정 폴더의 모든 파일 & 서브폴더 리스트 가져오기
