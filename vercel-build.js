@@ -69,7 +69,7 @@ async function downloadFile(fileId, fileName, localPath) {
 /**
  * 🔹 폴더 구조 유지하면서 모든 파일 다운로드
  */
-async function downloadFolder(folderId, parentPath = "dist/public/assets") {
+async function downloadFolder(folderId, parentPath = "dist") {
   console.log(`📂 폴더 탐색 시작: ${folderId}`);
 
   const { files, folders } = await listFilesAndFolders(folderId);
