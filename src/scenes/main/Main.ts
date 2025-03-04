@@ -42,21 +42,25 @@ export default class GameScene extends Phaser.Scene {
   private currentBubble!: Phaser.GameObjects.Text | null;
   private isCatDistanceOn!: boolean;
   private monsters: Monster[] = [];
+  private selectedHairIndex: number = 1;
+  private selectedClothesIndex: number = 1;
 
   constructor() {
     super("main");
   }
 
-  init(data: { language: string }) {
+  init(data: { language: string; hairIndex: number; clothesIndex: number }) {
     this.data.set("language", data.language);
+    (this.selectedHairIndex = data.hairIndex),
+      (this.selectedClothesIndex = data.clothesIndex);
   }
 
   preload() {
     mainPreload(this);
     playerPreload(this);
     weaponPreload(this);
-    hairPreload(this, 2);
-    clothesPreload(this, 1);
+    hairPreload(this, this.selectedHairIndex);
+    clothesPreload(this, this.selectedClothesIndex);
     orcPreload(this, 1);
   }
 

@@ -25,12 +25,14 @@ export default class IntroScene extends Phaser.Scene {
   }
 
   createText() {
+    this.cameras.main.setBackgroundColor("#000000");
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
     const { width, height } = this.scale;
 
     const bg = this.add.image(0, 0, "background").setOrigin(0, 0);
     bg.setDisplaySize(width, height);
+    bg.setAlpha(0.7);
 
     this.add
       .text(centerX, centerY - 100, "WELCOME TO JIN'S WORLD", {
@@ -75,7 +77,9 @@ export default class IntroScene extends Phaser.Scene {
     if (this.input.keyboard) {
       this.input.keyboard.on("keydown-LEFT", () => this.switchLanguage("ko"));
       this.input.keyboard.on("keydown-RIGHT", () => this.switchLanguage("en"));
-      this.input.keyboard.on("keydown-SPACE", () => this.startMainScene());
+      this.input.keyboard.on("keydown-SPACE", () =>
+        this.startCharSelectScene()
+      );
     }
   }
 
@@ -95,12 +99,12 @@ export default class IntroScene extends Phaser.Scene {
     }
   }
 
-  startMainScene() {
+  startCharSelectScene() {
     this.cameras.main.fadeOut(1000, 0, 0, 0);
     this.cameras.main.once(
       Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
       () => {
-        this.scene.start("main", { language: this.language });
+        this.scene.start("character-select-scene", { language: this.language });
       }
     );
   }
