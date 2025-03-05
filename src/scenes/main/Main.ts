@@ -51,8 +51,8 @@ export default class GameScene extends Phaser.Scene {
 
   init(data: { language: string; hairIndex: number; clothesIndex: number }) {
     this.data.set("language", data.language);
-    (this.selectedHairIndex = data.hairIndex),
-      (this.selectedClothesIndex = data.clothesIndex);
+    this.selectedHairIndex = data.hairIndex;
+    this.selectedClothesIndex = data.clothesIndex;
   }
 
   preload() {
@@ -117,7 +117,7 @@ export default class GameScene extends Phaser.Scene {
 
         if (this.input.keyboard) {
           setPlayerInputs(this, this.input.keyboard, player);
-          setPlayerWeaponInputs(this, this.input.keyboard);
+          setPlayerWeaponInputs(this, this.input.keyboard, this.monsters);
           this.input.keyboard?.on("keydown-SPACE", () =>
             handleInteraction(
               this,

@@ -10,6 +10,7 @@ export const updateMonster = (
   wallObjectLayer: Phaser.Tilemaps.TilemapLayer
 ) => {
   const { sprite, chaseRange, attackRange } = monster;
+  if (monster.isHit) return;
 
   const distance = Phaser.Math.Distance.Between(
     sprite.x,

@@ -58,7 +58,8 @@ export const createOrc = (
     side: "front",
     isAttack: false,
     lastDirection: "front",
-    numbering: 1
+    numbering: 1,
+    isHit: false
   });
 
   return orc;

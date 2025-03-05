@@ -1,3 +1,4 @@
+import { Monster } from "../../scenes/town/types";
 import {
   PLAYER_ANIMATION_KEYS,
   PLAYER_KEYS,
@@ -265,7 +266,8 @@ export const setPlayerInputs = (
 
 export const setPlayerWeaponInputs = (
   scene: Phaser.Scene,
-  keyboard: Phaser.Input.Keyboard.KeyboardPlugin
+  keyboard: Phaser.Input.Keyboard.KeyboardPlugin,
+  monsters: Monster[]
 ): void => {
   keyboard.on("keydown-P", () => {
     const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
@@ -340,7 +342,7 @@ export const setPlayerWeaponInputs = (
 
     if (player.isHit) return;
 
-    playerAttack(scene);
+    playerAttack(scene, monsters);
   });
 };
 
@@ -413,7 +415,7 @@ const setPlayerAndWeaponDepth = (
   }
 };
 
-const playerAttack = (scene: Phaser.Scene) => {
+const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
   const player = scene.data.get(PLAYER_KEYS.PLAYER);
   const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
   const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
@@ -433,6 +435,44 @@ const playerAttack = (scene: Phaser.Scene) => {
     player.anims.play(`char_sword_attack_${playerSide}`, true);
     clothes.anims.play(`clothes_sword_attack_${playerSide}`, true);
 
+    const attackRange = getAttackRange(player, playerSide);
+
+    const attackRangeGraphics = scene.add.graphics();
+
+    // ✅ 빨간색으로 공격 범위 사각형 그리기 (디버깅용)
+    attackRangeGraphics.lineStyle(2, 0xff0000, 1); // 빨간색 테두리
+    attackRangeGraphics.strokeRect(
+      attackRange.x,
+      attackRange.y,
+      attackRange.width,
+      attackRange.height
+    );
+
+    console.log(attackRange, "attack Range@");
+
+    // 3️⃣ 범위 내 몬스터 찾기 & 피격 처리
+    monsters.forEach((monster) => {
+      console.log(monster, "monster@");
+      console.log(monster.sprite.x, "just x");
+      console.log(monster.sprite.y, "just Y");
+
+      console.log(monster.sprite.body.x, "body x");
+
+      console.log(monster.sprite.body.y, "body Y");
+
+      console.log(attackRange.x);
+      console.log(attackRange.y);
+      if (
+        Phaser.Geom.Rectangle.Contains(
+          attackRange,
+          monster.sprite.x,
+          monster.sprite.y
+        )
+      ) {
+        handleMonsterHit(scene, monster);
+      }
+    });
+
     player.on(`animationcomplete-char_sword_attack_${playerSide}`, () => {
       player.anims.play(`char_sword_idle_${playerSide}`, true);
     });
@@ -449,4 +489,65 @@ const playerAttack = (scene: Phaser.Scene) => {
       hair.anims.play(`hair_sword_idle_${playerSide}`, true);
     });
   }
+};
+
+// 🎯 플레이어의 공격 방향에 따라 범위 설정 함수
+const getAttackRange = (
+  player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody,
+  direction: string
+) => {
+  const width = 80; // 공격 범위의 너비
+  const height = 80; // 공격 범위의 높이
+
+  switch (direction) {
+    case "left":
+      return new Phaser.Geom.Rectangle(
+        player.x - width,
+        player.y - height / 2,
+        width,
+        height
+      );
+    case "right":
+      return new Phaser.Geom.Rectangle(
+        player.x,
+        player.y - height / 2,
+        width,
+        height
+      );
+    case "back":
+      return new Phaser.Geom.Rectangle(
+        player.x - width / 2,
+        player.y - height,
+        width,
+        height
+      );
+    case "front":
+      return new Phaser.Geom.Rectangle(
+        player.x - width / 2,
+        player.y,
+        width,
+        height
+      );
+    default:
+      return new Phaser.Geom.Rectangle(player.x, player.y, width, height);
+  }
+};
+
+// 🎯 몬스터 피격 처리 함수
+const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
+  // monster.isAttack = true;
+
+  monster.isHit = true;
+  monster.sprite.setVelocityX(0);
+  monster.sprite.setVelocityY(0);
+  monster.sprite.anims.play(
+    `orc_${monster.numbering}_death_${monster.side}`,
+    true
+  );
+
+  scene.time.delayedCall(700, () => {
+    monster.sprite.destroy();
+  });
+
+  console.log(`🔥 몬스터 ${monster.numbering}가 피격됨!`);
 };

@@ -7,6 +7,7 @@ export interface Monster {
   patrolIndex: number;
   side: string;
   isAttack: boolean;
+  isHit: boolean;
   lastDirection: string;
   numbering: number;
 }
