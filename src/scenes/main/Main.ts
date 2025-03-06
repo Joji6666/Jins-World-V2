@@ -78,7 +78,30 @@ export default class GameScene extends Phaser.Scene {
 
         const player = createPlayer(this);
         const octocat = createOctocat(this);
-        const orc1 = createOrc(this, 1, this.monsters);
+        const orc1 = createOrc(
+          this,
+          1,
+          this.monsters,
+          [
+            { x: 100, y: 100 },
+            { x: 500, y: 100 },
+            { x: 500, y: 500 },
+            { x: 100, y: 500 }
+          ],
+          { x: 400, y: 300 }
+        );
+        const orc2 = createOrc(
+          this,
+          1,
+          this.monsters,
+          [
+            { x: 450, y: -300 },
+            { x: 300, y: 200 },
+            { x: 400, y: 400 },
+            { x: 300, y: 300 }
+          ],
+          { x: 200, y: 500 }
+        );
         const sword = this.data.get("sword");
 
         this.physics.add.collider(sword, wallLayer);

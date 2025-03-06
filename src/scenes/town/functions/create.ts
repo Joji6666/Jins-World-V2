@@ -33,9 +33,15 @@ export const createTownLayers = (
 export const createOrc = (
   scene: Phaser.Scene,
   numbering: number,
-  monsters: Monster[]
+  monsters: Monster[],
+  patrolPoints: { x: number; y: number }[],
+  spawnPoint: { x: number; y: number }
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
-  const orc = scene.physics.add.sprite(400, 600, `orc_${numbering}_idle_front`);
+  const orc = scene.physics.add.sprite(
+    spawnPoint.x,
+    spawnPoint.y,
+    `orc_${numbering}_idle_front`
+  );
 
   orc.body.immovable = true;
   orc.setCollideWorldBounds(true);
@@ -48,12 +54,7 @@ export const createOrc = (
     speed: 50,
     chaseRange: 200,
     attackRange: 50,
-    patrolPoints: [
-      { x: 100, y: 100 },
-      { x: 500, y: 100 },
-      { x: 500, y: 500 },
-      { x: 100, y: 500 }
-    ],
+    patrolPoints,
     patrolIndex: 0,
     side: "front",
     isAttack: false,
