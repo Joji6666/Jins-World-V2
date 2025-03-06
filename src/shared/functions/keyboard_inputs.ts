@@ -358,6 +358,8 @@ export const setPlayerWeaponInputs = (
 
     const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("hair");
+    const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("sword");
 
     if (!isWeaponDraw) return;
 
@@ -366,6 +368,7 @@ export const setPlayerWeaponInputs = (
     player.anims.play(`char_${playerWeaponStatus}_retreat_${playerSide}`);
     clothes.anims.play(`clothes_${playerWeaponStatus}_retreat_${playerSide}`);
     hair.anims.play(`hair_${playerWeaponStatus}_retreat_${playerSide}`);
+    sword.anims.play(`sword_retreat_${playerSide}`);
     player.isBackStep = true;
 
     switch (playerSide) {
@@ -394,6 +397,7 @@ export const setPlayerWeaponInputs = (
       player.anims.play(`char_sword_idle_${playerSide}`);
       hair.anims.play(`hair_sword_idle_${playerSide}`);
       clothes.anims.play(`clothes_sword_idle_${playerSide}`);
+      sword.anims.play(`sword_idle_${playerSide}`);
     });
   });
 };
