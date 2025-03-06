@@ -8,7 +8,8 @@ export const createPlayerAnims = (scene: Phaser.Scene): void => {
     { key: "char_sword_idle", frames: 3, frameRate: 10, repeat: -1 },
     { key: "char_sword_move", frames: 3, frameRate: 10, repeat: -1 },
     { key: "char_sword_attack", frames: 3, frameRate: 30, repeat: 0 },
-    { key: "char_sword_hurt", frames: 0, frameRate: 10, repeat: 0 }
+    { key: "char_sword_hurt", frames: 0, frameRate: 10, repeat: 0 },
+    { key: "char_sword_retreat", frames: 0, frameRate: 10, repeat: 0 }
   ];
 
   const directions = ["front", "back", "right", "left"];
@@ -37,7 +38,8 @@ export const createWeaponAnims = (scene: Phaser.Scene): void => {
     { key: "sword_move", frames: 3, frameRate: 10, repeat: -1 },
     { key: "sword_attack", frames: 3, frameRate: 30, repeat: 0 },
     { key: "sword_hurt", frames: 0, frameRate: 10, repeat: 0 },
-    { key: "sword_death", frames: 1, frameRate: 10, repeat: 0 }
+    { key: "sword_death", frames: 1, frameRate: 10, repeat: 0 },
+    { key: "sword_retreat", frames: 0, frameRate: 10, repeat: 0 }
   ];
 
   const directions = ["front", "back", "right", "left"];
@@ -327,6 +329,39 @@ export const createClothesAnims = (scene: Phaser.Scene): void => {
       frameRate: 30,
       repeat: 0,
       sourceKey: "clothes_sword_3"
+    },
+
+    {
+      key: `clothes_sword_retreat_front`,
+      start: 33,
+      end: 33,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "clothes_sword_2"
+    },
+    {
+      key: `clothes_sword_retreat_back`,
+      start: 41,
+      end: 41,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "clothes_sword_2"
+    },
+    {
+      key: `clothes_sword_retreat_right`,
+      start: 49,
+      end: 49,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "clothes_sword_2"
+    },
+    {
+      key: `clothes_sword_retreat_left`,
+      start: 57,
+      end: 57,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "clothes_sword_2"
     }
   ];
 
@@ -615,6 +650,39 @@ export const createHairAnims = (scene: Phaser.Scene): void => {
       frameRate: 30,
       repeat: 0,
       sourceKey: "hair_sword_3"
+    },
+
+    {
+      key: `hair_sword_retreat_front`,
+      start: 33,
+      end: 33,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "hair_sword_2"
+    },
+    {
+      key: `hair_sword_retreat_back`,
+      start: 41,
+      end: 41,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "hair_sword_2"
+    },
+    {
+      key: `hair_sword_retreat_right`,
+      start: 49,
+      end: 49,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "hair_sword_2"
+    },
+    {
+      key: `hair_sword_retreat_left`,
+      start: 57,
+      end: 57,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: "hair_sword_2"
     }
   ];
 

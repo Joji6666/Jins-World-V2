@@ -5,4 +5,5 @@ export interface Player
   isDialogOn: boolean;
   isHit: boolean;
   hp: number;
+  isBackStep: boolean;
 }

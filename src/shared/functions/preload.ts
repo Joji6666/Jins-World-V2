@@ -38,7 +38,11 @@ export const playerPreload = (scene: Phaser.Scene): void => {
     "sword_hurt_front",
     "sword_hurt_back",
     "sword_hurt_right",
-    "sword_hurt_left"
+    "sword_hurt_left",
+    "sword_retreat_front",
+    "sword_retreat_back",
+    "sword_retreat_right",
+    "sword_retreat_left"
   ];
 
   animations.forEach((anim) => {
@@ -66,7 +70,16 @@ export const playerPreload = (scene: Phaser.Scene): void => {
 
 export const weaponPreload = (scene: Phaser.Scene): void => {
   const directions = ["front", "back", "right", "left"];
-  const actions = ["walk", "draw", "idle", "move", "attack", "hurt", "death"];
+  const actions = [
+    "walk",
+    "draw",
+    "idle",
+    "move",
+    "attack",
+    "hurt",
+    "death",
+    "retreat"
+  ];
 
   directions.forEach((dir) => {
     scene.load.spritesheet(

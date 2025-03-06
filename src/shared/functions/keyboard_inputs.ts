@@ -18,6 +18,7 @@ export const setPlayerInputs = (
   keyboard.on("keydown", (event: KeyboardEvent) => {
     const currentPlayer: Player = scene.data.get("player");
     if (currentPlayer.isHit) return;
+    if (currentPlayer.isBackStep) return;
     keysPressed.add(event.code);
 
     const isRunOn: boolean = scene.data.get(PLAYER_KEYS.IS_RUN_ON) || false;
@@ -273,6 +274,7 @@ export const setPlayerWeaponInputs = (
     const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
 
     if (player.isHit) return;
+    if (player.isBackStep) return;
 
     const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
 
@@ -341,8 +343,58 @@ export const setPlayerWeaponInputs = (
     const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
 
     if (player.isHit) return;
+    if (player.isBackStep) return;
 
     playerAttack(scene, monsters);
+  });
+
+  keyboard.on("keydown-C", () => {
+    const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
+    const playerSide: string = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
+    const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
+    const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
+    const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("clothes");
+
+    const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("hair");
+
+    if (!isWeaponDraw) return;
+
+    if (player.isHit) return;
+
+    player.anims.play(`char_${playerWeaponStatus}_retreat_${playerSide}`);
+    clothes.anims.play(`clothes_${playerWeaponStatus}_retreat_${playerSide}`);
+    hair.anims.play(`hair_${playerWeaponStatus}_retreat_${playerSide}`);
+    player.isBackStep = true;
+
+    switch (playerSide) {
+      case PLAYER_SIDE_KEYS.FRONT:
+        player.setVelocityY(-500);
+
+        break;
+
+      case PLAYER_SIDE_KEYS.BACK:
+        player.setVelocityY(500);
+
+        break;
+      case PLAYER_SIDE_KEYS.RIGHT:
+        player.setVelocityX(-500);
+
+        break;
+      case PLAYER_SIDE_KEYS.LEFT:
+        player.setVelocityX(500);
+
+        break;
+    }
+
+    scene.time.delayedCall(200, () => {
+      player.setVelocity(0, 0);
+      player.isBackStep = false;
+      player.anims.play(`char_sword_idle_${playerSide}`);
+      hair.anims.play(`hair_sword_idle_${playerSide}`);
+      clothes.anims.play(`clothes_sword_idle_${playerSide}`);
+    });
   });
 };
 
@@ -448,20 +500,8 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
       attackRange.height
     );
 
-    console.log(attackRange, "attack Range@");
-
     // 3️⃣ 범위 내 몬스터 찾기 & 피격 처리
     monsters.forEach((monster) => {
-      console.log(monster, "monster@");
-      console.log(monster.sprite.x, "just x");
-      console.log(monster.sprite.y, "just Y");
-
-      console.log(monster.sprite.body.x, "body x");
-
-      console.log(monster.sprite.body.y, "body Y");
-
-      console.log(attackRange.x);
-      console.log(attackRange.y);
       if (
         Phaser.Geom.Rectangle.Contains(
           attackRange,
