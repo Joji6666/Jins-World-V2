@@ -62,6 +62,8 @@ export default class GameScene extends Phaser.Scene {
     hairPreload(this, this.selectedHairIndex);
     clothesPreload(this, this.selectedClothesIndex);
     orcPreload(this, 1);
+    orcPreload(this, 2);
+    orcPreload(this, 3);
   }
 
   create() {
@@ -88,7 +90,8 @@ export default class GameScene extends Phaser.Scene {
             { x: 500, y: 500 },
             { x: 100, y: 500 }
           ],
-          { x: 400, y: 300 }
+          { x: 400, y: 300 },
+          50
         );
         const orc2 = createOrc(
           this,
@@ -100,8 +103,38 @@ export default class GameScene extends Phaser.Scene {
             { x: 400, y: 400 },
             { x: 300, y: 300 }
           ],
-          { x: 200, y: 500 }
+          { x: 200, y: 500 },
+          50
         );
+
+        const orc3 = createOrc(
+          this,
+          2,
+          this.monsters,
+          [
+            { x: 250, y: -400 },
+            { x: 300, y: 200 },
+            { x: 400, y: 400 },
+            { x: 300, y: 300 }
+          ],
+          { x: 400, y: 300 },
+          70
+        );
+
+        const orc4 = createOrc(
+          this,
+          3,
+          this.monsters,
+          [
+            { x: 250, y: -400 },
+            { x: 300, y: 200 },
+            { x: 400, y: 400 },
+            { x: 300, y: 300 }
+          ],
+          { x: 500, y: 400 },
+          90
+        );
+
         const sword = this.data.get("sword");
 
         this.physics.add.collider(sword, wallLayer);
@@ -127,6 +160,8 @@ export default class GameScene extends Phaser.Scene {
         createClothesAnims(this);
         createHairAnims(this);
         createOrcAnims(this, 1);
+        createOrcAnims(this, 2);
+        createOrcAnims(this, 3);
 
         octocat.anims.play("octocat_idle");
         orc1.anims.play("orc_1_idle_front");

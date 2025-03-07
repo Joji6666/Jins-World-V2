@@ -70,23 +70,43 @@ const getMonsterDirection = (monster: Monster): string => {
 const triggerMonsterEvent = (monster: Monster, direction: string) => {
   switch (direction) {
     case "back":
-      monster.sprite.anims.play("orc_1_walk_back", true);
+      if (monster.numbering === 3) {
+        monster.sprite.anims.play("orc_3_run_back", true);
+      } else {
+        monster.sprite.anims.play(`orc_${monster.numbering}_walk_back`, true);
+      }
+
       monster.side = "back";
       break;
     case "front":
-      monster.sprite.anims.play("orc_1_walk_front", true);
+      if (monster.numbering === 3) {
+        monster.sprite.anims.play("orc_3_run_front", true);
+      } else {
+        monster.sprite.anims.play(`orc_${monster.numbering}_walk_front`, true);
+      }
+
       monster.side = "front";
       break;
     case "left":
-      monster.sprite.anims.play("orc_1_walk_left", true);
+      if (monster.numbering === 3) {
+        monster.sprite.anims.play("orc_3_run_left", true);
+      } else {
+        monster.sprite.anims.play(`orc_${monster.numbering}_walk_left`, true);
+      }
+
       monster.side = "left";
       break;
     case "right":
-      monster.sprite.anims.play("orc_1_walk_right", true);
+      if (monster.numbering === 3) {
+        monster.sprite.anims.play("orc_3_run_right", true);
+      } else {
+        monster.sprite.anims.play(`orc_${monster.numbering}_walk_right`, true);
+      }
+
       monster.side = "right";
       break;
     case "idle":
-      monster.sprite.anims.play("orc_1_idle_front", true);
+      monster.sprite.anims.play(`orc_${monster.numbering}_idle_front`, true);
       break;
   }
 };

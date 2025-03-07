@@ -10,4 +10,5 @@ export interface Monster {
   isHit: boolean;
   lastDirection: string;
   numbering: number;
+  hp: number;
 }

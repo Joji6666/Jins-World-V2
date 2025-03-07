@@ -584,14 +584,35 @@ const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
   monster.isHit = true;
   monster.sprite.setVelocityX(0);
   monster.sprite.setVelocityY(0);
-  monster.sprite.anims.play(
-    `orc_${monster.numbering}_death_${monster.side}`,
-    true
-  );
 
-  scene.time.delayedCall(700, () => {
-    monster.sprite.destroy();
-  });
+  if (monster.hp - 10 === 0) {
+    monster.sprite.anims.play(
+      `orc_${monster.numbering}_death_${monster.side}`,
+      true
+    );
+
+    scene.time.delayedCall(700, () => {
+      monster.sprite.destroy();
+    });
+  } else {
+    monster.hp = monster.hp - 10;
+    monster.sprite.anims.play(
+      `orc_${monster.numbering}_hurt_${monster.side}`,
+      true
+    );
+
+    monster.sprite.on(
+      `animationcomplete-orc_${monster.numbering}_hurt_${monster.side}`,
+      () => {
+        monster.sprite.anims.play(
+          `orc_${monster.numbering}_idle_${monster.side}`,
+          true
+        );
+
+        monster.isHit = false;
+      }
+    );
+  }
 
   console.log(`🔥 몬스터 ${monster.numbering}가 피격됨!`);
 };

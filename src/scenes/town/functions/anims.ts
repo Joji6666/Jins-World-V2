@@ -20,7 +20,7 @@ export const createOrcAnims = (
       sourceKey: `orc_${numbering}_idle`
     },
     {
-      key: `orc_${numbering}_idle_right`,
+      key: `orc_${numbering}_idle_left`,
       start: 8,
       end: 11,
       frameRate: 10,
@@ -28,7 +28,7 @@ export const createOrcAnims = (
       sourceKey: `orc_${numbering}_idle`
     },
     {
-      key: `orc_${numbering}_idle_left`,
+      key: `orc_${numbering}_idle_right`,
       start: 12,
       end: 15,
       frameRate: 10,
@@ -53,7 +53,7 @@ export const createOrcAnims = (
       sourceKey: `orc_${numbering}_attack`
     },
     {
-      key: `orc_${numbering}_attack_right`,
+      key: `orc_${numbering}_attack_left`,
       start: 16,
       end: 23,
       frameRate: 10,
@@ -61,7 +61,7 @@ export const createOrcAnims = (
       sourceKey: `orc_${numbering}_attack`
     },
     {
-      key: `orc_${numbering}_attack_left`,
+      key: `orc_${numbering}_attack_right`,
       start: 24,
       end: 31,
       frameRate: 10,
@@ -86,7 +86,7 @@ export const createOrcAnims = (
       sourceKey: `orc_${numbering}_death`
     },
     {
-      key: `orc_${numbering}_death_right`,
+      key: `orc_${numbering}_death_left`,
       start: 16,
       end: 23,
       frameRate: 10,
@@ -94,7 +94,7 @@ export const createOrcAnims = (
       sourceKey: `orc_${numbering}_death`
     },
     {
-      key: `orc_${numbering}_death_left`,
+      key: `orc_${numbering}_death_right`,
       start: 24,
       end: 31,
       frameRate: 10,
@@ -122,7 +122,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_walk`
       },
       {
-        key: `orc_${numbering}_walk_right`,
+        key: `orc_${numbering}_walk_left`,
         start: 12,
         end: 17,
         frameRate: 10,
@@ -130,7 +130,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_walk`
       },
       {
-        key: `orc_${numbering}_walk_left`,
+        key: `orc_${numbering}_walk_right`,
         start: 18,
         end: 23,
         frameRate: 10,
@@ -158,7 +158,7 @@ export const createOrcAnims = (
           sourceKey: `orc_${numbering}_walk_attack`
         },
         {
-          key: `orc_${numbering}_walk_attack_right`,
+          key: `orc_${numbering}_walk_attack_left`,
           start: 12,
           end: 17,
           frameRate: 10,
@@ -166,7 +166,7 @@ export const createOrcAnims = (
           sourceKey: `orc_${numbering}_walk_attack`
         },
         {
-          key: `orc_${numbering}_walk_attack_left`,
+          key: `orc_${numbering}_walk_attack_right`,
           start: 18,
           end: 23,
           frameRate: 10,
@@ -194,7 +194,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_run`
       },
       {
-        key: `orc_${numbering}_run_right`,
+        key: `orc_${numbering}_run_left`,
         start: 16,
         end: 23,
         frameRate: 10,
@@ -202,7 +202,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_run`
       },
       {
-        key: `orc_${numbering}_run_left`,
+        key: `orc_${numbering}_run_right`,
         start: 24,
         end: 31,
         frameRate: 10,
@@ -226,7 +226,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_run_attack`
       },
       {
-        key: `orc_${numbering}_run_attack_right`,
+        key: `orc_${numbering}_run_attack_left`,
         start: 16,
         end: 23,
         frameRate: 10,
@@ -234,7 +234,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_run_attack`
       },
       {
-        key: `orc_${numbering}_run_attack_left`,
+        key: `orc_${numbering}_run_attack_right`,
         start: 24,
         end: 31,
         frameRate: 10,
@@ -263,7 +263,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_hurt`
       },
       {
-        key: `orc_${numbering}_hurt_right`,
+        key: `orc_${numbering}_hurt_left`,
         start: 12,
         end: 17,
         frameRate: 10,
@@ -271,7 +271,7 @@ export const createOrcAnims = (
         sourceKey: `orc_${numbering}_hurt`
       },
       {
-        key: `orc_${numbering}_hurt_left`,
+        key: `orc_${numbering}_hurt_right`,
         start: 18,
         end: 23,
         frameRate: 10,
