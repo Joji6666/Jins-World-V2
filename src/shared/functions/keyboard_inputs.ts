@@ -19,6 +19,7 @@ export const setPlayerInputs = (
     const currentPlayer: Player = scene.data.get("player");
     if (currentPlayer.isHit) return;
     if (currentPlayer.isBackStep) return;
+    if (currentPlayer.isAttack) return;
     keysPressed.add(event.code);
 
     const isRunOn: boolean = scene.data.get(PLAYER_KEYS.IS_RUN_ON) || false;
@@ -247,7 +248,11 @@ export const setPlayerInputs = (
       playerAnim &&
       playerWeaponStatus !== "hand" &&
       event.code !== "KeyP" &&
-      event.code !== "Space"
+      event.code !== "Space" &&
+      (event.code === "ArrowUp" ||
+        event.code === "ArrowDown" ||
+        event.code === "ArrowLeft" ||
+        event.code === "ArrowRight")
     ) {
       let animationName = playerAnim.key.replace("char", "");
 
@@ -275,6 +280,7 @@ export const setPlayerWeaponInputs = (
 
     if (player.isHit) return;
     if (player.isBackStep) return;
+    if (player.isAttack) return;
 
     const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
 
@@ -344,6 +350,8 @@ export const setPlayerWeaponInputs = (
 
     if (player.isHit) return;
     if (player.isBackStep) return;
+    if (player.isAttack) return;
+    if (!player.isAttackReady) return;
 
     playerAttack(scene, monsters);
   });
@@ -353,6 +361,10 @@ export const setPlayerWeaponInputs = (
     const playerSide: string = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
     const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
     const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
+    if (!isWeaponDraw) return;
+
+    if (player.isHit) return;
+    if (player.isAttack) return;
     const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("clothes");
 
@@ -360,10 +372,6 @@ export const setPlayerWeaponInputs = (
       scene.data.get("hair");
     const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("sword");
-
-    if (!isWeaponDraw) return;
-
-    if (player.isHit) return;
 
     player.anims.play(`char_${playerWeaponStatus}_retreat_${playerSide}`);
     clothes.anims.play(`clothes_${playerWeaponStatus}_retreat_${playerSide}`);
@@ -472,7 +480,7 @@ const setPlayerAndWeaponDepth = (
 };
 
 const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
-  const player = scene.data.get(PLAYER_KEYS.PLAYER);
+  const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
   const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
   const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
   const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
@@ -491,9 +499,15 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
     player.anims.play(`char_sword_attack_${playerSide}`, true);
     clothes.anims.play(`clothes_sword_attack_${playerSide}`, true);
 
+    player.isAttackReady = false;
+
+    player.isAttack = true;
+
     const attackRange = getAttackRange(player, playerSide);
 
     const attackRangeGraphics = scene.add.graphics();
+
+    createCooldownBar(scene, player);
 
     // ✅ 빨간색으로 공격 범위 사각형 그리기 (디버깅용)
     attackRangeGraphics.lineStyle(2, 0xff0000, 1); // 빨간색 테두리
@@ -519,6 +533,10 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
 
     player.on(`animationcomplete-char_sword_attack_${playerSide}`, () => {
       player.anims.play(`char_sword_idle_${playerSide}`, true);
+
+      scene.time.delayedCall(1000, () => {
+        player.isAttackReady = true;
+      });
     });
 
     sword.on(`animationcomplete-sword_attack_${playerSide}`, () => {
@@ -532,6 +550,8 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
     hair.on(`animationcomplete-hair_sword_attack_${playerSide}`, () => {
       hair.anims.play(`hair_sword_idle_${playerSide}`, true);
     });
+
+    player.isAttack = false;
   }
 };
 
@@ -585,6 +605,8 @@ const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
   monster.sprite.setVelocityX(0);
   monster.sprite.setVelocityY(0);
 
+  scene.cameras.main.shake(100, 0.02);
+
   if (monster.hp - 10 === 0) {
     monster.sprite.anims.play(
       `orc_${monster.numbering}_death_${monster.side}`,
@@ -613,6 +635,40 @@ const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
       }
     );
   }
+};
+const createCooldownBar = (scene: Phaser.Scene, player: Player) => {
+  const barWidth = 70;
+  const barHeight = 10;
+  const offsetY = -50; // 플레이어 머리 위 위치 (높이 조정)
+  const offsetX = -barWidth / 2; // 플레이어 중앙 정렬
 
-  console.log(`🔥 몬스터 ${monster.numbering}가 피격됨!`);
+  // ✅ 쿨타임 바 생성 (배경)
+  const cooldownBarBg = scene.add.graphics();
+  cooldownBarBg.fillStyle(0x222222, 1); // 어두운 회색 배경
+  cooldownBarBg.fillRect(0, 0, barWidth, barHeight);
+
+  // ✅ 쿨타임 바 생성 (게이지)
+  const cooldownBar = scene.add.graphics();
+  cooldownBar.fillStyle(0xff0000, 1); // 빨간색
+  cooldownBar.fillRect(0, 0, barWidth, barHeight);
+
+  // ✅ 바를 감싸는 컨테이너 (플레이어 따라다니게)
+  const cooldownContainer = scene.add.container(
+    player.x + offsetX,
+    player.y + offsetY
+  );
+  cooldownContainer.add([cooldownBarBg, cooldownBar]);
+
+  // ✅ 게이지 애니메이션 (왼쪽 → 오른쪽으로 자연스럽게 줄어들도록 변경)
+  scene.tweens.add({
+    targets: cooldownBar,
+    scaleX: 0, // 왼쪽에서 오른쪽으로 줄어듦
+    duration: 1000, // 1초 쿨타임
+    onUpdate: () => {
+      cooldownContainer.setPosition(player.x + offsetX, player.y + offsetY); // 플레이어 따라다님
+    },
+    onComplete: () => {
+      cooldownContainer.destroy(); // 쿨타임 끝나면 제거
+    }
+  });
 };

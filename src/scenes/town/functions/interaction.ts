@@ -271,13 +271,12 @@ const isPlayerInAttackRange = (monster: Monster, player: Player): boolean => {
   return distance <= attackRange;
 };
 
-/** ✅ 공격 이벤트 트리거 (데미지 적용 등) */
 const triggerAttackEvent = (
   monster: Monster,
   player: Player,
   scene: Phaser.Scene
 ) => {
-  if (player.isHit) return; // 이미 맞고 있는 상태라면 중복 실행 방지
+  if (player.isHit) return;
 
   const sword: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
     scene.data.get("sword");
@@ -285,15 +284,20 @@ const triggerAttackEvent = (
   const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
     scene.data.get("clothes");
 
+  const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+    scene.data.get("hair");
+
   player.isHit = true;
   sword.visible = false;
   player.anims.play(`char_sword_hurt_${monster.lastDirection}`);
   clothes.anims.play(`clothes_hurt_${monster.lastDirection}`);
+  hair.anims.play(`hair_hurt_${monster.lastDirection}`);
 
-  // 🔥 1️⃣ 플레이어가 lastDirection 방향으로 밀려나도록 설정
-  const knockbackDistance = 35; // 뒤로 밀려나는 거리
+  const knockbackDistance = 35;
   let knockbackX = 0;
   let knockbackY = 0;
+
+  scene.cameras.main.flash(200, 150, 0, 0);
 
   switch (monster.lastDirection) {
     case "back":
@@ -314,10 +318,9 @@ const triggerAttackEvent = (
     targets: player,
     x: player.x + knockbackX,
     y: player.y + knockbackY,
-    duration: 200, // 0.2초 동안 밀려남
+    duration: 200,
     ease: "Power2",
     onComplete: () => {
-      // 밀려난 후 제자리 복귀
       scene.tweens.add({
         targets: player,
         x: player.x,
@@ -328,28 +331,11 @@ const triggerAttackEvent = (
     }
   });
 
-  // 🔥 2️⃣ 피격 시 번쩍이는 효과 (깜빡임)
-  scene.tweens.add({
-    targets: player,
-    alpha: 0, // 투명도 0 (사라짐)
-    duration: 100,
-    yoyo: true, // 다시 원래대로 복귀
-    repeat: 4 // 4번 깜빡임
-  });
-
-  // 🔥 2️⃣ 피격 시 번쩍이는 효과 (깜빡임)
-  scene.tweens.add({
-    targets: clothes,
-    alpha: 0, // 투명도 0 (사라짐)
-    duration: 100,
-    yoyo: true, // 다시 원래대로 복귀
-    repeat: 4 // 4번 깜빡임
-  });
-
-  scene.time.delayedCall(600, () => {
+  scene.time.delayedCall(500, () => {
     player.anims.play(`char_${monster.lastDirection}`, true);
     clothes.anims.play(`clothes_${monster.lastDirection}`, true);
     sword.anims.play(`sword_${monster.lastDirection}`, true);
+    hair.anims.play(`hair_${monster.lastDirection}`);
     if (player.hp - 10 === 0) {
       handleGameOver(scene, player, monster.lastDirection);
       return;
@@ -368,15 +354,17 @@ const handleGameOver = (
   if (scene.input.keyboard) {
     scene.input.keyboard.enabled = false;
 
-    // 플레이어 사망 애니메이션 실행
     player.anims.play(`char_death_${direction}`);
 
     const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("clothes");
 
-    clothes.anims.play(`clothes_death_${direction}`);
+    const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
+      scene.data.get("hair");
 
-    // 게임 오버 텍스트 추가
+    clothes.anims.play(`clothes_death_${direction}`);
+    hair.anims.play(`hair_death_${direction}`);
+
     const gameOverText = scene.add
       .text(
         scene.cameras.main.width / 2,
@@ -392,15 +380,12 @@ const handleGameOver = (
       .setOrigin(0.5);
 
     scene.time.delayedCall(2000, () => {
-      // Space 키 입력 시 메인 씬 다시 실행
-
       if (scene.input.keyboard) {
         scene.input.keyboard.once("keydown-SPACE", () => {
           scene.cameras.main.fadeIn(1000, 0, 0, 0);
-          scene.scene.start("intro"); // "main" 씬 다시 실행
+          scene.scene.start("intro");
         });
 
-        // 입력 활성화 (Space 키만)
         scene.input.keyboard.enabled = true;
       }
     });

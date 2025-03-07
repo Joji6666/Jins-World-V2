@@ -6,4 +6,6 @@ export interface Player
   isHit: boolean;
   hp: number;
   isBackStep: boolean;
+  isAttack: boolean;
+  isAttackReady: boolean;
 }

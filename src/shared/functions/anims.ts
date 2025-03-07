@@ -144,7 +144,7 @@ export const createClothesAnims = (scene: Phaser.Scene): void => {
       sourceKey: "clothes_sword_1"
     },
     {
-      key: `clothes_hurt_right`,
+      key: `clothes_hurt_left`,
       start: 21,
       end: 21,
       frameRate: 10,
@@ -152,7 +152,7 @@ export const createClothesAnims = (scene: Phaser.Scene): void => {
       sourceKey: "clothes_sword_1"
     },
     {
-      key: `clothes_hurt_left`,
+      key: `clothes_hurt_right`,
       start: 5,
       end: 5,
       frameRate: 29,
@@ -465,7 +465,7 @@ export const createHairAnims = (scene: Phaser.Scene): void => {
       sourceKey: "hair_sword_1"
     },
     {
-      key: `hair_hurt_right`,
+      key: `hair_hurt_left`,
       start: 21,
       end: 21,
       frameRate: 10,
@@ -473,7 +473,7 @@ export const createHairAnims = (scene: Phaser.Scene): void => {
       sourceKey: "hair_sword_1"
     },
     {
-      key: `hair_hurt_left`,
+      key: `hair_hurt_right`,
       start: 5,
       end: 5,
       frameRate: 29,
