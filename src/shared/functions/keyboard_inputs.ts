@@ -137,7 +137,16 @@ export const setPlayerInputs = (
       sword.anims.play(`sword${animationName}`, true);
     }
 
-    if (playerAnim && playerWeaponStatus !== "hand" && event.code !== "KeyP") {
+    if (
+      playerAnim &&
+      playerWeaponStatus !== "hand" &&
+      event.code !== "KeyP" &&
+      event.code !== "Space" &&
+      (event.code === "ArrowUp" ||
+        event.code === "ArrowDown" ||
+        event.code === "ArrowLeft" ||
+        event.code === "ArrowRight")
+    ) {
       let animationName = playerAnim.key.replace("char", "");
 
       if (animationName.includes(playerWeaponStatus)) {
@@ -348,6 +357,13 @@ export const setPlayerWeaponInputs = (
   keyboard.on("keydown-SPACE", () => {
     const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
 
+    console.log(
+      player.isHit,
+      player.isBackStep,
+      player.isAttack,
+      player.isAttackReady
+    );
+
     if (player.isHit) return;
     if (player.isBackStep) return;
     if (player.isAttack) return;
@@ -365,6 +381,7 @@ export const setPlayerWeaponInputs = (
 
     if (player.isHit) return;
     if (player.isAttack) return;
+    if (player.isBackStep) return;
     const clothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("clothes");
 
@@ -533,10 +550,10 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
 
     player.on(`animationcomplete-char_sword_attack_${playerSide}`, () => {
       player.anims.play(`char_sword_idle_${playerSide}`, true);
+    });
 
-      scene.time.delayedCall(1000, () => {
-        player.isAttackReady = true;
-      });
+    scene.time.delayedCall(1000, () => {
+      player.isAttackReady = true;
     });
 
     sword.on(`animationcomplete-sword_attack_${playerSide}`, () => {

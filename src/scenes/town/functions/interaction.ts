@@ -293,6 +293,15 @@ const triggerAttackEvent = (
   clothes.anims.play(`clothes_hurt_${monster.lastDirection}`);
   hair.anims.play(`hair_hurt_${monster.lastDirection}`);
 
+  const hitParticle = scene.physics.add
+    .sprite(player.x, player.y - 10, `char_hit`)
+    .setScale(2);
+
+  hitParticle.anims.play("char_hit");
+  hitParticle.on(`animationcomplete-char_hit`, () => {
+    hitParticle.destroy();
+  });
+
   const knockbackDistance = 35;
   let knockbackX = 0;
   let knockbackY = 0;

@@ -27,6 +27,16 @@ export const createPlayerAnims = (scene: Phaser.Scene): void => {
       });
     });
   });
+
+  scene.anims.create({
+    key: `char_hit`,
+    frames: scene.anims.generateFrameNumbers(`char_hit`, {
+      start: 0,
+      end: 2
+    }),
+    frameRate: 10,
+    repeat: 0
+  });
 };
 
 export const createWeaponAnims = (scene: Phaser.Scene): void => {

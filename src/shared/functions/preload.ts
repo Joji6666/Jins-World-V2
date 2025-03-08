@@ -66,6 +66,11 @@ export const playerPreload = (scene: Phaser.Scene): void => {
       }
     );
   });
+
+  scene.load.spritesheet(`char_hit`, `/assets/player/fx/char_hit.png`, {
+    frameWidth: 34,
+    frameHeight: 34
+  });
 };
 
 export const weaponPreload = (scene: Phaser.Scene): void => {
