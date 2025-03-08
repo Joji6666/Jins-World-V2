@@ -37,6 +37,56 @@ export const createPlayerAnims = (scene: Phaser.Scene): void => {
     frameRate: 10,
     repeat: 0
   });
+
+  scene.anims.create({
+    key: `heart_idle`,
+    frames: scene.anims.generateFrameNumbers(`heart_idle`, {
+      start: 0,
+      end: 1
+    }),
+    frameRate: 5,
+    repeat: -1
+  });
+
+  scene.anims.create({
+    key: `heart_damage`,
+    frames: scene.anims.generateFrameNumbers(`heart_damage`, {
+      start: 0,
+      end: 4
+    }),
+    frameRate: 10,
+    repeat: 0
+  });
+
+  scene.anims.create({
+    key: `broken_heart_idle`,
+    frames: scene.anims.generateFrameNumbers(`broken_heart_idle`, {
+      start: 0,
+      end: 1
+    }),
+    frameRate: 10,
+    repeat: -1
+  });
+
+  scene.anims.create({
+    key: `broken_heart_damage`,
+    frames: scene.anims.generateFrameNumbers(`broken_heart_damage`, {
+      start: 0,
+      end: 3
+    }),
+    frameRate: 10,
+    repeat: -1
+  });
+
+  scene.anims.create({
+    key: `empty_heart`,
+    frames: scene.anims.generateFrameNumbers(`empty_heart`, {
+      start: 0,
+      end: 0
+    }),
+    frameRate: 10,
+    repeat: 0
+  });
 };
 
 export const createWeaponAnims = (scene: Phaser.Scene): void => {

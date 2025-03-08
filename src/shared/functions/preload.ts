@@ -71,6 +71,35 @@ export const playerPreload = (scene: Phaser.Scene): void => {
     frameWidth: 34,
     frameHeight: 34
   });
+
+  scene.load.spritesheet(`heart_idle`, `/assets/player/ui/heart_idle.png`, {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+  scene.load.spritesheet(`heart_damage`, `/assets/player/ui/heart_damage.png`, {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+  scene.load.spritesheet(
+    `broken_heart_idle`,
+    `/assets/player/ui/broken_heart_idle.png`,
+    {
+      frameWidth: 32,
+      frameHeight: 32
+    }
+  );
+  scene.load.spritesheet(
+    `broken_heart_damage`,
+    `/assets/player/ui/broken_heart_damage.png`,
+    {
+      frameWidth: 32,
+      frameHeight: 32
+    }
+  );
+  scene.load.spritesheet(`empty_heart`, `/assets/player/ui/empty_heart.png`, {
+    frameWidth: 32,
+    frameHeight: 32
+  });
 };
 
 export const weaponPreload = (scene: Phaser.Scene): void => {

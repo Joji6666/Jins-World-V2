@@ -57,3 +57,27 @@ export const createPlayer = (scene: Phaser.Scene): Player => {
 
   return player;
 };
+
+export const createHPBar = (
+  scene: Phaser.Scene
+): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[] => {
+  const hearts: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[] = [];
+  const heartXStart = 50;
+  const heartSpacing = 40;
+
+  for (let i = 0; i < 5; i++) {
+    const heart = scene.physics.add.sprite(
+      heartXStart + i * heartSpacing,
+      50,
+      "heart_idle"
+    );
+
+    heart.anims.play("heart_idle");
+
+    hearts.push(heart);
+  }
+
+  scene.data.set("hearts", hearts);
+
+  return hearts;
+};

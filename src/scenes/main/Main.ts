@@ -20,7 +20,7 @@ import {
   createPlayerAnims,
   createWeaponAnims
 } from "../../shared/functions/anims";
-import { createPlayer } from "../../shared/functions/create";
+import { createHPBar, createPlayer } from "../../shared/functions/create";
 import {
   hairPreload,
   clothesPreload,
@@ -71,6 +71,15 @@ export default class GameScene extends Phaser.Scene {
     const map = createMap(this);
     const tileset = createTileset(map);
     const language = this.data.get("language");
+    createPlayerAnims(this);
+    createCatAnims(this);
+    createWeaponAnims(this);
+    createClothesAnims(this);
+    createHairAnims(this);
+    createOrcAnims(this, 1);
+    createOrcAnims(this, 2);
+    createOrcAnims(this, 3);
+    createMonsterFxAnims(this);
 
     if (tileset) {
       const { wallLayer, wallObjectLayer } = createLayers(map, tileset, this);
@@ -80,6 +89,7 @@ export default class GameScene extends Phaser.Scene {
         wallObjectLayer.setCollisionByProperty({ isWall: true });
 
         const player = createPlayer(this);
+        const hearts = createHPBar(this);
         const octocat = createOctocat(this);
         const orc1 = createOrc(
           this,
@@ -158,16 +168,6 @@ export default class GameScene extends Phaser.Scene {
         const mapHeight = map.heightInPixels;
 
         initPlayerCamera(this, { mapWidth, mapHeight }, player);
-
-        createPlayerAnims(this);
-        createCatAnims(this);
-        createWeaponAnims(this);
-        createClothesAnims(this);
-        createHairAnims(this);
-        createOrcAnims(this, 1);
-        createOrcAnims(this, 2);
-        createOrcAnims(this, 3);
-        createMonsterFxAnims(this);
 
         octocat.anims.play("octocat_idle");
         orc1.anims.play("orc_1_idle_front");

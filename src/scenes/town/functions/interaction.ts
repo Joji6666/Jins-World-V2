@@ -273,6 +273,9 @@ const triggerAttackEvent = (
   const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
     scene.data.get("hair");
 
+  const hearts: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[] =
+    scene.data.get("hearts");
+
   player.isHit = true;
   sword.visible = false;
   player.anims.play(`char_sword_hurt_${monster.lastDirection}`);
@@ -335,10 +338,12 @@ const triggerAttackEvent = (
     sword.anims.play(`sword_${getPlayerPosition(monster.lastDirection)}`, true);
     hair.anims.play(`hair_${getPlayerPosition(monster.lastDirection)}`);
     if (player.hp - 10 === 0) {
+      updateHP(hearts, player.hp - 10);
       handleGameOver(scene, player, getPlayerPosition(monster.lastDirection));
       return;
     }
     player.hp = player.hp - 10;
+    updateHP(hearts, player.hp);
     player.isHit = false;
     sword.visible = true;
   });
@@ -413,4 +418,27 @@ const getPlayerPosition = (direction: string): string => {
   }
 
   return position;
+};
+
+const updateHP = (
+  hearts: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[],
+  newHP: number
+) => {
+  let heartsToFill = Math.floor(newHP / 20);
+  let isHalfHeart = newHP % 20 === 10;
+
+  console.log(heartsToFill, "heartsToFill");
+  console.log(isHalfHeart, "isHalfHeart@");
+
+  hearts.forEach((heart, index) => {
+    heart.removeAllListeners();
+
+    if (index < heartsToFill) {
+      heart.anims.play("heart_idle");
+    } else if (index === heartsToFill && isHalfHeart) {
+      heart.anims.play("broken_heart_idle");
+    } else {
+      heart.anims.play("empty_heart");
+    }
+  });
 };
