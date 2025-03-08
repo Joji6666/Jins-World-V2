@@ -250,7 +250,7 @@ export const createOrcAnims = (
         key: `orc_${numbering}_hurt_front`,
         start: 0,
         end: 5,
-        frameRate: 10,
+        frameRate: 20,
         repeat: 0,
         sourceKey: `orc_${numbering}_hurt`
       },
@@ -258,7 +258,7 @@ export const createOrcAnims = (
         key: `orc_${numbering}_hurt_back`,
         start: 6,
         end: 11,
-        frameRate: 10,
+        frameRate: 20,
         repeat: 0,
         sourceKey: `orc_${numbering}_hurt`
       },
@@ -266,7 +266,7 @@ export const createOrcAnims = (
         key: `orc_${numbering}_hurt_left`,
         start: 12,
         end: 17,
-        frameRate: 10,
+        frameRate: 20,
         repeat: 0,
         sourceKey: `orc_${numbering}_hurt`
       },
@@ -274,7 +274,7 @@ export const createOrcAnims = (
         key: `orc_${numbering}_hurt_right`,
         start: 18,
         end: 23,
-        frameRate: 10,
+        frameRate: 20,
         repeat: 0,
         sourceKey: `orc_${numbering}_hurt`
       }
@@ -294,4 +294,26 @@ export const createOrcAnims = (
       });
     }
   );
+};
+
+export const createMonsterFxAnims = (scene: Phaser.Scene): void => {
+  scene.anims.create({
+    key: `monster_hit`,
+    frames: scene.anims.generateFrameNumbers("monster_hit", {
+      start: 0,
+      end: 3
+    }),
+    frameRate: 10,
+    repeat: 0
+  });
+
+  scene.anims.create({
+    key: `monster_blood`,
+    frames: scene.anims.generateFrameNumbers("monster_blood", {
+      start: 0,
+      end: 48
+    }),
+    frameRate: 50,
+    repeat: 0
+  });
 };

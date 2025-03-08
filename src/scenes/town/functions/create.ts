@@ -36,7 +36,8 @@ export const createOrc = (
   monsters: Monster[],
   patrolPoints: { x: number; y: number }[],
   spawnPoint: { x: number; y: number },
-  speed: number
+  speed: number,
+  attackRange: number
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
   const orc = scene.physics.add.sprite(
     spawnPoint.x,
@@ -54,7 +55,7 @@ export const createOrc = (
     sprite: orc,
     speed,
     chaseRange: 200,
-    attackRange: 50,
+    attackRange,
     patrolPoints,
     patrolIndex: 0,
     side: "front",

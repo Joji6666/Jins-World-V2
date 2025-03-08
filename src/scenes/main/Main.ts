@@ -31,9 +31,9 @@ import {
   setPlayerInputs,
   setPlayerWeaponInputs
 } from "../../shared/functions/keyboard_inputs";
-import { orcPreload } from "../town/functions/preload";
+import { monsterFxPreload, orcPreload } from "../town/functions/preload";
 import { createOrc } from "../town/functions/create";
-import { createOrcAnims } from "../town/functions/anims";
+import { createMonsterFxAnims, createOrcAnims } from "../town/functions/anims";
 import { updateMonster } from "../town/functions/interaction";
 import { Monster } from "../town/types";
 
@@ -64,6 +64,7 @@ export default class GameScene extends Phaser.Scene {
     orcPreload(this, 1);
     orcPreload(this, 2);
     orcPreload(this, 3);
+    monsterFxPreload(this);
   }
 
   create() {
@@ -91,6 +92,7 @@ export default class GameScene extends Phaser.Scene {
             { x: 100, y: 500 }
           ],
           { x: 400, y: 300 },
+          50,
           50
         );
         const orc2 = createOrc(
@@ -104,6 +106,7 @@ export default class GameScene extends Phaser.Scene {
             { x: 300, y: 300 }
           ],
           { x: 200, y: 500 },
+          50,
           50
         );
 
@@ -118,6 +121,7 @@ export default class GameScene extends Phaser.Scene {
             { x: 300, y: 300 }
           ],
           { x: 400, y: 300 },
+          70,
           70
         );
 
@@ -132,7 +136,8 @@ export default class GameScene extends Phaser.Scene {
             { x: 300, y: 300 }
           ],
           { x: 500, y: 400 },
-          90
+          100,
+          100
         );
 
         const sword = this.data.get("sword");
@@ -162,6 +167,7 @@ export default class GameScene extends Phaser.Scene {
         createOrcAnims(this, 1);
         createOrcAnims(this, 2);
         createOrcAnims(this, 3);
+        createMonsterFxAnims(this);
 
         octocat.anims.play("octocat_idle");
         orc1.anims.play("orc_1_idle_front");

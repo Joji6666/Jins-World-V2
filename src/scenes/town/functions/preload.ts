@@ -3,6 +3,22 @@ export const townPreload = (scene: Phaser.Scene): void => {
   scene.load.image("town-tiles", "/assets/map2.png");
 };
 
+export const monsterFxPreload = (scene: Phaser.Scene): void => {
+  scene.load.spritesheet(`monster_hit`, `/assets/monsters/fx/monster_hit.png`, {
+    frameWidth: 34,
+    frameHeight: 34
+  });
+
+  scene.load.spritesheet(
+    `monster_blood`,
+    `/assets/monsters/fx/monster_blood.png`,
+    {
+      frameWidth: 34,
+      frameHeight: 34
+    }
+  );
+};
+
 export const orcPreload = (scene: Phaser.Scene, numbering: number): void => {
   scene.load.spritesheet(
     `orc_${numbering}_idle`,

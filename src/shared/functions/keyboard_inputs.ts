@@ -544,7 +544,7 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
           monster.sprite.y
         )
       ) {
-        handleMonsterHit(scene, monster);
+        handleMonsterHit(scene, monster, player);
       }
     });
 
@@ -614,10 +614,11 @@ const getAttackRange = (
   }
 };
 
-// 🎯 몬스터 피격 처리 함수
-const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
-  // monster.isAttack = true;
-
+const handleMonsterHit = (
+  scene: Phaser.Scene,
+  monster: Monster,
+  player: Player
+): void => {
   monster.isHit = true;
   monster.sprite.setVelocityX(0);
   monster.sprite.setVelocityY(0);
@@ -625,6 +626,15 @@ const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
   scene.cameras.main.shake(100, 0.02);
 
   if (monster.hp - 10 === 0) {
+    const bloodParticle = scene.physics.add
+      .sprite(monster.sprite.x, monster.sprite.y - 10, `monster_blood`)
+      .setScale(1.5);
+
+    bloodParticle.anims.play("monster_blood");
+    bloodParticle.on(`animationcomplete-monster_blood`, () => {
+      bloodParticle.destroy();
+    });
+
     monster.sprite.anims.play(
       `orc_${monster.numbering}_death_${monster.side}`,
       true
@@ -640,6 +650,15 @@ const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
       true
     );
 
+    const hitParticle = scene.physics.add
+      .sprite(monster.sprite.x, monster.sprite.y - 10, `monster_hit`)
+      .setScale(1.5);
+
+    hitParticle.anims.play("monster_hit");
+    hitParticle.on(`animationcomplete-monster_hit`, () => {
+      hitParticle.destroy();
+    });
+
     monster.sprite.on(
       `animationcomplete-orc_${monster.numbering}_hurt_${monster.side}`,
       () => {
@@ -648,44 +667,52 @@ const handleMonsterHit = (scene: Phaser.Scene, monster: Monster) => {
           true
         );
 
+        const angle = Phaser.Math.Angle.Between(
+          monster.sprite.x,
+          monster.sprite.y,
+          player.x,
+          player.y
+        );
+
+        monster.sprite.setVelocity(
+          Math.cos(angle) * monster.speed,
+          Math.sin(angle) * monster.speed
+        );
         monster.isHit = false;
+        monster.isAttack = false;
       }
     );
   }
 };
-const createCooldownBar = (scene: Phaser.Scene, player: Player) => {
+const createCooldownBar = (scene: Phaser.Scene, player: Player): void => {
   const barWidth = 70;
   const barHeight = 10;
-  const offsetY = -50; // 플레이어 머리 위 위치 (높이 조정)
-  const offsetX = -barWidth / 2; // 플레이어 중앙 정렬
+  const offsetY = -50;
+  const offsetX = -barWidth / 2;
 
-  // ✅ 쿨타임 바 생성 (배경)
   const cooldownBarBg = scene.add.graphics();
-  cooldownBarBg.fillStyle(0x222222, 1); // 어두운 회색 배경
+  cooldownBarBg.fillStyle(0x222222, 1);
   cooldownBarBg.fillRect(0, 0, barWidth, barHeight);
 
-  // ✅ 쿨타임 바 생성 (게이지)
   const cooldownBar = scene.add.graphics();
-  cooldownBar.fillStyle(0xff0000, 1); // 빨간색
+  cooldownBar.fillStyle(0xff0000, 1);
   cooldownBar.fillRect(0, 0, barWidth, barHeight);
 
-  // ✅ 바를 감싸는 컨테이너 (플레이어 따라다니게)
   const cooldownContainer = scene.add.container(
     player.x + offsetX,
     player.y + offsetY
   );
   cooldownContainer.add([cooldownBarBg, cooldownBar]);
 
-  // ✅ 게이지 애니메이션 (왼쪽 → 오른쪽으로 자연스럽게 줄어들도록 변경)
   scene.tweens.add({
     targets: cooldownBar,
-    scaleX: 0, // 왼쪽에서 오른쪽으로 줄어듦
-    duration: 1000, // 1초 쿨타임
+    scaleX: 0,
+    duration: 1000,
     onUpdate: () => {
-      cooldownContainer.setPosition(player.x + offsetX, player.y + offsetY); // 플레이어 따라다님
+      cooldownContainer.setPosition(player.x + offsetX, player.y + offsetY);
     },
     onComplete: () => {
-      cooldownContainer.destroy(); // 쿨타임 끝나면 제거
+      cooldownContainer.destroy();
     }
   });
 };
