@@ -642,6 +642,7 @@ const handleMonsterHit = (
 
     scene.time.delayedCall(700, () => {
       monster.sprite.destroy();
+      monster.monsterName.destroy();
     });
   } else {
     monster.hp = monster.hp - 10;

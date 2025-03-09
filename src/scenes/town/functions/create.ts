@@ -51,6 +51,28 @@ export const createOrc = (
   orc.scale = 2;
   scene.data.set("orc", orc);
 
+  const monsterName = scene.add
+    .text(
+      orc.x,
+      orc.y - 50,
+      numbering === 1 ? "404_Orc" : numbering === 2 ? "403_Orc" : "400_orc",
+      {
+        fontSize: "12px",
+        color: "#FFFFFF",
+        fontStyle: "bold",
+        fontFamily: "KoreanPixelFont"
+      }
+    )
+    .setOrigin(0.5, 0.5);
+
+  scene.time.addEvent({
+    delay: 16,
+    loop: true,
+    callback: () => {
+      monsterName.setPosition(orc.x, orc.y - 50);
+    }
+  });
+
   monsters.push({
     sprite: orc,
     speed,
@@ -63,7 +85,8 @@ export const createOrc = (
     lastDirection: "front",
     numbering,
     isHit: false,
-    hp: numbering === 1 ? 10 : numbering === 2 ? 30 : 100
+    hp: numbering === 1 ? 10 : numbering === 2 ? 30 : 100,
+    monsterName
   });
 
   return orc;

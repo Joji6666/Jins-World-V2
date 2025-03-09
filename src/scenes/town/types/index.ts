@@ -11,4 +11,5 @@ export interface Monster {
   lastDirection: string;
   numbering: number;
   hp: number;
+  monsterName: Phaser.GameObjects.Text;
 }

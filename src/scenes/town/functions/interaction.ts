@@ -101,17 +101,6 @@ const triggerMonsterEvent = (monster: Monster, direction: string) => {
   }
 };
 
-/** ✅ 플레이어를 바라보도록 설정 */
-const lookAtPlayer = (monster: Monster, player: Player) => {
-  // 플레이어의 위치에 따라 몬스터를 좌우 반전 (flipX)하여 바라보게 만듦
-  if (player.x < monster.sprite.x) {
-    monster.sprite.flipX = true; // 🔄 왼쪽 방향으로 회전
-  } else {
-    monster.sprite.flipX = false; // 🔄 오른쪽 방향으로 회전
-  }
-};
-
-/** ✅ 몬스터가 플레이어를 쫓아가는 기능 */
 const chasePlayer = (monster: Monster, player: Player) => {
   const angle = Phaser.Math.Angle.Between(
     monster.sprite.x,
@@ -426,9 +415,6 @@ const updateHP = (
 ) => {
   let heartsToFill = Math.floor(newHP / 20);
   let isHalfHeart = newHP % 20 === 10;
-
-  console.log(heartsToFill, "heartsToFill");
-  console.log(isHalfHeart, "isHalfHeart@");
 
   hearts.forEach((heart, index) => {
     heart.removeAllListeners();
