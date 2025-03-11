@@ -626,28 +626,40 @@ const handleMonsterHit = (
   scene.cameras.main.shake(100, 0.02);
 
   if (monster.hp - 10 === 0) {
-    const bloodParticle = scene.physics.add
-      .sprite(monster.sprite.x, monster.sprite.y - 10, `monster_blood`)
-      .setScale(1.5);
+    if (monster.numbering < 7) {
+      const bloodParticle = scene.physics.add
+        .sprite(monster.sprite.x, monster.sprite.y - 10, `monster_blood`)
+        .setScale(1.5);
 
-    bloodParticle.anims.play("monster_blood");
-    bloodParticle.on(`animationcomplete-monster_blood`, () => {
-      bloodParticle.destroy();
-    });
+      bloodParticle.anims.play("monster_blood");
+      bloodParticle.on(`animationcomplete-monster_blood`, () => {
+        bloodParticle.destroy();
+      });
 
-    monster.sprite.anims.play(
-      `orc_${monster.numbering}_death_${monster.side}`,
-      true
-    );
+      monster.sprite.anims.play(
+        `orc_${monster.numbering}_death_${monster.side}`,
+        true
+      );
 
-    scene.time.delayedCall(700, () => {
+      scene.time.delayedCall(700, () => {
+        monster.sprite.destroy();
+        monster.monsterName.destroy();
+      });
+    }
+
+    if (monster.numbering === 10) {
+      monster.sprite.anims.play(`boss_death_${monster.side}`, true);
       monster.sprite.destroy();
       monster.monsterName.destroy();
-    });
+      scene.game.pause();
+      scene.add.text(500, 500, "Clear!");
+    }
   } else {
     monster.hp = monster.hp - 10;
     monster.sprite.anims.play(
-      `orc_${monster.numbering}_hurt_${monster.side}`,
+      monster.numbering < 7
+        ? `orc_${monster.numbering}_hurt_${monster.side}`
+        : `boss_hurt_${monster.side}`,
       true
     );
 
@@ -661,10 +673,16 @@ const handleMonsterHit = (
     });
 
     monster.sprite.on(
-      `animationcomplete-orc_${monster.numbering}_hurt_${monster.side}`,
+      `animationcomplete-${
+        monster.numbering < 7
+          ? `orc_${monster.numbering}_hurt_${monster.side}`
+          : `boss_hurt_${monster.side}`
+      }`,
       () => {
         monster.sprite.anims.play(
-          `orc_${monster.numbering}_idle_${monster.side}`,
+          monster.numbering < 7
+            ? `orc_${monster.numbering}_idle_${monster.side}`
+            : `boss_idle_${monster.side}`,
           true
         );
 

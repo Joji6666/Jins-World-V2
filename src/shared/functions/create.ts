@@ -19,6 +19,8 @@ export const createPlayer = (scene: Phaser.Scene): Player => {
   player.scale = 2;
   player.hp = 100;
   player.isAttackReady = true;
+  player.body.setSize(30, 30);
+
   scene.data.set(PLAYER_KEYS.PLAYER, player);
   scene.data.set(PLAYER_KEYS.PLAYER_WEAPON_STATUS, "hand");
   scene.data.set(PLAYER_KEYS.IS_WEAPON_DRAW, false);

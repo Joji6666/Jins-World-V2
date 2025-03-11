@@ -13,3 +13,11 @@ export interface Monster {
   hp: number;
   monsterName: Phaser.GameObjects.Text;
 }
+
+export interface Plant {
+  sprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+
+  side: string;
+  isAttack: boolean;
+  lastDirection: string;
+}

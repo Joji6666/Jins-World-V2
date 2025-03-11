@@ -13,6 +13,7 @@ import { playerPreload } from "../../shared/functions/preload";
 import { createPlayer } from "../../shared/functions/create";
 
 export default class TownScene extends Phaser.Scene {
+  
   constructor() {
     super("town-scene");
   }

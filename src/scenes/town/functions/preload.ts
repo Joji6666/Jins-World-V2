@@ -17,6 +17,24 @@ export const monsterFxPreload = (scene: Phaser.Scene): void => {
       frameHeight: 34
     }
   );
+
+  scene.load.spritesheet(
+    `boss_particle_hit`,
+    `/assets/monsters/fx/boss_particle_hit.png`,
+    {
+      frameWidth: 152,
+      frameHeight: 166
+    }
+  );
+
+  scene.load.spritesheet(
+    `boss_attack_particle`,
+    `/assets/monsters/fx/boss_attack_particle.png`,
+    {
+      frameWidth: 320,
+      frameHeight: 320
+    }
+  );
 };
 
 export const orcPreload = (scene: Phaser.Scene, numbering: number): void => {
@@ -97,4 +115,55 @@ export const orcPreload = (scene: Phaser.Scene, numbering: number): void => {
       }
     );
   }
+};
+
+export const bossPreload = (scene: Phaser.Scene): void => {
+  scene.load.spritesheet(`boss_idle`, `/assets/monsters/boss/boss_idle.png`, {
+    frameWidth: 64,
+    frameHeight: 64
+  });
+
+  scene.load.spritesheet(`boss_run`, `/assets/monsters/boss/boss_run.png`, {
+    frameWidth: 64,
+    frameHeight: 64
+  });
+
+  scene.load.spritesheet(`boss_hurt`, `/assets/monsters/boss/boss_hurt.png`, {
+    frameWidth: 64,
+    frameHeight: 64
+  });
+
+  scene.load.spritesheet(`boss_death`, `/assets/monsters/boss/boss_death.png`, {
+    frameWidth: 64,
+    frameHeight: 64
+  });
+
+  scene.load.spritesheet(
+    `boss_attack`,
+    `/assets/monsters/boss/boss_attack.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+};
+
+export const plantPreload = (scene: Phaser.Scene): void => {
+  scene.load.spritesheet(
+    `plant_idle`,
+    `/assets/monsters/plant/plant_idle.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
+
+  scene.load.spritesheet(
+    `plant_attack`,
+    `/assets/monsters/plant/plant_attack.png`,
+    {
+      frameWidth: 64,
+      frameHeight: 64
+    }
+  );
 };

@@ -11,12 +11,10 @@ export const initTownCamera = (
     screenHeight: number;
   }
 ) => {
-  // 카메라가 맵의 경계에 도달하면 맵을 이동시킵니다.
   camera
     .setBounds(0, 0, mapSize.mapWidth * 3, mapSize.mapHeight * 3)
     .setScroll(0, 0);
 
-  // 카메라가 맵을 벗어나지 않도록 설정합니다.
   camera.setDeadzone(
     Number(screenSize.screenWidth) * 0.5,
     Number(screenSize.screenHeight) * 0.5

@@ -36,7 +36,13 @@ export const updateMonster = (
   checkWallCollision(monster, wallLayer, wallObjectLayer, scene);
 
   if (!monster.isAttack) {
-    triggerMonsterEvent(monster, direction);
+    if (monster.numbering < 7) {
+      triggerMonsterEvent(monster, direction);
+    }
+
+    if (monster.numbering === 10) {
+      triggerBossMonsterEvent(monster, direction);
+    }
   }
 };
 
@@ -101,6 +107,34 @@ const triggerMonsterEvent = (monster: Monster, direction: string) => {
   }
 };
 
+const triggerBossMonsterEvent = (monster: Monster, direction: string) => {
+  switch (direction) {
+    case "back":
+      monster.sprite.anims.play(`boss_run_back`, true);
+
+      monster.side = "back";
+      break;
+    case "front":
+      monster.sprite.anims.play(`boss_run_front`, true);
+
+      monster.side = "front";
+      break;
+    case "left":
+      monster.sprite.anims.play(`boss_run_left`, true);
+
+      monster.side = "left";
+      break;
+    case "right":
+      monster.sprite.anims.play(`boss_run_right`, true);
+
+      monster.side = "right";
+      break;
+    case "idle":
+      monster.sprite.anims.play(`boss_idle_front`, true);
+      break;
+  }
+};
+
 const chasePlayer = (monster: Monster, player: Player) => {
   const angle = Phaser.Math.Angle.Between(
     monster.sprite.x,
@@ -117,6 +151,7 @@ const chasePlayer = (monster: Monster, player: Player) => {
 };
 
 const patrolMovement = (monster: Monster) => {
+  if (monster.numbering > 7) return;
   monster.isAttack = false;
   const { sprite, patrolPoints, speed } = monster;
   const target = patrolPoints[monster.patrolIndex];
@@ -195,9 +230,9 @@ const attackPlayer = (
   monster.isAttack = true;
 
   let attackAnimationKey = `orc_${monster.numbering}_attack_${monster.lastDirection}`;
-  const idleAnimationKey = `orc_${monster.numbering}_idle_${monster.lastDirection}`;
+  let idleAnimationKey = `orc_${monster.numbering}_idle_${monster.lastDirection}`;
 
-  if (monster.numbering === 1) {
+  if (monster.numbering === 1 || monster.numbering === 10) {
     monster.sprite.setVelocity(0, 0);
   }
 
@@ -207,6 +242,13 @@ const attackPlayer = (
 
   if (monster.numbering === 3) {
     attackAnimationKey = `orc_${monster.numbering}_run_attack_${monster.lastDirection}`;
+  }
+
+  if (monster.numbering === 10) {
+    const direction = getAttackDirection(monster, player);
+
+    attackAnimationKey = `boss_attack_${direction}`;
+    idleAnimationKey = `boss_idle_${direction}`;
   }
 
   monster.sprite.anims.play(attackAnimationKey, true);
@@ -221,7 +263,11 @@ const attackPlayer = (
         anim.key === attackAnimationKey &&
         (frame.index === 4 || frame.index === 5)
       ) {
-        if (isPlayerInAttackRange(monster, player) && !player.isHit) {
+        if (
+          isPlayerInAttackRange(monster, player) &&
+          !player.isHit &&
+          monster.numbering !== 10
+        ) {
           triggerAttackEvent(monster, player, scene);
         }
       }
@@ -230,8 +276,34 @@ const attackPlayer = (
 
   monster.sprite.on(`animationcomplete-${attackAnimationKey}`, () => {
     monster.sprite.anims.play(idleAnimationKey, true);
-    monster.isAttack = false;
+
+    scene.time.delayedCall(750, () => {
+      monster.isAttack = false;
+    });
+
+    if (monster.numbering === 10) {
+      createBossAttackParticle(scene, monster, player);
+    }
   });
+};
+
+const getAttackDirection = (monster: Monster, player: Player): string => {
+  const angle = Phaser.Math.Angle.Between(
+    monster.sprite.x,
+    monster.sprite.y,
+    player.x,
+    player.y
+  );
+
+  if (angle >= -Math.PI / 4 && angle <= Math.PI / 4) {
+    return "right";
+  } else if (angle >= Math.PI / 4 && angle <= (3 * Math.PI) / 4) {
+    return "front";
+  } else if (angle >= (-3 * Math.PI) / 4 && angle <= -Math.PI / 4) {
+    return "back";
+  } else {
+    return "left";
+  }
 };
 
 const isPlayerInAttackRange = (monster: Monster, player: Player): boolean => {
@@ -244,6 +316,54 @@ const isPlayerInAttackRange = (monster: Monster, player: Player): boolean => {
   );
 
   return distance <= attackRange;
+};
+
+const createBossAttackParticle = (
+  scene: Phaser.Scene,
+  boss: Monster,
+  player: Player
+) => {
+  const particle = scene.physics.add
+    .sprite(boss.sprite.x, boss.sprite.y, "boss_attack_particle")
+    .setScale(0.15);
+
+  particle.anims.play("boss_attack_particle");
+
+  const angle = Phaser.Math.Angle.Between(
+    boss.sprite.x,
+    boss.sprite.y,
+    player.x,
+    player.y
+  );
+
+  const speed = 200;
+  particle.setRotation(angle);
+  const velocityX = Math.cos(angle) * speed;
+  const velocityY = Math.sin(angle) * speed;
+
+  particle.setVelocity(velocityX, velocityY);
+
+  scene.physics.add.overlap(player, particle, () => {
+    triggerAttackEvent(boss, player, scene);
+    particle.destroy();
+
+    const hitParticle = scene.physics.add
+      .sprite(player.x, player.y + 10, "boss_particle_hit")
+      .setScale(0.45);
+
+    hitParticle.anims.play("boss_particle_hit");
+    hitParticle.on(`animationcomplete-boss_particle_hit`, () => {
+      hitParticle.destroy();
+    });
+  });
+
+  particle.setCollideWorldBounds(true);
+  particle.body.onWorldBounds = true;
+  scene.physics.world.on("worldbounds", (body: Phaser.Physics.Arcade.Body) => {
+    if (body.gameObject === particle) {
+      particle.destroy();
+    }
+  });
 };
 
 const triggerAttackEvent = (

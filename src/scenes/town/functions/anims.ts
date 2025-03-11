@@ -317,3 +317,294 @@ export const createMonsterFxAnims = (scene: Phaser.Scene): void => {
     repeat: 0
   });
 };
+
+export const createBossAnims = (scene: Phaser.Scene): void => {
+  const animationConfig = [
+    {
+      key: `boss_idle_front`,
+      start: 0,
+      end: 3,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_idle`
+    },
+    {
+      key: `boss_idle_back`,
+      start: 4,
+      end: 7,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_idle`
+    },
+    {
+      key: `boss_idle_left`,
+      start: 8,
+      end: 11,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_idle`
+    },
+    {
+      key: `boss_idle_right`,
+      start: 12,
+      end: 15,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_idle`
+    },
+
+    {
+      key: `boss_run_front`,
+      start: 0,
+      end: 7,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_run`
+    },
+    {
+      key: `boss_run_back`,
+      start: 8,
+      end: 15,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_run`
+    },
+    {
+      key: `boss_run_left`,
+      start: 16,
+      end: 23,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_run`
+    },
+    {
+      key: `boss_run_right`,
+      start: 24,
+      end: 31,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_run`
+    },
+
+    {
+      key: `boss_hurt_front`,
+      start: 0,
+      end: 3,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_hurt`
+    },
+    {
+      key: `boss_hurt_back`,
+      start: 4,
+      end: 7,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_hurt`
+    },
+    {
+      key: `boss_hurt_left`,
+      start: 8,
+      end: 11,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_hurt`
+    },
+    {
+      key: `boss_hurt_right`,
+      start: 12,
+      end: 15,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_hurt`
+    },
+
+    {
+      key: `boss_death_front`,
+      start: 0,
+      end: 9,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_death`
+    },
+    {
+      key: `boss_death_back`,
+      start: 10,
+      end: 19,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_death`
+    },
+
+    {
+      key: `boss_death_left`,
+      start: 20,
+      end: 29,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_death`
+    },
+
+    {
+      key: `boss_death_right`,
+      start: 30,
+      end: 39,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_death`
+    },
+
+    {
+      key: `boss_attack_front`,
+      start: 0,
+      end: 11,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_attack`
+    },
+    {
+      key: `boss_attack_back`,
+      start: 12,
+      end: 23,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_attack`
+    },
+
+    {
+      key: `boss_attack_left`,
+      start: 24,
+      end: 35,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_attack`
+    },
+
+    {
+      key: `boss_attack_right`,
+      start: 36,
+      end: 47,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_attack`
+    },
+
+    {
+      key: `boss_attack_particle`,
+      start: 0,
+      end: 6,
+      frameRate: 10,
+      repeat: -1,
+      sourceKey: `boss_attack_particle`
+    },
+
+    {
+      key: `boss_particle_hit`,
+      start: 0,
+      end: 10,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `boss_particle_hit`
+    }
+  ];
+
+  animationConfig.forEach(
+    ({ key, start, end, frameRate, repeat, sourceKey }) => {
+      scene.anims.create({
+        key: `${key}`,
+        frames: scene.anims.generateFrameNumbers(sourceKey, {
+          start,
+          end
+        }),
+        frameRate,
+        repeat
+      });
+    }
+  );
+};
+
+export const createPlantAnims = (scene: Phaser.Scene): void => {
+  const animationConfig = [
+    {
+      key: `plant_idle_front`,
+      start: 0,
+      end: 3,
+      frameRate: 10,
+      repeat: -1,
+      sourceKey: `plant_idle`
+    },
+    {
+      key: `plant_idle_back`,
+      start: 4,
+      end: 7,
+      frameRate: 10,
+      repeat: -1,
+      sourceKey: `plant_idle`
+    },
+    {
+      key: `plant_idle_left`,
+      start: 8,
+      end: 11,
+      frameRate: 10,
+      repeat: -1,
+      sourceKey: `plant_idle`
+    },
+
+    {
+      key: `plant_idle_right`,
+      start: 8,
+      end: 11,
+      frameRate: 10,
+      repeat: -1,
+      sourceKey: `plant_idle`
+    },
+
+    {
+      key: `plant_attack_front`,
+      start: 0,
+      end: 6,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `plant_attack`
+    },
+    {
+      key: `plant_attack_back`,
+      start: 7,
+      end: 13,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `plant_attack`
+    },
+    {
+      key: `plant_attack_left`,
+      start: 14,
+      end: 20,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `plant_attack`
+    },
+
+    {
+      key: `plant_attack_right`,
+      start: 21,
+      end: 27,
+      frameRate: 10,
+      repeat: 0,
+      sourceKey: `plant_attack`
+    }
+  ];
+
+  animationConfig.forEach(
+    ({ key, start, end, frameRate, repeat, sourceKey }) => {
+      scene.anims.create({
+        key: `${key}`,
+        frames: scene.anims.generateFrameNumbers(sourceKey, {
+          start,
+          end
+        }),
+        frameRate,
+        repeat
+      });
+    }
+  );
+};
