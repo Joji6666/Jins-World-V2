@@ -4,6 +4,7 @@ import { Game, Types } from "phaser";
 import TownScene from "./scenes/town/TownScene";
 import IntroScene from "./scenes/intro/Intro";
 import CharacterSelectScene from "./scenes/character-select/CharacterSelectScene";
+import FirstFloorScene from "./scenes/first-floor/FirstFloorScene";
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -17,7 +18,7 @@ const config: Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
-  scene: [IntroScene, CharacterSelectScene, Main, TownScene],
+  scene: [IntroScene, CharacterSelectScene, Main, FirstFloorScene, TownScene],
 
   physics: {
     default: "arcade",

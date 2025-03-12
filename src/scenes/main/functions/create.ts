@@ -25,22 +25,20 @@ export const createLayers = (
   scene: Phaser.Scene
 ): {
   bgLayer: Phaser.Tilemaps.TilemapLayer | null;
-  floorLayer: Phaser.Tilemaps.TilemapLayer | null;
-  floor2Layer: Phaser.Tilemaps.TilemapLayer | null;
+  firstFloorLayer: Phaser.Tilemaps.TilemapLayer | null;
+  secondFloorLayer: Phaser.Tilemaps.TilemapLayer | null;
   wallLayer: Phaser.Tilemaps.TilemapLayer | null;
   wallObjectLayer: Phaser.Tilemaps.TilemapLayer | null;
   objectLayer: Phaser.Tilemaps.TilemapLayer | null;
-  windowLayer: Phaser.Tilemaps.TilemapLayer | null;
-  cuttonLayer: Phaser.Tilemaps.TilemapLayer | null;
+  secondObjectLayer: Phaser.Tilemaps.TilemapLayer | null;
 } => {
   const bgLayer = map.createLayer("bg", titleset);
-  const floorLayer = map.createLayer("floor", titleset);
-  const floor2Layer = map.createLayer("floor2", titleset);
+  const firstFloorLayer = map.createLayer("floor_1", titleset);
+  const secondFloorLayer = map.createLayer("floor_2", titleset);
   const wallLayer = map.createLayer("wall", titleset);
-  const wallObjectLayer = map.createLayer("wall_objet", titleset);
+  const wallObjectLayer = map.createLayer("object_wall", titleset);
   const objectLayer = map.createLayer("object", titleset);
-  const windowLayer = map.createLayer("window", titleset);
-  const cuttonLayer = map.createLayer("cutton", titleset);
+  const secondObjectLayer = map.createLayer("object_2", titleset);
 
   scene.data.set("wallLayer", wallLayer);
 
@@ -48,14 +46,13 @@ export const createLayers = (
 
   return {
     bgLayer,
-    floor2Layer,
-    floorLayer,
+    firstFloorLayer,
+    secondFloorLayer,
     wallLayer,
     wallObjectLayer,
 
     objectLayer,
-    windowLayer,
-    cuttonLayer
+    secondObjectLayer
   };
 };
 
@@ -63,7 +60,7 @@ export const createOctocat = (
   scene: Phaser.Scene
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
   const octocat = scene.physics.add
-    .sprite(875, 125, `octocat`)
+    .sprite(875, 600, `octocat`)
     .setName("octocat");
 
   octocat.body.immovable = true;

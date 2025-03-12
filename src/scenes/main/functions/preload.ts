@@ -7,7 +7,7 @@ export const mainPreload = (scene: Phaser.Scene): void => {
   scene.load.image("skill-book", "/assets/icons/skill_book.png");
   scene.load.image("github", "/assets/icons/github.png");
 
-  scene.load.tilemapTiledJSON("map", "/assets/maps/second_home_48_fix.json");
+  scene.load.tilemapTiledJSON("map", "/assets/maps/second_home.json");
 
   scene.load.spritesheet("octocat", "/assets/octocat.png", {
     frameWidth: 200,

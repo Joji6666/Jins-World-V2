@@ -151,6 +151,8 @@ export const createPlant = (
   plant.body.offset.y = 7;
   plant.scale = 2;
 
+  plant.anims.play("plant_idle_front");
+
   plants.push({
     sprite: plant,
 

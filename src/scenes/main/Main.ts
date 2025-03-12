@@ -51,8 +51,8 @@ export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
   private currentBubble!: Phaser.GameObjects.Text | null;
   private isCatDistanceOn!: boolean;
-  private monsters: Monster[] = [];
-  private plants: Plant[] = [];
+  // private monsters: Monster[] = [];
+  // private plants: Plant[] = [];
   private selectedHairIndex: number = 1;
   private selectedClothesIndex: number = 1;
 
@@ -72,12 +72,12 @@ export default class GameScene extends Phaser.Scene {
     weaponPreload(this);
     hairPreload(this, this.selectedHairIndex);
     clothesPreload(this, this.selectedClothesIndex);
-    orcPreload(this, 1);
-    orcPreload(this, 2);
-    orcPreload(this, 3);
-    bossPreload(this);
-    plantPreload(this);
-    monsterFxPreload(this);
+    // orcPreload(this, 1);
+    // orcPreload(this, 2);
+    // orcPreload(this, 3);
+    // bossPreload(this);
+    // plantPreload(this);
+    // monsterFxPreload(this);
   }
 
   create() {
@@ -89,12 +89,12 @@ export default class GameScene extends Phaser.Scene {
     createWeaponAnims(this);
     createClothesAnims(this);
     createHairAnims(this);
-    createOrcAnims(this, 1);
-    createOrcAnims(this, 2);
-    createOrcAnims(this, 3);
-    createMonsterFxAnims(this);
-    createBossAnims(this);
-    createPlantAnims(this);
+    // createOrcAnims(this, 1);
+    // createOrcAnims(this, 2);
+    // createOrcAnims(this, 3);
+    // createMonsterFxAnims(this);
+    // createBossAnims(this);
+    // createPlantAnims(this);
 
     if (tileset) {
       const { wallLayer, wallObjectLayer } = createLayers(map, tileset, this);
@@ -103,70 +103,70 @@ export default class GameScene extends Phaser.Scene {
         wallLayer.setCollisionByProperty({ isWall: true });
         wallObjectLayer.setCollisionByProperty({ isWall: true });
 
-        const player = createPlayer(this);
-        createHPBar(this);
+        const player = createPlayer(this, { x: 800, y: 700 });
+        // createHPBar(this);
         const octocat = createOctocat(this);
-        createBoss(this, this.monsters);
-        createOrc(
-          this,
-          1,
-          this.monsters,
-          [
-            { x: 100, y: 100 },
-            { x: 500, y: 100 },
-            { x: 500, y: 500 },
-            { x: 100, y: 500 }
-          ],
-          { x: 400, y: 300 },
-          50,
-          50
-        );
-        createOrc(
-          this,
-          1,
-          this.monsters,
-          [
-            { x: 450, y: -300 },
-            { x: 300, y: 200 },
-            { x: 400, y: 400 },
-            { x: 300, y: 300 }
-          ],
-          { x: 200, y: 500 },
-          50,
-          50
-        );
+        // createBoss(this, this.monsters);
+        // createOrc(
+        //   this,
+        //   1,
+        //   this.monsters,
+        //   [
+        //     { x: 100, y: 100 },
+        //     { x: 500, y: 100 },
+        //     { x: 500, y: 500 },
+        //     { x: 100, y: 500 }
+        //   ],
+        //   { x: 400, y: 300 },
+        //   50,
+        //   50
+        // );
+        // createOrc(
+        //   this,
+        //   1,
+        //   this.monsters,
+        //   [
+        //     { x: 450, y: -300 },
+        //     { x: 300, y: 200 },
+        //     { x: 400, y: 400 },
+        //     { x: 300, y: 300 }
+        //   ],
+        //   { x: 200, y: 500 },
+        //   50,
+        //   50
+        // );
 
-        createOrc(
-          this,
-          2,
-          this.monsters,
-          [
-            { x: 250, y: -400 },
-            { x: 300, y: 200 },
-            { x: 400, y: 400 },
-            { x: 300, y: 300 }
-          ],
-          { x: 400, y: 300 },
-          70,
-          70
-        );
+        // createOrc(
+        //   this,
+        //   2,
+        //   this.monsters,
+        //   [
+        //     { x: 250, y: -400 },
+        //     { x: 300, y: 200 },
+        //     { x: 400, y: 400 },
+        //     { x: 300, y: 300 }
+        //   ],
+        //   { x: 400, y: 300 },
+        //   70,
+        //   70
+        // );
 
-        createOrc(
-          this,
-          3,
-          this.monsters,
-          [
-            { x: 250, y: -400 },
-            { x: 300, y: 200 },
-            { x: 400, y: 400 },
-            { x: 300, y: 300 }
-          ],
-          { x: 500, y: 400 },
-          100,
-          100
-        );
+        // createOrc(
+        //   this,
+        //   3,
+        //   this.monsters,
+        //   [
+        //     { x: 250, y: -400 },
+        //     { x: 300, y: 200 },
+        //     { x: 400, y: 400 },
+        //     { x: 300, y: 300 }
+        //   ],
+        //   { x: 500, y: 400 },
+        //   100,
+        //   100
+        // );
 
-        createPlant(this, this.plants);
+        // createPlant(this, this.plants);
 
         const sword = this.data.get("sword");
 
@@ -189,16 +189,16 @@ export default class GameScene extends Phaser.Scene {
 
         octocat.anims.play("octocat_idle");
 
-        const { icons, speechBubbles } = createIcons(this, language);
-        icons.forEach((icon) => {
-          this.physics.add.collider(player, icon);
-        });
+        // const { icons, speechBubbles } = createIcons(this, language);
+        // icons.forEach((icon) => {
+        //   this.physics.add.collider(player, icon);
+        // });
 
-        this.speechBubbles = speechBubbles;
+        // this.speechBubbles = speechBubbles;
 
         if (this.input.keyboard) {
           setPlayerInputs(this, this.input.keyboard, player);
-          setPlayerWeaponInputs(this, this.input.keyboard, this.monsters);
+          // setPlayerWeaponInputs(this, this.input.keyboard, this.monsters);
           this.input.keyboard?.on("keydown-SPACE", () =>
             handleInteraction(
               this,
@@ -225,11 +225,11 @@ export default class GameScene extends Phaser.Scene {
 
     const wallObjectLayer = this.data.get("wallObjectLayer");
 
-    if (player) {
-      this.monsters.forEach((monster) => {
-        updateMonster(monster, player, this, wallLayer, wallObjectLayer);
-      });
-    }
+    // if (player) {
+    //   this.monsters.forEach((monster) => {
+    //     updateMonster(monster, player, this, wallLayer, wallObjectLayer);
+    //   });
+    // }
 
     sword.x = player.x;
     sword.y = player.y;
@@ -240,17 +240,13 @@ export default class GameScene extends Phaser.Scene {
     hair.x = player.x;
     hair.y = player.y;
 
-    // 맵의 크기를 가져옵니다.
-    const mapWidth = map.widthInPixels;
-    const mapHeight = map.heightInPixels;
     player.update();
-    if (
-      player.x < 0 ||
-      player.y < 0 ||
-      player.x > mapWidth ||
-      player.y > mapHeight
-    ) {
-      this.scene.start("town-scene");
+    if (player.x > 881 && player.x < 883 && player.y > 317 && player.y < 319) {
+      this.scene.start("first-floor", {
+        hairIndex: this.selectedHairIndex,
+        clothesIndex: this.selectedClothesIndex,
+        language: this.data.get("language")
+      });
     }
 
     if (this.currentBubble) {
@@ -293,16 +289,16 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-    Object.entries(this.speechBubbles).forEach(([key, bubble]) => {
-      const icon = this.data.get(key) as Phaser.GameObjects.Image;
+    // Object.entries(this.speechBubbles).forEach(([key, bubble]) => {
+    //   const icon = this.data.get(key) as Phaser.GameObjects.Image;
 
-      if (
-        icon &&
-        Phaser.Math.Distance.Between(player.x, player.y, icon.x, icon.y) < 50
-      ) {
-        bubble.setVisible(true);
-        this.currentBubble = bubble;
-      }
-    });
+    //   if (
+    //     icon &&
+    //     Phaser.Math.Distance.Between(player.x, player.y, icon.x, icon.y) < 50
+    //   ) {
+    //     bubble.setVisible(true);
+    //     this.currentBubble = bubble;
+    //   }
+    // });
   }
 }

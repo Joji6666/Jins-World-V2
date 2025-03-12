@@ -5,9 +5,12 @@ import {
 } from "../constants/keys";
 import { type Player } from "../types";
 
-export const createPlayer = (scene: Phaser.Scene): Player => {
+export const createPlayer = (
+  scene: Phaser.Scene,
+  position: { x: number; y: number }
+): Player => {
   const player = scene.physics.add
-    .sprite(400, 200, PLAYER_ANIMATION_KEYS.CHAR_FRONT)
+    .sprite(position.x, position.y, PLAYER_ANIMATION_KEYS.CHAR_FRONT)
     .setName(PLAYER_KEYS.PLAYER) as Player;
 
   scene.data.set(PLAYER_KEYS.PLAYER_MOVE_STATE, "front");
