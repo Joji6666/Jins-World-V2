@@ -39,7 +39,7 @@ export default class FirstFloorScene extends Phaser.Scene {
   }
 
   create() {
-    const player = createPlayer(this, { x: 600, y: 700 });
+    const player = createPlayer(this, { x: 900, y: 200 });
 
     const map = createMap(this);
     const tileset = createTileset(map);
@@ -82,20 +82,9 @@ export default class FirstFloorScene extends Phaser.Scene {
 
     hair.x = player.x;
     hair.y = player.y;
-    // const player = this.data.get("player");
-    // const map = this.data.get("map");
-    // if (player && map) {
-    //   const mapWidth = map.widthInPixels;
-    //   const mapHeight = map.heightInPixels;
-    //   player.update();
-    //   if (
-    //     player.x < 0 ||
-    //     player.y < 0 ||
-    //     player.x > mapWidth ||
-    //     player.y > mapHeight
-    //   ) {
-    //     this.scene.start("town-scene");
-    //   }
-    // }
+
+    if (player.y > 907) {
+      this.scene.start("town-scene");
+    }
   }
 }

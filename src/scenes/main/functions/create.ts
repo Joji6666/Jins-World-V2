@@ -142,7 +142,7 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
   const items = [
     {
       key: "leaf",
-      x: 200,
+      x: 900,
       y: 450,
       koreanText: "자기소개",
       englishText: "Introduce"
@@ -150,7 +150,7 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
 
     {
       key: "gift-box",
-      x: 650,
+      x: 900,
       y: 450,
       koreanText: "프로젝트",
       englishText: "Projects"
