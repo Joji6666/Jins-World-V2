@@ -1,6 +1,9 @@
 export const townPreload = (scene: Phaser.Scene): void => {
-  scene.load.tilemapTiledJSON("town-map", "/assets/map2.json");
-  scene.load.image("town-tiles", "/assets/map2.png");
+  scene.load.tilemapTiledJSON("town-map", "/assets/maps/town.json");
+  scene.load.image(
+    "gentle forest (48x48 resize) v01",
+    "/assets/tiles/gentle forest (48x48 resize) v01.png"
+  );
 };
 
 export const monsterFxPreload = (scene: Phaser.Scene): void => {

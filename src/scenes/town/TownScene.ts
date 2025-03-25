@@ -1,6 +1,15 @@
 import Phaser from "phaser";
-import { townPreload } from "./functions/preload";
 import {
+  bossPreload,
+  monsterFxPreload,
+  orcPreload,
+  plantPreload,
+  townPreload
+} from "./functions/preload";
+import {
+  createBoss,
+  createOrc,
+  createPlant,
   createTownLayers,
   createTownMap,
   createTownTileset
@@ -8,32 +17,154 @@ import {
 import { initTownCamera, initTownPlayerCamera } from "./functions/camera";
 import type { Player } from "../../shared/types";
 import { setTownPlayerInput } from "./functions/inputs";
-import { createPlayerAnims } from "../../shared/functions/anims";
-import { playerPreload } from "../../shared/functions/preload";
-import { createPlayer } from "../../shared/functions/create";
+import {
+  createClothesAnims,
+  createHairAnims,
+  createPlayerAnims,
+  createWeaponAnims
+} from "../../shared/functions/anims";
+import {
+  clothesPreload,
+  hairPreload,
+  playerPreload,
+  weaponPreload
+} from "../../shared/functions/preload";
+import { createHPBar, createPlayer } from "../../shared/functions/create";
+import { Monster, Plant } from "./types";
+import { initPlayerCollider } from "../main/functions/collider";
+import {
+  setPlayerInputs,
+  setPlayerWeaponInputs
+} from "../../shared/functions/keyboard_inputs";
+import { handleInteraction } from "../main/functions/interaction";
+import { updateMonster } from "./functions/interaction";
+import {
+  createBossAnims,
+  createMonsterFxAnims,
+  createOrcAnims,
+  createPlantAnims
+} from "./functions/anims";
 
 export default class TownScene extends Phaser.Scene {
-  
+  private monsters: Monster[] = [];
+  private plants: Plant[] = [];
+  private selectedHairIndex: number = 1;
+  private selectedClothesIndex: number = 1;
+
   constructor() {
     super("town-scene");
+  }
+
+  init(data: { language: string; hairIndex: number; clothesIndex: number }) {
+    this.data.set("language", data.language);
+    this.selectedHairIndex = data.hairIndex;
+    this.selectedClothesIndex = data.clothesIndex;
   }
 
   preload() {
     townPreload(this);
     playerPreload(this);
+    orcPreload(this, 1);
+    orcPreload(this, 2);
+    orcPreload(this, 3);
+    bossPreload(this);
+    plantPreload(this);
+    monsterFxPreload(this);
+    weaponPreload(this);
+    hairPreload(this, this.selectedHairIndex);
+    clothesPreload(this, this.selectedClothesIndex);
   }
 
   create() {
     const map = createTownMap(this);
     const tileset = createTownTileset(map);
+    createPlayerAnims(this);
+
+    createWeaponAnims(this);
+    createClothesAnims(this);
+    createHairAnims(this);
+    createOrcAnims(this, 1);
+    createOrcAnims(this, 2);
+    createOrcAnims(this, 3);
+    createMonsterFxAnims(this);
+    createBossAnims(this);
+    createPlantAnims(this);
 
     if (tileset) {
-      const { wallsLayer } = createTownLayers(map, tileset);
+      const { treeLayer, wallLayer } = createTownLayers(map, tileset, this);
 
-      if (wallsLayer) {
-        wallsLayer.setCollisionByProperty({ colides: true });
+      if (wallLayer && treeLayer) {
+        wallLayer.setCollisionByProperty({ colides: true });
 
-        const player = createPlayer(this);
+        const player = createPlayer(this, { x: 50, y: 150 });
+        createHPBar(this);
+        initPlayerCollider(this, player, wallLayer);
+        initPlayerCollider(this, player, treeLayer);
+
+        wallLayer?.setCollisionBetween(1, 999);
+        treeLayer?.setCollisionBetween(1, 999);
+
+        createBoss(this, this.monsters);
+        createOrc(
+          this,
+          1,
+          this.monsters,
+          [
+            { x: 100, y: 100 },
+            { x: 500, y: 100 },
+            { x: 500, y: 500 },
+            { x: 100, y: 500 }
+          ],
+          { x: 400, y: 300 },
+          50,
+          50
+        );
+        createOrc(
+          this,
+          1,
+          this.monsters,
+          [
+            { x: 450, y: -300 },
+            { x: 300, y: 200 },
+            { x: 400, y: 400 },
+            { x: 300, y: 300 }
+          ],
+          { x: 200, y: 500 },
+          50,
+          50
+        );
+
+        createOrc(
+          this,
+          2,
+          this.monsters,
+          [
+            { x: 250, y: -400 },
+            { x: 300, y: 200 },
+            { x: 400, y: 400 },
+            { x: 300, y: 300 }
+          ],
+          { x: 400, y: 300 },
+          70,
+          70
+        );
+
+        createOrc(
+          this,
+          3,
+          this.monsters,
+          [
+            { x: 250, y: -400 },
+            { x: 300, y: 200 },
+            { x: 400, y: 400 },
+            { x: 300, y: 300 }
+          ],
+          { x: 500, y: 400 },
+          100,
+          100
+        );
+
+        createPlant(this, this.plants);
 
         const mapWidth = map.widthInPixels;
         const mapHeight = map.heightInPixels;
@@ -54,105 +185,43 @@ export default class TownScene extends Phaser.Scene {
           }
         );
 
+        this.physics.world.setBounds(0, 0, mapWidth, mapHeight);
+        player.setCollideWorldBounds(true);
+
         if (this.input.keyboard) {
-          setTownPlayerInput(this.input.keyboard, player);
+          setPlayerInputs(this, this.input.keyboard, player);
+          setPlayerWeaponInputs(this, this.input.keyboard, this.monsters);
         }
       }
-
-      //   this.physics.add.collider(
-      //     player,
-      //     jin,
-      //     this.handleDialogInteraction,
-      //     null,
-      //     this
-      //   );
     }
   }
 
-  handleDialogInteraction(player: Player) {
-    if (!player.isDialogOn && !player.isDialogFinish) {
-      player.isDialogOn = true; // 대화 처리 중인지 확인하기 위한 플래그 변수
-      player.setVelocityX(0); // 플레이어 움직임 정지
-      player.anims.play("turn_right", true);
+  update(): void {
+    const player = this.data.get("player");
 
-      // 대화 텍스트 배열
-      const dialogTexts = [
-        "안녕 보미!",
-        "보미야 생일 축하해!!",
-        "요즘 참 다사다난 했지",
-        "앞으론 좋은일만 있을거야",
-        "보미가 갖고있는 고민들!!",
-        "전부 폭발시켜버렸어!",
-        "이제 걱정하지마",
-        "이제 행복한 일만 있을거야!",
-        "보미 앞날에 행운만 가득하길 빌어줄게",
-        "그러니까 이제 걱정거리를 내려놓고",
-        "그저 생일을 즐기면 된다구!",
-        "이쁜 보미 생일 너무 축하하고",
-        "꼭 행복하자!! 사랑해!!"
-      ];
+    if (player) {
+      const sword = this.data.get("sword");
+      const clothes = this.data.get("clothes");
+      const hair = this.data.get("hair");
 
-      let currentIndex = 0; // 현재 대화 인덱스
+      sword.x = player.x;
+      sword.y = player.y;
 
-      // 텍스트 스타일 설정
-      const style = {
-        fontFamily: "Arial",
-        fontSize: "32px",
-        color: "#000000"
-      };
+      clothes.x = player.x;
+      clothes.y = player.y;
 
-      const pressSpaceBarTextStyle = {
-        fontFamily: "Arial",
-        fontSize: "12px",
-        color: "#000000"
-      };
+      hair.x = player.x;
+      hair.y = player.y;
 
-      // 대화 텍스트 생성
-      const dialogText = this.add.text(
-        player.x,
-        player.y - 100,
-        dialogTexts[currentIndex],
-        style
-      );
-      dialogText.setOrigin(0.5);
+      player.update();
 
-      const pressSpaceBarText = this.add.text(
-        dialogText.x,
-        dialogText.y + 20,
-        "스페이스바를 눌러봐",
-        pressSpaceBarTextStyle
-      );
-      dialogText.setOrigin(0.5);
+      const wallLayer = this.data.get("wallLayer");
 
-      // spacebar 키 입력 감지
-      if (this.input.keyboard) {
-        const spacebar = this.input.keyboard.addKey(
-          Phaser.Input.Keyboard.KeyCodes.SPACE
-        );
+      const treeLayer = this.data.get("treeLayer");
 
-        // spacebar 이벤트 핸들링
-        spacebar.on("down", () => {
-          currentIndex++; // 다음 대화로 전환
-
-          if (currentIndex < dialogTexts.length) {
-            dialogText.setText(dialogTexts[currentIndex]);
-          } else {
-            // 대화가 모두 종료된 경우 대화창 삭제 및 대화 처리 완료
-            player.isDialogFinish = true;
-            dialogText.destroy();
-            pressSpaceBarText.destroy();
-
-            dialogText.setOrigin(0.5);
-            player.isDialogOn = false;
-
-            if (this.input.keyboard) {
-              this.input.keyboard.removeKey(
-                Phaser.Input.Keyboard.KeyCodes.SPACE
-              );
-            }
-          }
-        });
-      }
+      this.monsters.forEach((monster) => {
+        updateMonster(monster, player, this, wallLayer, treeLayer);
+      });
     }
   }
 }

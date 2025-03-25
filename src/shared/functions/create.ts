@@ -77,9 +77,12 @@ export const createHPBar = (
       "heart_idle"
     );
 
+    heart.setScrollFactor(0);
+
     heart.anims.play("heart_idle");
 
     hearts.push(heart);
+    // scene.cameras.main.ignore(heart);
   }
 
   scene.data.set("hearts", hearts);

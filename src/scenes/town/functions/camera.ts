@@ -11,13 +11,11 @@ export const initTownCamera = (
     screenHeight: number;
   }
 ) => {
-  camera
-    .setBounds(0, 0, mapSize.mapWidth * 3, mapSize.mapHeight * 3)
-    .setScroll(0, 0);
+  camera.setBounds(0, 0, mapSize.mapWidth, mapSize.mapHeight).setScroll(0, 0);
 
   camera.setDeadzone(
-    Number(screenSize.screenWidth) * 0.5,
-    Number(screenSize.screenHeight) * 0.5
+    Number(screenSize.screenWidth) * 0.3,
+    Number(screenSize.screenHeight) * 0.3
   );
 };
 

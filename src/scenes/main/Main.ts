@@ -20,39 +20,20 @@ import {
   createPlayerAnims,
   createWeaponAnims
 } from "../../shared/functions/anims";
-import { createHPBar, createPlayer } from "../../shared/functions/create";
+import { createPlayer } from "../../shared/functions/create";
 import {
   hairPreload,
   clothesPreload,
   playerPreload,
   weaponPreload
 } from "../../shared/functions/preload";
-import {
-  setPlayerInputs,
-  setPlayerWeaponInputs
-} from "../../shared/functions/keyboard_inputs";
-import {
-  bossPreload,
-  monsterFxPreload,
-  orcPreload,
-  plantPreload
-} from "../town/functions/preload";
-import { createBoss, createOrc, createPlant } from "../town/functions/create";
-import {
-  createBossAnims,
-  createMonsterFxAnims,
-  createOrcAnims,
-  createPlantAnims
-} from "../town/functions/anims";
-import { updateMonster } from "../town/functions/interaction";
-import { Monster, Plant } from "../town/types";
+import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
 
 export default class GameScene extends Phaser.Scene {
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
   private currentBubble!: Phaser.GameObjects.Text | null;
   private isCatDistanceOn!: boolean;
-  // private monsters: Monster[] = [];
-  // private plants: Plant[] = [];
+
   private selectedHairIndex: number = 1;
   private selectedClothesIndex: number = 1;
 
@@ -72,12 +53,6 @@ export default class GameScene extends Phaser.Scene {
     weaponPreload(this);
     hairPreload(this, this.selectedHairIndex);
     clothesPreload(this, this.selectedClothesIndex);
-    // orcPreload(this, 1);
-    // orcPreload(this, 2);
-    // orcPreload(this, 3);
-    // bossPreload(this);
-    // plantPreload(this);
-    // monsterFxPreload(this);
   }
 
   create() {
@@ -89,12 +64,6 @@ export default class GameScene extends Phaser.Scene {
     createWeaponAnims(this);
     createClothesAnims(this);
     createHairAnims(this);
-    // createOrcAnims(this, 1);
-    // createOrcAnims(this, 2);
-    // createOrcAnims(this, 3);
-    // createMonsterFxAnims(this);
-    // createBossAnims(this);
-    // createPlantAnims(this);
 
     if (tileset) {
       const { wallLayer, wallObjectLayer } = createLayers(map, tileset, this);
@@ -106,67 +75,6 @@ export default class GameScene extends Phaser.Scene {
         const player = createPlayer(this, { x: 800, y: 700 });
         // createHPBar(this);
         const octocat = createOctocat(this);
-        // createBoss(this, this.monsters);
-        // createOrc(
-        //   this,
-        //   1,
-        //   this.monsters,
-        //   [
-        //     { x: 100, y: 100 },
-        //     { x: 500, y: 100 },
-        //     { x: 500, y: 500 },
-        //     { x: 100, y: 500 }
-        //   ],
-        //   { x: 400, y: 300 },
-        //   50,
-        //   50
-        // );
-        // createOrc(
-        //   this,
-        //   1,
-        //   this.monsters,
-        //   [
-        //     { x: 450, y: -300 },
-        //     { x: 300, y: 200 },
-        //     { x: 400, y: 400 },
-        //     { x: 300, y: 300 }
-        //   ],
-        //   { x: 200, y: 500 },
-        //   50,
-        //   50
-        // );
-
-        // createOrc(
-        //   this,
-        //   2,
-        //   this.monsters,
-        //   [
-        //     { x: 250, y: -400 },
-        //     { x: 300, y: 200 },
-        //     { x: 400, y: 400 },
-        //     { x: 300, y: 300 }
-        //   ],
-        //   { x: 400, y: 300 },
-        //   70,
-        //   70
-        // );
-
-        // createOrc(
-        //   this,
-        //   3,
-        //   this.monsters,
-        //   [
-        //     { x: 250, y: -400 },
-        //     { x: 300, y: 200 },
-        //     { x: 400, y: 400 },
-        //     { x: 300, y: 300 }
-        //   ],
-        //   { x: 500, y: 400 },
-        //   100,
-        //   100
-        // );
-
-        // createPlant(this, this.plants);
 
         const sword = this.data.get("sword");
 

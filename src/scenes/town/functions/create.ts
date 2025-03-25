@@ -10,24 +10,34 @@ export const createTownMap = (scene: Phaser.Scene): Phaser.Tilemaps.Tilemap => {
 export const createTownTileset = (
   map: Phaser.Tilemaps.Tilemap
 ): Phaser.Tilemaps.Tileset | null => {
-  const tileset = map.addTilesetImage("tileset2", "town-tiles");
+  const tileset = map.addTilesetImage(
+    "gentle forest (48x48 resize) v01",
+    "gentle forest (48x48 resize) v01"
+  );
 
   return tileset;
 };
 
 export const createTownLayers = (
   map: Phaser.Tilemaps.Tilemap,
-  titleset: Phaser.Tilemaps.Tileset
+  titleset: Phaser.Tilemaps.Tileset,
+  scene: Phaser.Scene
 ): {
-  groundLayer: Phaser.Tilemaps.TilemapLayer | null;
-
-  wallsLayer: Phaser.Tilemaps.TilemapLayer | null;
+  treeLayer: Phaser.Tilemaps.TilemapLayer | null;
+  wallLayer: Phaser.Tilemaps.TilemapLayer | null;
 } => {
-  const groundLayer = map.createLayer("Ground", titleset);
+  const floorLayer = map.createLayer("floor", titleset);
+  const floorChildLayer = map.createLayer("floor_child", titleset);
+  const treeLayer = map.createLayer("tree", titleset);
+  const treeTopChildLayer = map.createLayer("tree-top-child", titleset);
+  const treeTopLayer = map.createLayer("tree-top", titleset);
+  const wallLayer = map.createLayer("wall", titleset);
 
-  const wallsLayer = map.createLayer("walls", titleset);
+  scene.data.set("wallLayer", wallLayer);
 
-  return { groundLayer, wallsLayer };
+  scene.data.set("treeLayer", treeLayer);
+
+  return { treeLayer, wallLayer };
 };
 
 export const createOrc = (
