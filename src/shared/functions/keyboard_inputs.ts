@@ -522,20 +522,19 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
 
     const attackRange = getAttackRange(player, playerSide);
 
-    const attackRangeGraphics = scene.add.graphics();
+    // const attackRangeGraphics = scene.add.graphics();
 
     createCooldownBar(scene, player);
 
-    // ✅ 빨간색으로 공격 범위 사각형 그리기 (디버깅용)
-    attackRangeGraphics.lineStyle(2, 0xff0000, 1); // 빨간색 테두리
-    attackRangeGraphics.strokeRect(
-      attackRange.x,
-      attackRange.y,
-      attackRange.width,
-      attackRange.height
-    );
+    // // ✅ 빨간색으로 공격 범위 사각형 그리기 (디버깅용)
+    // attackRangeGraphics.lineStyle(2, 0xff0000, 1); // 빨간색 테두리
+    // attackRangeGraphics.strokeRect(
+    //   attackRange.x,
+    //   attackRange.y,
+    //   attackRange.width,
+    //   attackRange.height
+    // );
 
-    // 3️⃣ 범위 내 몬스터 찾기 & 피격 처리
     monsters.forEach((monster) => {
       if (
         Phaser.Geom.Rectangle.Contains(

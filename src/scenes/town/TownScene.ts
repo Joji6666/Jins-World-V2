@@ -96,7 +96,7 @@ export default class TownScene extends Phaser.Scene {
       if (wallLayer && treeLayer) {
         wallLayer.setCollisionByProperty({ colides: true });
 
-        const player = createPlayer(this, { x: 50, y: 150 });
+        const player = createPlayer(this, { x: 150, y: 150 });
         createHPBar(this);
         initPlayerCollider(this, player, wallLayer);
         initPlayerCollider(this, player, treeLayer);
@@ -110,12 +110,12 @@ export default class TownScene extends Phaser.Scene {
           1,
           this.monsters,
           [
-            { x: 100, y: 100 },
-            { x: 500, y: 100 },
-            { x: 500, y: 500 },
-            { x: 100, y: 500 }
+            { x: 600, y: 400 },
+            { x: 600, y: 500 },
+            { x: 800, y: 600 },
+            { x: 800, y: 700 }
           ],
-          { x: 400, y: 300 },
+          { x: 900, y: 300 },
           50,
           50
         );
@@ -127,9 +127,9 @@ export default class TownScene extends Phaser.Scene {
             { x: 450, y: -300 },
             { x: 300, y: 200 },
             { x: 400, y: 400 },
-            { x: 300, y: 300 }
+            { x: 600, y: 300 }
           ],
-          { x: 200, y: 500 },
+          { x: 900, y: 500 },
           50,
           50
         );
@@ -139,12 +139,12 @@ export default class TownScene extends Phaser.Scene {
           2,
           this.monsters,
           [
-            { x: 250, y: -400 },
-            { x: 300, y: 200 },
-            { x: 400, y: 400 },
-            { x: 300, y: 300 }
+            { x: 550, y: -400 },
+            { x: 700, y: 200 },
+            { x: 600, y: 400 },
+            { x: 700, y: 300 }
           ],
-          { x: 400, y: 300 },
+          { x: 900, y: 300 },
           70,
           70
         );
@@ -154,12 +154,12 @@ export default class TownScene extends Phaser.Scene {
           3,
           this.monsters,
           [
-            { x: 250, y: -400 },
-            { x: 300, y: 200 },
-            { x: 400, y: 400 },
-            { x: 300, y: 300 }
+            { x: 650, y: -400 },
+            { x: 600, y: 800 },
+            { x: 600, y: 900 },
+            { x: 800, y: 1200 }
           ],
-          { x: 500, y: 400 },
+          { x: 900, y: 400 },
           100,
           100
         );
