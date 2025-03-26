@@ -4,6 +4,11 @@ export const townPreload = (scene: Phaser.Scene): void => {
     "gentle forest (48x48 resize) v01",
     "/assets/tiles/gentle forest (48x48 resize) v01.png"
   );
+
+  scene.load.spritesheet(`house`, `/assets/house.png`, {
+    frameWidth: 150,
+    frameHeight: 150
+  });
 };
 
 export const monsterFxPreload = (scene: Phaser.Scene): void => {

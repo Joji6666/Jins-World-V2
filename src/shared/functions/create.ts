@@ -16,7 +16,6 @@ export const createPlayer = (
   scene.data.set(PLAYER_KEYS.PLAYER_MOVE_STATE, "front");
   scene.data.set(PLAYER_KEYS.PLAYER_SIDE, PLAYER_SIDE_KEYS.FRONT);
 
-  player.body.immovable = true;
   player.setCollideWorldBounds(true);
   player.body.offset.y = 7;
   player.scale = 2;

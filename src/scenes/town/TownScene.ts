@@ -8,6 +8,7 @@ import {
 } from "./functions/preload";
 import {
   createBoss,
+  createHouse,
   createOrc,
   createPlant,
   createTownLayers,
@@ -40,6 +41,7 @@ import { handleInteraction } from "../main/functions/interaction";
 import { updateMonster } from "./functions/interaction";
 import {
   createBossAnims,
+  createHouseAnims,
   createMonsterFxAnims,
   createOrcAnims,
   createPlantAnims
@@ -59,6 +61,7 @@ export default class TownScene extends Phaser.Scene {
     this.data.set("language", data.language);
     this.selectedHairIndex = data.hairIndex;
     this.selectedClothesIndex = data.clothesIndex;
+    this.monsters = [];
   }
 
   preload() {
@@ -89,6 +92,7 @@ export default class TownScene extends Phaser.Scene {
     createMonsterFxAnims(this);
     createBossAnims(this);
     createPlantAnims(this);
+    createHouseAnims(this);
 
     if (tileset) {
       const { treeLayer, wallLayer } = createTownLayers(map, tileset, this);
@@ -96,10 +100,13 @@ export default class TownScene extends Phaser.Scene {
       if (wallLayer && treeLayer) {
         wallLayer.setCollisionByProperty({ colides: true });
 
-        const player = createPlayer(this, { x: 150, y: 150 });
+        const player = createPlayer(this, { x: 350, y: 480 });
         createHPBar(this);
         initPlayerCollider(this, player, wallLayer);
         initPlayerCollider(this, player, treeLayer);
+        const house = createHouse(this);
+
+        this.physics.add.collider(player, house);
 
         wallLayer?.setCollisionBetween(1, 999);
         treeLayer?.setCollisionBetween(1, 999);
@@ -203,6 +210,7 @@ export default class TownScene extends Phaser.Scene {
       const sword = this.data.get("sword");
       const clothes = this.data.get("clothes");
       const hair = this.data.get("hair");
+      const house = this.data.get("house");
 
       sword.x = player.x;
       sword.y = player.y;
@@ -215,13 +223,33 @@ export default class TownScene extends Phaser.Scene {
 
       player.update();
 
-      const wallLayer = this.data.get("wallLayer");
+      if (player.y > 430 && player.x >= 325 && player.x <= 398) {
+        house.anims.play("house_open");
+      }
 
-      const treeLayer = this.data.get("treeLayer");
+      if (
+        player.x > 326 &&
+        player.x < 398 &&
+        player.y > 400 &&
+        player.y < 410
+      ) {
+        this.scene.start("first-floor", {
+          hairIndex: this.selectedHairIndex,
+          clothesIndex: this.selectedClothesIndex,
+          language: this.data.get("language"),
+          insertScene: "town"
+        });
+      }
 
-      this.monsters.forEach((monster) => {
-        updateMonster(monster, player, this, wallLayer, treeLayer);
-      });
+      if (this.monsters.length > 0) {
+        const wallLayer = this.data.get("wallLayer");
+
+        const treeLayer = this.data.get("treeLayer");
+
+        this.monsters.forEach((monster) => {
+          updateMonster(monster, player, this, wallLayer, treeLayer);
+        });
+      }
     }
   }
 }

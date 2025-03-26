@@ -608,3 +608,44 @@ export const createPlantAnims = (scene: Phaser.Scene): void => {
     }
   );
 };
+
+export const createHouseAnims = (scene: Phaser.Scene): void => {
+  scene.anims.create({
+    key: "house_stop",
+
+    frames: scene.anims.generateFrameNumbers("house", {
+      start: 0,
+      end: 0
+    }),
+
+    frameRate: 1,
+
+    repeat: 0
+  });
+
+  scene.anims.create({
+    key: "house_open",
+
+    frames: scene.anims.generateFrameNumbers("house", {
+      start: 0,
+      end: 7
+    }),
+
+    frameRate: 30,
+
+    repeat: 0
+  });
+
+  scene.anims.create({
+    key: "house_close",
+
+    frames: scene.anims.generateFrameNumbers("house", {
+      start: 8,
+      end: 14
+    }),
+
+    frameRate: 30,
+
+    repeat: 0
+  });
+};

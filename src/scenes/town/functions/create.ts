@@ -36,8 +36,34 @@ export const createTownLayers = (
   scene.data.set("wallLayer", wallLayer);
 
   scene.data.set("treeLayer", treeLayer);
+  if (treeTopLayer && treeTopChildLayer) {
+    treeTopLayer.depth = 100;
+    treeTopChildLayer.depth = 99;
+  }
 
   return { treeLayer, wallLayer };
+};
+
+export const createHouse = (
+  scene: Phaser.Scene
+): Phaser.Types.Physics.Arcade.SpriteWithStaticBody => {
+  const house = scene.physics.add.staticSprite(350, 250, `house`);
+  house.anims.play("house_stop");
+
+  house.setScale(3.75);
+  house.setOrigin(0.5, 0.5);
+  house.refreshBody();
+
+  house.body.setSize(310, 220);
+
+  house.body.setOffset(
+    house.displayWidth / 2 - 155,
+    house.displayHeight / 2 - 110
+  );
+
+  scene.data.set("house", house);
+
+  return house;
 };
 
 export const createOrc = (

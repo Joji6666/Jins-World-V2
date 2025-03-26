@@ -551,7 +551,7 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
       player.anims.play(`char_sword_idle_${playerSide}`, true);
     });
 
-    scene.time.delayedCall(1000, () => {
+    scene.time.delayedCall(1300, () => {
       player.isAttackReady = true;
     });
 
@@ -725,7 +725,7 @@ const createCooldownBar = (scene: Phaser.Scene, player: Player): void => {
   scene.tweens.add({
     targets: cooldownBar,
     scaleX: 0,
-    duration: 1000,
+    duration: 1300,
     onUpdate: () => {
       cooldownContainer.setPosition(player.x + offsetX, player.y + offsetY);
     },

@@ -153,7 +153,8 @@ export default class GameScene extends Phaser.Scene {
       this.scene.start("first-floor", {
         hairIndex: this.selectedHairIndex,
         clothesIndex: this.selectedClothesIndex,
-        language: this.data.get("language")
+        language: this.data.get("language"),
+        insertScene: "main"
       });
     }
 

@@ -20,14 +20,21 @@ export default class FirstFloorScene extends Phaser.Scene {
   private language: "ko" | "en" = "ko";
   private selectedHairIndex: number = 1;
   private selectedClothesIndex: number = 1;
+  private insertScene: string = "main";
 
   constructor() {
     super("first-floor");
   }
-  init(data: { language: string; hairIndex: number; clothesIndex: number }) {
+  init(data: {
+    language: string;
+    hairIndex: number;
+    clothesIndex: number;
+    insertScene: string;
+  }) {
     this.data.set("language", data.language);
     this.selectedHairIndex = data.hairIndex;
     this.selectedClothesIndex = data.clothesIndex;
+    this.insertScene = data.insertScene;
   }
 
   preload() {
@@ -39,7 +46,10 @@ export default class FirstFloorScene extends Phaser.Scene {
   }
 
   create() {
-    const player = createPlayer(this, { x: 900, y: 200 });
+    const player = createPlayer(this, {
+      x: this.insertScene === "town" ? 700 : 850,
+      y: this.insertScene === "town" ? 880 : 200
+    });
 
     const map = createMap(this);
     const tileset = createTileset(map);
@@ -65,7 +75,6 @@ export default class FirstFloorScene extends Phaser.Scene {
 
     if (this.input.keyboard) {
       setPlayerInputs(this, this.input.keyboard, player);
-      // setPlayerWeaponInputs(this, this.input.keyboard, this.monsters);
     }
   }
 
