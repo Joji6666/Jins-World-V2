@@ -13,7 +13,13 @@ import {
   weaponPreload
 } from "../../shared/functions/preload";
 import { initPlayerCollider } from "../main/functions/collider";
-import { createLayers, createMap, createTileset } from "./functions/create";
+import { createJinAnims } from "./functions/anims";
+import {
+  createJin,
+  createLayers,
+  createMap,
+  createTileset
+} from "./functions/create";
 import { firstFloorPreload } from "./functions/preload";
 
 export default class FirstFloorScene extends Phaser.Scene {
@@ -50,9 +56,14 @@ export default class FirstFloorScene extends Phaser.Scene {
       x: this.insertScene === "town" ? 700 : 850,
       y: this.insertScene === "town" ? 880 : 200
     });
+    createJinAnims(this);
+
+    const jin = createJin(this);
 
     const map = createMap(this);
     const tileset = createTileset(map);
+
+    this.physics.add.collider(player, jin);
 
     if (tileset) {
       const { wallLayer, wallObjectLayer, secondWallObjectLayer } =

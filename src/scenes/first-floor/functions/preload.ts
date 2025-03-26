@@ -7,4 +7,19 @@ export const firstFloorPreload = (scene: Phaser.Scene): void => {
     frameWidth: 200,
     frameHeight: 300
   });
+
+  scene.load.spritesheet("jin", "/assets/jin/char.png", {
+    frameWidth: 64,
+    frameHeight: 64
+  });
+
+  scene.load.spritesheet("jin_hair", "/assets/jin/hair.png", {
+    frameWidth: 64,
+    frameHeight: 64
+  });
+
+  scene.load.spritesheet("jin_clothes", "/assets/jin/clothes.png", {
+    frameWidth: 64,
+    frameHeight: 64
+  });
 };

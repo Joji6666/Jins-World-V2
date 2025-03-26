@@ -51,3 +51,48 @@ export const createLayers = (
     secondWallObjectLayer
   };
 };
+
+export const createJin = (
+  scene: Phaser.Scene
+): Phaser.Types.Physics.Arcade.SpriteWithStaticBody => {
+  const jin = scene.physics.add.staticSprite(1000, 700, "jin_left");
+
+  scene.data.set("jin", jin);
+
+  jin.body.offset.y = 7;
+  jin.scale = 2;
+
+  jin.body.setSize(30, 30);
+
+  jin.depth = 2;
+
+  jin.anims.play("jin_left");
+
+  const clothes = scene.physics.add
+    .sprite(jin.x, jin.y, `jin_clothes_left`)
+    .setScale(2);
+
+  scene.data.set("jin_clothes", clothes);
+  clothes.body.immovable = true;
+  clothes.setCollideWorldBounds(true);
+  clothes.body.offset.y = 7;
+  clothes.scale = 2;
+  clothes.depth = 3;
+
+  clothes.anims.play("jin_clothes_left");
+
+  const hair = scene.physics.add
+    .sprite(jin.x, jin.y, `jin_hair_left`)
+    .setScale(2);
+
+  scene.data.set("jin_hair", hair);
+  hair.body.immovable = true;
+  hair.setCollideWorldBounds(true);
+  hair.body.offset.y = 7;
+  hair.scale = 1.95;
+  hair.depth = 4;
+
+  hair.anims.play("jin_hair_left");
+
+  return jin;
+};
