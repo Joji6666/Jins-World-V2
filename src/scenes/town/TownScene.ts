@@ -122,7 +122,7 @@ export default class TownScene extends Phaser.Scene {
             { x: 800, y: 600 },
             { x: 800, y: 700 }
           ],
-          { x: 900, y: 300 },
+          { x: 800, y: 900 },
           50,
           50
         );
@@ -136,7 +136,7 @@ export default class TownScene extends Phaser.Scene {
             { x: 400, y: 400 },
             { x: 600, y: 300 }
           ],
-          { x: 900, y: 500 },
+          { x: 900, y: 700 },
           50,
           50
         );
@@ -151,7 +151,7 @@ export default class TownScene extends Phaser.Scene {
             { x: 600, y: 400 },
             { x: 700, y: 300 }
           ],
-          { x: 900, y: 300 },
+          { x: 900, y: 900 },
           70,
           70
         );
@@ -164,9 +164,9 @@ export default class TownScene extends Phaser.Scene {
             { x: 650, y: -400 },
             { x: 600, y: 800 },
             { x: 600, y: 900 },
-            { x: 800, y: 1200 }
+            { x: 800, y: 800 }
           ],
-          { x: 900, y: 400 },
+          { x: 950, y: 700 },
           100,
           100
         );

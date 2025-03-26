@@ -1,6 +1,13 @@
-import Main from "./scenes/main/Main";
+import Phaser from "phaser";
+
+(window as any).Phaser = Phaser;
+
+// @ts-ignore
+import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
 
 import { Game, Types } from "phaser";
+
+import Main from "./scenes/main/Main";
 import TownScene from "./scenes/town/TownScene";
 import IntroScene from "./scenes/intro/Intro";
 import CharacterSelectScene from "./scenes/character-select/CharacterSelectScene";
@@ -23,6 +30,15 @@ const config: Types.Core.GameConfig = {
     arcade: {
       gravity: { y: 0, x: 0 }
     }
+  },
+  plugins: {
+    scene: [
+      {
+        key: "rexUI",
+        plugin: UIPlugin,
+        mapping: "rexUI"
+      }
+    ]
   }
 };
 

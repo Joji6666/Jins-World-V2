@@ -41,5 +41,8 @@ export default defineConfig({
   server: {
     port: 8080
   },
-  plugins: [phasermsg()]
+  plugins: [phasermsg()],
+  optimizeDeps: {
+    include: ["phaser", "phaser3-rex-plugins/templates/ui/ui-plugin.js"]
+  }
 });

@@ -13,5 +13,8 @@ export default defineConfig({
   },
   server: {
     port: 4444
+  },
+  optimizeDeps: {
+    include: ["phaser", "phaser3-rex-plugins/templates/ui/ui-plugin.js"]
   }
 });
