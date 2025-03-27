@@ -89,8 +89,6 @@ export default class GameScene extends Phaser.Scene {
         wallLayer?.setCollisionBetween(1, 999);
         wallObjectLayer?.setCollisionBetween(1, 999);
 
-        // this.cameras.main.startFollow(player, true);
-
         const mapWidth = map.widthInPixels;
         const mapHeight = map.heightInPixels;
 
