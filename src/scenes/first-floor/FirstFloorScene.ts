@@ -30,6 +30,7 @@ import { createCatAnims } from "../main/functions/anims";
 import { createOctocat } from "../main/functions/create";
 import { handleInteraction } from "../main/functions/interaction";
 import FixWidthButtons from "phaser3-rex-plugins/templates/ui/fixwidthbuttons/FixWidthButtons";
+import { createGuestbookUI } from "./functions/guestbookUI";
 
 export default class FirstFloorScene
   extends Phaser.Scene
@@ -75,10 +76,14 @@ export default class FirstFloorScene
     createJinAnims(this);
     createCatAnims(this);
 
+    const board = this.physics.add.image(1000, 520, "board");
+    board.depth = 30;
+
+    board.body.setImmovable(true);
+    this.data.set("board", board);
+
     const octocat = createOctocat(this);
     octocat.anims.play("octocat_idle");
-
-    console.log(octocat, "octocat@#@#");
 
     const { jin, jinClothes, jinHair } = createJin(this);
 
@@ -208,7 +213,11 @@ export default class FirstFloorScene
     const sword = this.data.get("sword");
     const clothes = this.data.get("clothes");
     const hair = this.data.get("hair");
+
     const octocat = this.data.get("octocat");
+
+    const board = this.data.get("board");
+
     sword.x = player.x;
     sword.y = player.y;
 
@@ -253,6 +262,42 @@ export default class FirstFloorScene
         if (this.data.get("catBubble")) {
           this.isCatDistanceOn = false;
           this.data.get("catBubble").setVisible(false);
+        }
+      }
+    }
+
+    if (board) {
+      const distance = Phaser.Math.Distance.Between(
+        player.x,
+        player.y,
+        board.x,
+        board.y
+      );
+
+      if (distance < 120) {
+        if (!this.data.get("boardBubble")) {
+          const boardBubble = this.add
+            .text(board.x, board.y - 50, "방명록 보기", {
+              fontFamily: "KoreanPixelFont",
+              fontSize: "20px",
+              color: "#ffffff",
+              backgroundColor: "#000000",
+              padding: { x: 8, y: 4 }
+            })
+            .setOrigin(0.5)
+            .setDepth(15)
+            .setVisible(true);
+
+          this.data.set("boardBubble", boardBubble);
+        }
+      } else {
+        const boardBubble: Phaser.GameObjects.Text =
+          this.data.get("boardBubble");
+
+        if (boardBubble) {
+          boardBubble.setVisible(false);
+          boardBubble.destroy();
+          this.data.set("boardBubble", null);
         }
       }
     }

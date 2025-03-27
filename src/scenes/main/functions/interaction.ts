@@ -1,15 +1,21 @@
+import { createGuestbookUI } from "../../first-floor/functions/guestbookUI";
+
 export const handleInteraction = (
   scene: Phaser.Scene,
   currentBubble: Phaser.GameObjects.Text | null,
   speechBubbles: { [key: string]: Phaser.GameObjects.Text },
   isCatDistanceOn: boolean
 ): void => {
-  console.log("work!");
   if (isCatDistanceOn) {
-    console.log(isCatDistanceOn, "first");
     window.open("https://github.com/Joji6666");
 
     return;
+  }
+
+  const boardBubble = scene.data.get("boardBubble");
+
+  if (boardBubble) {
+    createGuestbookUI(scene);
   }
 
   if (!currentBubble) return;
