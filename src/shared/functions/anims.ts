@@ -760,3 +760,15 @@ export const createHairAnims = (scene: Phaser.Scene): void => {
     }
   );
 };
+
+export const createLightEffectAnims = (scene: Phaser.Scene) => {
+  scene.anims.create({
+    key: `light_fx`,
+    frames: scene.anims.generateFrameNumbers(`light_fx`, {
+      start: 0,
+      end: 11
+    }),
+    frameRate: 15,
+    repeat: -1
+  });
+};

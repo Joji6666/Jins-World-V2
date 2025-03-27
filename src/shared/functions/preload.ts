@@ -233,3 +233,10 @@ export const clothesPreload = (scene: Phaser.Scene, number: number) => {
     }
   );
 };
+
+export const sharedFxPreload = (scene: Phaser.Scene): void => {
+  scene.load.spritesheet(`light_fx`, `/assets/light_fx.png`, {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+};

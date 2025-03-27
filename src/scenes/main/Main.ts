@@ -17,15 +17,17 @@ import { handleInteraction } from "./functions/interaction";
 import {
   createClothesAnims,
   createHairAnims,
+  createLightEffectAnims,
   createPlayerAnims,
   createWeaponAnims
 } from "../../shared/functions/anims";
-import { createPlayer } from "../../shared/functions/create";
+import { createLightEffect, createPlayer } from "../../shared/functions/create";
 import {
   hairPreload,
   clothesPreload,
   playerPreload,
-  weaponPreload
+  weaponPreload,
+  sharedFxPreload
 } from "../../shared/functions/preload";
 import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
 
@@ -53,6 +55,7 @@ export default class GameScene extends Phaser.Scene {
     weaponPreload(this);
     hairPreload(this, this.selectedHairIndex);
     clothesPreload(this, this.selectedClothesIndex);
+    sharedFxPreload(this);
   }
 
   create() {
@@ -64,6 +67,7 @@ export default class GameScene extends Phaser.Scene {
     createWeaponAnims(this);
     createClothesAnims(this);
     createHairAnims(this);
+    createLightEffectAnims(this);
 
     if (tileset) {
       const { wallLayer, wallObjectLayer } = createLayers(map, tileset, this);
@@ -73,7 +77,7 @@ export default class GameScene extends Phaser.Scene {
         wallObjectLayer.setCollisionByProperty({ isWall: true });
 
         const player = createPlayer(this, { x: 800, y: 700 });
-
+        createLightEffect(this, { x: 577, y: 295 });
         const sword = this.data.get("sword");
 
         this.physics.add.collider(sword, wallLayer);
