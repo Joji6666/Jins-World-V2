@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import TextBox from "phaser3-rex-plugins/templates/ui/textbox/TextBox";
 import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
 
 interface DialogConfig {
@@ -19,7 +20,7 @@ export interface RexUIScene extends Phaser.Scene {
 export const createTextBox = (
   scene: RexUIScene,
   config: DialogConfig = {}
-): any => {
+): TextBox => {
   const margin = config.margin ?? 40;
   const width = scene.scale.width - margin * 2;
   const height = config.height ?? 150;
@@ -60,7 +61,7 @@ export const createTextBox = (
  * 타이핑 효과로 텍스트를 출력한다
  */
 export const startDialog = (
-  textBox: any,
+  textBox: TextBox,
   dialogLines: string[] = [],
   speed: number = 50
 ): Promise<void> => {
@@ -75,7 +76,9 @@ export const startDialog = (
       }
 
       textBox.start(line, speed).once("complete", () => {
-        textBox.scene.input.keyboard.once("keydown-SPACE", typeNextLine);
+        if (textBox.scene.input.keyboard) {
+          textBox.scene.input.keyboard.once("keydown-SPACE", typeNextLine);
+        }
       });
     };
 
@@ -92,10 +95,10 @@ export const createOptionButton = (
   onClick: (label: string) => void = () => {}
 ): any => {
   const button = scene.rexUI.add.label({
-    background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 10, 0x1565c0),
+    background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 10, 0xf5f0e6),
     text: scene.add.text(0, 0, label, {
       fontSize: "20px",
-      color: "#ffffff"
+      color: "#4b382a"
     }),
     space: { left: 10, right: 10, top: 10, bottom: 10 }
   });
@@ -135,6 +138,23 @@ export const showOptions = (
   let selectedIndex = 0;
   highlightButton(buttons[selectedIndex]);
 
+  const tipText = scene.add.text(
+    scene.scale.width - 90,
+    scene.scale.height - 385,
+    "↑ ↓ 방향키로 선택하고, Enter 키로 결정하세요",
+    {
+      fontSize: "18px",
+      color: "#FFFFFF",
+      fontStyle: "bold",
+      fontFamily: "KoreanPixelFont"
+    }
+  );
+  tipText.setStroke("#000000", 3);
+  tipText.setOrigin(1, 0);
+  tipText.setDepth(1000);
+
+  scene.data.set("tipText", tipText);
+
   if (scene.input.keyboard) {
     const inputKeys = scene.input.keyboard.createCursorKeys();
 
@@ -155,8 +175,9 @@ export const showOptions = (
     scene.input.keyboard.on("keydown-ENTER", () => {
       const selected = buttons[selectedIndex];
       onSelect(selected.getElement("text").text);
-      optionGroup.setVisible(false);
     });
+
+    scene.data.set("optionGroup", optionGroup);
   }
 
   return optionGroup;
@@ -178,7 +199,7 @@ export const openHtmlDialog = (url: string): void => {
 export const downloadResume = (url: string): void => {
   const a = document.createElement("a");
   a.href = url;
-  a.download = "이력서.pdf";
+  a.download = "개발자_김진_이력서.pdf";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -187,7 +208,8 @@ export const downloadResume = (url: string): void => {
 export const showModalWithIframe = (
   title: string,
   url: string,
-  scene: Phaser.Scene
+  scene: Phaser.Scene,
+  textBox: TextBox
 ): void => {
   const modalBackground = scene.add.graphics();
   modalBackground.fillStyle(0x000000, 0.7);

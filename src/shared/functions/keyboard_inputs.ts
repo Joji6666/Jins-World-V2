@@ -13,10 +13,14 @@ export const setPlayerInputs = (
   player: Player
 ): void => {
   if (player.isHit) return;
+
   const keysPressed = new Set<string>();
 
   keyboard.on("keydown", (event: KeyboardEvent) => {
     const currentPlayer: Player = scene.data.get("player");
+    const isTalking = scene.data.get("isTalking");
+
+    if (isTalking) return;
     if (currentPlayer.isHit) return;
     if (currentPlayer.isBackStep) return;
     if (currentPlayer.isAttack) return;
@@ -172,6 +176,17 @@ export const setPlayerInputs = (
 
     const hair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody =
       scene.data.get("hair");
+
+    const isTalking = scene.data.get("isTalking");
+    if (isTalking) {
+      const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
+
+      player.anims.play(`char_${playerSide}`);
+      hair.anims.play(`hair_${playerSide}`);
+      clothes.anims.play(`clothes_${playerSide}`);
+      sword.anims.play(`sword_${playerSide}`);
+      return;
+    }
 
     const isWeaponDraw = scene.data.get(PLAYER_KEYS.IS_WEAPON_DRAW);
     setPlayerAndWeaponDepth(isWeaponDraw, player, sword, clothes, event.code);

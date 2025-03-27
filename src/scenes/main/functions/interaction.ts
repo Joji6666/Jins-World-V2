@@ -4,6 +4,7 @@ export const handleInteraction = (
   speechBubbles: { [key: string]: Phaser.GameObjects.Text },
   isCatDistanceOn: boolean
 ): void => {
+  console.log("work!");
   if (isCatDistanceOn) {
     console.log(isCatDistanceOn, "first");
     window.open("https://github.com/Joji6666");
@@ -14,15 +15,14 @@ export const handleInteraction = (
   if (!currentBubble) return;
 
   if (currentBubble.text === "SPACE") {
-    // 🔹 아이콘 별로 PDF 또는 Notion 페이지 띄우기
     const iconKey = Object.keys(speechBubbles).find(
       (key) => speechBubbles[key] === currentBubble
     );
 
     if (iconKey === "leaf") {
       showModalWithIframe("자기소개", "/assets/htmls/about_me.html", scene);
-    } else if (iconKey === "scroll") {
-      showModalWithIframe("경력", "/assets/notion.pdf", scene);
+    } else if (iconKey === "my_topster") {
+      window.open("https://my-topster.vercel.app/");
     } else if (iconKey === "skill-book") {
       showModalWithIframe("기술 스택", "/assets/notion.pdf", scene);
     } else if (iconKey === "gift-box") {

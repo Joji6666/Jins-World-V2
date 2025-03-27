@@ -54,7 +54,11 @@ export const createLayers = (
 
 export const createJin = (
   scene: Phaser.Scene
-): Phaser.Types.Physics.Arcade.SpriteWithStaticBody => {
+): {
+  jin: Phaser.Types.Physics.Arcade.SpriteWithStaticBody;
+  jinHair: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  jinClothes: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+} => {
   const jin = scene.physics.add.staticSprite(1000, 700, "jin_left");
 
   scene.data.set("jin", jin);
@@ -94,5 +98,5 @@ export const createJin = (
 
   hair.anims.play("jin_hair_left");
 
-  return jin;
+  return { jin, jinHair: hair, jinClothes: clothes };
 };

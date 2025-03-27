@@ -16,8 +16,7 @@ import {
   createTownTileset
 } from "./functions/create";
 import { initTownCamera, initTownPlayerCamera } from "./functions/camera";
-import type { Player } from "../../shared/types";
-import { setTownPlayerInput } from "./functions/inputs";
+
 import {
   createClothesAnims,
   createHairAnims,

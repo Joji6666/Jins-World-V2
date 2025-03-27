@@ -60,21 +60,22 @@ export const createOctocat = (
   scene: Phaser.Scene
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
   const octocat = scene.physics.add
-    .sprite(875, 600, `octocat`)
+    .sprite(300, 500, `octocat`)
     .setName("octocat");
 
   octocat.body.immovable = true;
   octocat.body.offset.y = 7;
-  octocat.scale = 0.2;
+  octocat.scale = 0.25;
   scene.data.set("octocat", octocat);
+  octocat.depth = 20;
 
   const githubIcon = scene.physics.add
-    .image(octocat.x, octocat.y - 40, "github")
+    .image(octocat.x, octocat.y - 50, "github")
     .setOrigin(0.5, 0.5);
-  githubIcon.setImmovable(true);
-  githubIcon.scale = 0.025;
 
   githubIcon.body.setAllowGravity(false);
+  githubIcon.depth = 30;
+  githubIcon.scale = 0.025;
 
   scene.tweens.add({
     targets: [githubIcon],
@@ -141,19 +142,11 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
 
   const items = [
     {
-      key: "leaf",
-      x: 900,
-      y: 450,
-      koreanText: "자기소개",
-      englishText: "Introduce"
-    },
-
-    {
-      key: "gift-box",
-      x: 900,
-      y: 450,
-      koreanText: "프로젝트",
-      englishText: "Projects"
+      key: "my_topster",
+      x: 985,
+      y: 500,
+      koreanText: "MyTopster",
+      englishText: "MyTopster"
     }
   ];
 
@@ -164,7 +157,10 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
     shadow.setPosition(item.x, item.y + 20);
 
     const icon = scene.physics.add.image(item.x, item.y, item.key);
-    icon.setImmovable(true);
+
+    if (item.key === "my_topster") {
+      icon.setScale(0.085);
+    }
 
     icon.body.setAllowGravity(false);
     icons.push(icon);
@@ -172,12 +168,14 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
 
     const text = scene.add
       .text(
-        icon.x,
+        icon.x + 5,
         icon.y - 50,
         language !== "ko" ? item.englishText : item.koreanText,
-        arrowTextStyle
+        { ...arrowTextStyle, color: "#FFFFFF" }
       )
       .setOrigin(0.5, 0.5);
+
+    text.setStroke("#000000", 3);
 
     scene.tweens.add({
       targets: [icon, text],
