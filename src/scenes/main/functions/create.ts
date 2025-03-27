@@ -147,6 +147,14 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
       y: 500,
       koreanText: "MyTopster",
       englishText: "MyTopster"
+    },
+
+    {
+      key: "bullet_samurai",
+      x: 985,
+      y: 600,
+      koreanText: "BulletSamurai",
+      englishText: "BulletSamurai"
     }
   ];
 
@@ -160,6 +168,10 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
 
     if (item.key === "my_topster") {
       icon.setScale(0.085);
+    }
+
+    if (item.key === "bullet_samurai") {
+      icon.setScale(0.9);
     }
 
     icon.body.setAllowGravity(false);

@@ -25,18 +25,12 @@ export const handleInteraction = (
       (key) => speechBubbles[key] === currentBubble
     );
 
-    if (iconKey === "leaf") {
-      showModalWithIframe("자기소개", "/assets/htmls/about_me.html", scene);
-    } else if (iconKey === "my_topster") {
+    if (iconKey === "my_topster") {
       window.open("https://my-topster.vercel.app/");
-    } else if (iconKey === "skill-book") {
-      showModalWithIframe("기술 스택", "/assets/notion.pdf", scene);
-    } else if (iconKey === "gift-box") {
-      showModalWithIframe(
-        "프로젝트",
-        "https://www.notion.so/About-Me-1926b3c8ccd580c9bf60d2079c5103bf",
-        scene
-      );
+    }
+
+    if (iconKey === "bullet_samurai") {
+      window.open("https://store.onstove.com/ko/games/2234");
     }
   }
 };

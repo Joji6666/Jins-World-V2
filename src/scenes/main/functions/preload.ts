@@ -3,6 +3,7 @@ export const mainPreload = (scene: Phaser.Scene): void => {
 
   scene.load.image("gift-box", "/assets/icons/gift_box.png");
   scene.load.image("my_topster", "/assets/icons/my_topster.png");
+  scene.load.image("bullet_samurai", "/assets/icons/bullet_samurai.png");
   scene.load.image("leaf", "/assets/icons/leaf.png");
   scene.load.image("scroll", "/assets/icons/scroll.png");
   scene.load.image("skill-book", "/assets/icons/skill_book.png");

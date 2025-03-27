@@ -114,8 +114,9 @@ export default class FirstFloorScene
       const textBox = createTextBox(this);
 
       startDialog(textBox, [
-        "안녕하세요. 저는 개발자 진입니다.",
-        "제 경력에 대해 궁금하신가요?"
+        "안녕하세요, 개발자 김진입니다.",
+        "제 공간에 방문해 주셔서 정말 반갑습니다.",
+        "궁금하신 점이 있다면 언제든지 물어보세요!"
       ]).then(() => {
         showOptions(
           this,
