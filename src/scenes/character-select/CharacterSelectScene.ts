@@ -1,3 +1,4 @@
+import { createTitleTexts } from "./functions/create";
 import {
   allClothesPreload,
   allHairPreload,
@@ -32,6 +33,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
   }
 
   create() {
+    const language = this.data.get("language");
     this.cameras.main.setBackgroundColor("#000000");
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
@@ -118,6 +120,8 @@ export default class CharacterSelectScene extends Phaser.Scene {
     this.input.keyboard?.on("keydown-SPACE", () => this.startMainScene());
 
     this.updateUI();
+
+    createTitleTexts(this, language);
   }
 
   switchSelection(isHair: boolean) {

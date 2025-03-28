@@ -6,8 +6,7 @@ import {
   createIcons,
   createLayers,
   createMap,
-  createTileset,
-  createTitleTexts
+  createTileset
 } from "./functions/create";
 import { initPlayerCollider } from "./functions/collider";
 import { initPlayerCamera } from "./functions/camera";
@@ -15,19 +14,25 @@ import { createCatAnims } from "./functions/anims";
 
 import { handleInteraction } from "./functions/interaction";
 import {
+  createArrowAnims,
   createClothesAnims,
   createHairAnims,
   createLightEffectAnims,
   createPlayerAnims,
   createWeaponAnims
 } from "../../shared/functions/anims";
-import { createLightEffect, createPlayer } from "../../shared/functions/create";
+import {
+  createArrow,
+  createLightEffect,
+  createPlayer
+} from "../../shared/functions/create";
 import {
   hairPreload,
   clothesPreload,
   playerPreload,
   weaponPreload,
-  sharedFxPreload
+  sharedFxPreload,
+  arrowPreload
 } from "../../shared/functions/preload";
 import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
 import {
@@ -72,6 +77,7 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
     hairPreload(this, this.selectedHairIndex);
     clothesPreload(this, this.selectedClothesIndex);
     sharedFxPreload(this);
+    arrowPreload(this);
   }
 
   create() {
@@ -79,11 +85,13 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
     const tileset = createTileset(map);
     const language = this.data.get("language");
     createPlayerAnims(this);
-
+    createArrowAnims(this);
     createWeaponAnims(this);
     createClothesAnims(this);
     createHairAnims(this);
     createLightEffectAnims(this);
+
+    const arrow = createArrow(this, { x: 915, y: 220 });
 
     const macbook = this.physics.add.image(540, 470, "macbook");
     macbook.depth = 30;
@@ -186,8 +194,6 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
         }
       }
     }
-
-    createTitleTexts(this, language);
   }
 
   update() {

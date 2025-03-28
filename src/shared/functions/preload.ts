@@ -240,3 +240,10 @@ export const sharedFxPreload = (scene: Phaser.Scene): void => {
     frameHeight: 32
   });
 };
+
+export const arrowPreload = (scene: Phaser.Scene): void => {
+  scene.load.spritesheet(`arrow`, `/assets/arrow.png`, {
+    frameWidth: 1026,
+    frameHeight: 1026
+  });
+};

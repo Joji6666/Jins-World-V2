@@ -89,53 +89,6 @@ export const createOctocat = (
   return octocat;
 };
 
-export const createTitleTexts = (
-  scene: Phaser.Scene,
-  language: string
-): void => {
-  scene.add.text(1050, 100, language !== "ko" ? "How To Move" : "조작 방법", {
-    fontFamily: "KoreanPixelFont",
-    fontSize: "24px",
-    color: "#000000",
-    align: "center"
-  });
-
-  scene.add.text(
-    1070,
-    140,
-    language !== "ko" ? "↑ Move Up" : "↑ 위로 이동",
-    arrowTextStyle
-  );
-
-  scene.add.text(
-    1070,
-    170,
-    language !== "ko" ? "↓ Move Down" : "↓ 아래로 이동",
-    arrowTextStyle
-  );
-
-  scene.add.text(
-    1070,
-    200,
-    language !== "ko" ? "← Move Left" : "← 왼쪽으로 이동",
-    arrowTextStyle
-  );
-
-  scene.add.text(
-    1070,
-    230,
-    language !== "ko" ? "→ Move Right" : "→ 오른쪽으로 이동",
-    arrowTextStyle
-  );
-
-  scene.add.text(
-    1070,
-    260,
-    language !== "ko" ? "space Interaction" : "space 상호작용",
-    arrowTextStyle
-  );
-};
-
 export const createIcons = (scene: Phaser.Scene, language: string) => {
   const icons: Phaser.Physics.Arcade.Image[] = [];
   const speechBubbles: { [key: string]: Phaser.GameObjects.Text } = {};

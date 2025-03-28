@@ -772,3 +772,15 @@ export const createLightEffectAnims = (scene: Phaser.Scene) => {
     repeat: -1
   });
 };
+
+export const createArrowAnims = (scene: Phaser.Scene) => {
+  scene.anims.create({
+    key: `arrow`,
+    frames: scene.anims.generateFrameNumbers(`arrow`, {
+      start: 0,
+      end: 4
+    }),
+    frameRate: 10,
+    repeat: -1
+  });
+};

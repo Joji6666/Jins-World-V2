@@ -100,3 +100,17 @@ export const createLightEffect = (
 
   return lightFx;
 };
+
+export const createArrow = (
+  scene: Phaser.Scene,
+  position: { x: number; y: number }
+): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
+  const arrow = scene.physics.add.sprite(position.x, position.y, "arrow");
+  arrow.setScale(0.3);
+  arrow.depth = 100;
+
+  arrow.anims.play("arrow");
+  arrow.setFlipY(true);
+
+  return arrow;
+};

@@ -1,6 +1,10 @@
 import type { RexUIScene } from "./functions/dialogue";
 import type RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
-import { createLightEffect, createPlayer } from "../../shared/functions/create";
+import {
+  createArrow,
+  createLightEffect,
+  createPlayer
+} from "../../shared/functions/create";
 import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
 import {
   clothesPreload,
@@ -75,6 +79,7 @@ export default class FirstFloorScene
     });
     createJinAnims(this);
     createCatAnims(this);
+    const arrow = createArrow(this, { x: 740, y: 820 });
 
     const board = this.physics.add.image(1000, 520, "board");
     board.depth = 30;
@@ -269,9 +274,9 @@ export default class FirstFloorScene
       if (distance < 50) {
         if (!this.data.get("catBubble")) {
           const catBubble = this.add
-            .text(octocat.x, octocat.y - 50, "🐱 Go GitHub!", {
+            .text(octocat.x, octocat.y - 80, "Go GitHub!", {
               fontFamily: "PixelFont",
-              fontSize: "12px",
+              fontSize: "20px",
               color: "#ffffff",
               backgroundColor: "#000000",
               padding: { x: 8, y: 4 }
