@@ -30,23 +30,39 @@ import {
   sharedFxPreload
 } from "../../shared/functions/preload";
 import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
+import {
+  createTextBox,
+  RexUIScene,
+  showModalWithIframe,
+  showModalWithImage,
+  startDialog
+} from "../first-floor/functions/dialogue";
+import type RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
 
-export default class GameScene extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene implements RexUIScene {
+  rexUI!: RexUIPlugin;
   private speechBubbles!: { [key: string]: Phaser.GameObjects.Text };
   private currentBubble!: Phaser.GameObjects.Text | null;
   private isCatDistanceOn!: boolean;
 
   private selectedHairIndex: number = 1;
   private selectedClothesIndex: number = 1;
+  private insertScene: string = "intro";
 
   constructor() {
     super("main");
   }
 
-  init(data: { language: string; hairIndex: number; clothesIndex: number }) {
+  init(data: {
+    language: string;
+    hairIndex: number;
+    clothesIndex: number;
+    insertScene: string;
+  }) {
     this.data.set("language", data.language);
     this.selectedHairIndex = data.hairIndex;
     this.selectedClothesIndex = data.clothesIndex;
+    this.insertScene = data.insertScene;
   }
 
   preload() {
@@ -69,6 +85,16 @@ export default class GameScene extends Phaser.Scene {
     createHairAnims(this);
     createLightEffectAnims(this);
 
+    const macbook = this.physics.add.image(540, 470, "macbook");
+    macbook.depth = 30;
+    macbook.setScale(0.06);
+
+    const macbookLightEffect = createLightEffect(this, {
+      x: macbook.x,
+      y: macbook.y
+    });
+    this.data.set("macbookLightEffect", macbookLightEffect);
+
     if (tileset) {
       const { wallLayer, wallObjectLayer } = createLayers(map, tileset, this);
 
@@ -76,7 +102,10 @@ export default class GameScene extends Phaser.Scene {
         wallLayer.setCollisionByProperty({ isWall: true });
         wallObjectLayer.setCollisionByProperty({ isWall: true });
 
-        const player = createPlayer(this, { x: 800, y: 700 });
+        const player = createPlayer(this, {
+          x: this.insertScene === "intro" ? 500 : 850,
+          y: this.insertScene === "intro" ? 600 : 300
+        });
         const booksLightEffect = createLightEffect(this, { x: 577, y: 295 });
         const sword = this.data.get("sword");
         this.data.set("booksLightEffect", booksLightEffect);
@@ -102,14 +131,58 @@ export default class GameScene extends Phaser.Scene {
         if (this.input.keyboard) {
           setPlayerInputs(this, this.input.keyboard, player);
 
-          this.input.keyboard?.on("keydown-SPACE", () =>
+          this.input.keyboard?.on("keydown-SPACE", () => {
+            const booksBubble = this.data.get("booksBubble");
+
+            if (booksBubble) {
+              if (this.data.get("isTalking")) return;
+
+              this.data.set("isTalking", true);
+
+              const textBox = createTextBox(this);
+
+              startDialog(textBox, [
+                "여러 책들이 보인다.",
+                "집주인이 읽은 책들인가 보다."
+              ]).then(() => {
+                showModalWithImage(
+                  "/assets/books.jpg",
+
+                  this,
+                  textBox
+                );
+              });
+            }
+
+            const macbookBubble = this.data.get("macbookBubble");
+
+            if (macbookBubble) {
+              if (this.data.get("isTalking")) return;
+
+              this.data.set("isTalking", true);
+
+              const textBox = createTextBox(this);
+
+              startDialog(textBox, [
+                "오래된 구형 맥북이다.",
+                "이 맥북으로 개발을 시작했나보다."
+              ]).then(() => {
+                showModalWithImage(
+                  "/assets/macbook.jpg",
+
+                  this,
+                  textBox
+                );
+              });
+            }
+
             handleInteraction(
               this,
               this.currentBubble,
               this.speechBubbles,
               this.isCatDistanceOn
-            )
-          );
+            );
+          });
         }
       }
     }
@@ -123,6 +196,7 @@ export default class GameScene extends Phaser.Scene {
     const clothes = this.data.get("clothes");
     const hair = this.data.get("hair");
     const booksLightEffect = this.data.get("booksLightEffect");
+    const macbookLightEffect = this.data.get("macbookLightEffect");
 
     sword.x = player.x;
     sword.y = player.y;
@@ -192,6 +266,47 @@ export default class GameScene extends Phaser.Scene {
           booksBubble.setVisible(false);
           booksBubble.destroy();
           this.data.set("booksBubble", null);
+        }
+      }
+    }
+
+    if (macbookLightEffect) {
+      const distance = Phaser.Math.Distance.Between(
+        player.x,
+        player.y,
+        macbookLightEffect.x,
+        macbookLightEffect.y
+      );
+
+      if (distance < 90) {
+        if (!this.data.get("macbookBubble")) {
+          const macbookBubble = this.add
+            .text(
+              macbookLightEffect.x,
+              macbookLightEffect.y - 50,
+              "PRESS SPACE",
+              {
+                fontFamily: "KoreanPixelFont",
+                fontSize: "20px",
+                color: "#ffffff",
+                backgroundColor: "#000000",
+                padding: { x: 8, y: 4 }
+              }
+            )
+            .setOrigin(0.5)
+            .setDepth(15)
+            .setVisible(true);
+
+          this.data.set("macbookBubble", macbookBubble);
+        }
+      } else {
+        const macbookBubble: Phaser.GameObjects.Text =
+          this.data.get("macbookBubble");
+
+        if (macbookBubble) {
+          macbookBubble.setVisible(false);
+          macbookBubble.destroy();
+          this.data.set("macbookBubble", null);
         }
       }
     }

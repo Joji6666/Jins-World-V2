@@ -209,7 +209,8 @@ export const showModalWithIframe = (
   title: string,
   url: string,
   scene: Phaser.Scene,
-  textBox: TextBox
+  textBox: TextBox,
+  isTalkingOff?: boolean
 ): void => {
   const modalBackground = scene.add.graphics();
   modalBackground.fillStyle(0x000000, 0.7);
@@ -220,6 +221,21 @@ export const showModalWithIframe = (
     scene.cameras.main.height + 300
   );
   modalBackground.setDepth(10);
+
+  const tooltip = document.createElement("div");
+  tooltip.innerText = "❎ ESC 키를 누르면 닫을 수 있어요";
+  tooltip.style.position = "absolute";
+  tooltip.style.top = "calc(90% + 20px)";
+  tooltip.style.left = "50%";
+  tooltip.style.transform = "translateX(-50%)";
+  tooltip.style.zIndex = "1001";
+  tooltip.style.color = "#fff";
+  tooltip.style.fontSize = "16px";
+  tooltip.style.fontFamily = "sans-serif";
+  tooltip.style.background = "rgba(0, 0, 0, 0.6)";
+  tooltip.style.padding = "6px 12px";
+  tooltip.style.borderRadius = "4px";
+  document.body.appendChild(tooltip);
 
   const iframe = document.createElement("iframe");
   iframe.src = url;
@@ -236,5 +252,65 @@ export const showModalWithIframe = (
   scene.input.keyboard?.once("keydown-ESC", () => {
     modalBackground.destroy();
     iframe.remove();
+    tooltip.remove();
+
+    if (isTalkingOff) {
+      scene.data.set("isTalking", false);
+      textBox.setVisible(false);
+    }
+  });
+};
+
+export const showModalWithImage = (
+  url: string,
+  scene: Phaser.Scene,
+  textBox: TextBox
+): void => {
+  const modalBackground = scene.add.graphics();
+  modalBackground.fillStyle(0x000000, 0.7);
+  modalBackground.fillRect(
+    0,
+    0,
+    scene.cameras.main.width,
+    scene.cameras.main.height + 300
+  );
+  modalBackground.setDepth(10);
+
+  const image = document.createElement("img");
+  image.src = url;
+  image.style.width = `80%`;
+  image.style.height = `80%`;
+  image.style.position = "absolute";
+  image.style.top = `50%`;
+  image.style.left = `50%`;
+  image.style.zIndex = "1000";
+  image.style.transform = "translate(-50%, -50%)";
+  image.style.border = "2px solid #8b5e3c";
+  image.style.borderRadius = "8px";
+  image.style.boxShadow = "0 4px 10px rgba(0,0,0,0.4)";
+  document.body.appendChild(image);
+
+  const tooltip = document.createElement("div");
+  tooltip.innerText = "❎ ESC 키를 누르면 닫을 수 있어요";
+  tooltip.style.position = "absolute";
+  tooltip.style.top = "calc(90% + 20px)";
+  tooltip.style.left = "50%";
+  tooltip.style.transform = "translateX(-50%)";
+  tooltip.style.zIndex = "1001";
+  tooltip.style.color = "#fff";
+  tooltip.style.fontSize = "16px";
+  tooltip.style.fontFamily = "sans-serif";
+  tooltip.style.background = "rgba(0, 0, 0, 0.6)";
+  tooltip.style.padding = "6px 12px";
+  tooltip.style.borderRadius = "4px";
+  document.body.appendChild(tooltip);
+
+  scene.input.keyboard?.once("keydown-ESC", () => {
+    modalBackground.destroy();
+    image.remove();
+    tooltip.remove();
+
+    scene.data.set("isTalking", false);
+    textBox.setVisible(false);
   });
 };

@@ -93,7 +93,7 @@ export const createLightEffect = (
   position: { x: number; y: number }
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
   const lightFx = scene.physics.add.sprite(position.x, position.y, "light_fx");
-  lightFx.setScale(1);
+  lightFx.setScale(1.25);
   lightFx.depth = 100;
 
   lightFx.anims.play("light_fx");

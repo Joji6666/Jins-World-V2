@@ -168,7 +168,8 @@ export default class CharacterSelectScene extends Phaser.Scene {
         this.scene.start("main", {
           hairIndex: this.selectedHairIndex,
           clothesIndex: this.selectedClothesIndex,
-          language: this.data.get("language")
+          language: this.data.get("language"),
+          insertScene: "intro"
         });
       }
     );

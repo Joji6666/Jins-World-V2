@@ -19,10 +19,6 @@ export const handleInteraction = (
     createGuestbookUI(scene);
   }
 
-  if (booksBubble) {
-    createGuestbookUI(scene);
-  }
-
   if (!currentBubble) return;
 
   if (currentBubble.text === "PRESS SPACE") {

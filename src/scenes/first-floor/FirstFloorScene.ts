@@ -1,5 +1,5 @@
 import type { RexUIScene } from "./functions/dialogue";
-import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
+import type RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
 import { createPlayer } from "../../shared/functions/create";
 import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
 import {
@@ -230,6 +230,15 @@ export default class FirstFloorScene
 
     if (player.y > 907) {
       this.scene.start("town-scene");
+    }
+
+    if (player.x > 876 && player.y <= 222) {
+      this.scene.start("main", {
+        hairIndex: this.selectedHairIndex,
+        clothesIndex: this.selectedClothesIndex,
+        language: this.data.get("language"),
+        insertScene: "firstFloor"
+      });
     }
 
     if (octocat) {
