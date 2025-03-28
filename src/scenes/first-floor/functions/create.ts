@@ -98,5 +98,16 @@ export const createJin = (
 
   hair.anims.play("jin_hair_left");
 
+  const text = scene.add
+    .text(jin.x - 3, jin.y + 38, "김진", {
+      fontFamily: "KoreanPixelFont",
+      fontSize: "20px",
+      color: "#FFFFFF"
+    })
+    .setOrigin(0.5, 0.5);
+
+  text.setStroke("#000000", 3);
+  text.depth = 30;
+
   return { jin, jinHair: hair, jinClothes: clothes };
 };

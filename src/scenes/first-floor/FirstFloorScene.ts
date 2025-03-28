@@ -1,6 +1,6 @@
 import type { RexUIScene } from "./functions/dialogue";
 import type RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
-import { createPlayer } from "../../shared/functions/create";
+import { createLightEffect, createPlayer } from "../../shared/functions/create";
 import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
 import {
   clothesPreload,
@@ -81,6 +81,7 @@ export default class FirstFloorScene
 
     board.body.setImmovable(true);
     this.data.set("board", board);
+    createLightEffect(this, { x: board.x, y: board.y });
 
     const octocat = createOctocat(this);
     octocat.anims.play("octocat_idle");
@@ -169,6 +170,15 @@ export default class FirstFloorScene
                 }
                 this.data.set("isTalking", false);
                 optionGroup.setVisible(false);
+
+                this.input.keyboard?.on("keydown-SPACE", () =>
+                  handleInteraction(
+                    this,
+                    this.currentBubble,
+                    this.speechBubbles,
+                    this.isCatDistanceOn
+                  )
+                );
 
                 break;
             }

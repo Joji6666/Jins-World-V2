@@ -35,37 +35,3 @@ export const handleInteraction = (
     }
   }
 };
-
-const showModalWithIframe = (
-  title: string,
-  url: string,
-  scene: Phaser.Scene
-): void => {
-  const modalBackground = scene.add.graphics();
-  modalBackground.fillStyle(0x000000, 0.7);
-  modalBackground.fillRect(
-    0,
-    0,
-    scene.cameras.main.width,
-    scene.cameras.main.height + 300
-  );
-  modalBackground.setDepth(10);
-
-  const iframe = document.createElement("iframe");
-  iframe.src = url;
-  iframe.style.width = `80%`;
-  iframe.style.height = `80%`;
-  iframe.style.border = "none";
-  iframe.style.position = "absolute";
-  iframe.style.top = `50%`;
-  iframe.style.left = `50%`;
-  iframe.style.zIndex = "1000";
-  iframe.style.transform = "translate(-50%, -50%)";
-  document.body.appendChild(iframe);
-
-  scene.input.keyboard?.once("keydown-ESC", () => {
-    modalBackground.destroy();
-
-    iframe.remove();
-  });
-};
