@@ -37,8 +37,8 @@ export const createTownLayers = (
 
   scene.data.set("treeLayer", treeLayer);
   if (treeTopLayer && treeTopChildLayer) {
-    treeTopLayer.depth = 100;
-    treeTopChildLayer.depth = 99;
+    treeTopLayer.setDepth(100);
+    treeTopChildLayer.setDepth(100);
   }
 
   return { treeLayer, wallLayer };

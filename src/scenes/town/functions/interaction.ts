@@ -489,7 +489,8 @@ const handleGameOver = (
           align: "center"
         }
       )
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setScrollFactor(0);
 
     scene.time.delayedCall(2000, () => {
       if (scene.input.keyboard) {

@@ -634,8 +634,10 @@ const handleMonsterHit = (
   player: Player
 ): void => {
   monster.isHit = true;
-  monster.sprite.setVelocityX(0);
-  monster.sprite.setVelocityY(0);
+  if (monster.sprite) {
+    monster.sprite.setVelocityX(0);
+    monster.sprite.setVelocityY(0);
+  }
 
   scene.cameras.main.shake(100, 0.02);
 
