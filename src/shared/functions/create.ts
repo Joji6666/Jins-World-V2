@@ -42,7 +42,7 @@ export const createPlayer = (
     .setScale(2);
 
   scene.data.set("clothes", clothes);
-  clothes.body.immovable = true;
+
   clothes.setCollideWorldBounds(true);
   clothes.body.offset.y = 7;
   clothes.scale = 2;
@@ -53,7 +53,7 @@ export const createPlayer = (
     .setScale(2);
 
   scene.data.set("hair", hair);
-  hair.body.immovable = true;
+
   hair.setCollideWorldBounds(true);
   hair.body.offset.y = 7;
   hair.scale = 2;

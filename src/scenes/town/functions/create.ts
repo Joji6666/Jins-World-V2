@@ -30,15 +30,20 @@ export const createTownLayers = (
   const floorChildLayer = map.createLayer("floor_child", titleset);
   const treeLayer = map.createLayer("tree", titleset);
   const treeTopChildLayer = map.createLayer("tree-top-child", titleset);
-  const treeTopLayer = map.createLayer("tree-top", titleset);
+  const treeTopLayer = map.createLayer("tree_top", titleset);
   const wallLayer = map.createLayer("wall", titleset);
 
   scene.data.set("wallLayer", wallLayer);
 
   scene.data.set("treeLayer", treeLayer);
+
+  console.log(treeTopLayer, "treeTopLayer");
+  console.log(treeTopChildLayer, "treeTopChildLayer");
   if (treeTopLayer && treeTopChildLayer) {
     treeTopLayer.setDepth(100);
     treeTopChildLayer.setDepth(100);
+
+    console.log(treeTopChildLayer.depth);
   }
 
   return { treeLayer, wallLayer };
