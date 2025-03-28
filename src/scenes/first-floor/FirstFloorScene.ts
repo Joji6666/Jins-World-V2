@@ -87,105 +87,10 @@ export default class FirstFloorScene
     octocat.anims.play("octocat_idle");
 
     const { jin, jinClothes, jinHair } = createJin(this);
+    this.physics.add.collider(player, jin);
 
     const map = createMap(this);
     const tileset = createTileset(map);
-
-    this.physics.add.collider(player, jin, () => {
-      if (this.data.get("isTalking")) return;
-
-      this.data.set("isTalking", true);
-      const playerSide = this.data.get(PLAYER_KEYS.PLAYER_SIDE);
-
-      const side =
-        playerSide === "front"
-          ? "back"
-          : playerSide === "back"
-          ? "front"
-          : playerSide === "right"
-          ? "left"
-          : playerSide === "left"
-          ? "right"
-          : "right";
-
-      jin.anims.play(`jin_${side}`);
-      jinHair.anims.play(`jin_hair_${side}`);
-      jinClothes.anims.play(`jin_clothes_${side}`);
-
-      const textBox = createTextBox(this);
-
-      startDialog(textBox, [
-        "안녕하세요, 개발자 김진입니다.",
-        "제 공간에 방문해 주셔서 정말 반갑습니다.",
-        "궁금하신 점이 있다면 언제든지 물어보세요!"
-      ]).then(() => {
-        showOptions(
-          this,
-          [
-            "자기소개 보기",
-            "회사 이력 보기",
-            "프로젝트들 보기",
-            "이력서 다운로드",
-            "떠나기"
-          ],
-          (choice) => {
-            switch (choice) {
-              case "자기소개 보기":
-                showModalWithIframe(
-                  "자기소개",
-                  "/assets/htmls/about_me.html",
-                  this,
-                  textBox
-                );
-                break;
-              case "회사 이력 보기":
-                showModalWithIframe(
-                  "이력",
-                  "/assets/htmls/work_history.html",
-                  this,
-                  textBox
-                );
-                break;
-              case "프로젝트들 보기":
-                showModalWithIframe(
-                  "프로젝트",
-                  "/assets/htmls/project.html",
-                  this,
-                  textBox
-                );
-                break;
-              case "이력서 다운로드":
-                downloadResume("/assets/resume.pdf");
-                break;
-              case "떠나기":
-                textBox.setVisible(false);
-
-                const optionGroup: FixWidthButtons =
-                  this.data.get("optionGroup");
-                const tipText: Phaser.GameObjects.Text | undefined =
-                  this.data.get("tipText");
-
-                if (tipText) {
-                  tipText.destroy();
-                }
-                this.data.set("isTalking", false);
-                optionGroup.setVisible(false);
-
-                this.input.keyboard?.on("keydown-SPACE", () =>
-                  handleInteraction(
-                    this,
-                    this.currentBubble,
-                    this.speechBubbles,
-                    this.isCatDistanceOn
-                  )
-                );
-
-                break;
-            }
-          }
-        );
-      });
-    });
 
     if (tileset) {
       const { wallLayer, wallObjectLayer, secondWallObjectLayer } =
@@ -208,14 +113,114 @@ export default class FirstFloorScene
 
     if (this.input.keyboard) {
       setPlayerInputs(this, this.input.keyboard, player);
-      this.input.keyboard?.on("keydown-SPACE", () =>
+      this.input.keyboard?.on("keydown-SPACE", () => {
+        const jinBubble = this.data.get("jinBubble");
+
+        if (jinBubble) {
+          if (this.data.get("isTalking")) return;
+
+          this.data.set("isTalking", true);
+          const playerSide = this.data.get(PLAYER_KEYS.PLAYER_SIDE);
+
+          const side =
+            playerSide === "front"
+              ? "back"
+              : playerSide === "back"
+              ? "front"
+              : playerSide === "right"
+              ? "left"
+              : playerSide === "left"
+              ? "right"
+              : "right";
+
+          jin.anims.play(`jin_${side}`);
+          jinHair.anims.play(`jin_hair_${side}`);
+          jinClothes.anims.play(`jin_clothes_${side}`);
+
+          const textBox = createTextBox(this);
+
+          startDialog(textBox, [
+            "안녕하세요, 개발자 김진입니다.",
+            "제 공간에 방문해 주셔서 정말 반갑습니다.",
+            "궁금하신 점이 있다면 언제든지 물어보세요!"
+          ]).then(() => {
+            showOptions(
+              this,
+              [
+                "자기소개 보기",
+                "회사 이력 보기",
+                "프로젝트들 보기",
+                "이력서 다운로드",
+                "떠나기"
+              ],
+              (choice) => {
+                switch (choice) {
+                  case "자기소개 보기":
+                    showModalWithIframe(
+                      "자기소개",
+                      "/assets/htmls/about_me.html",
+                      this,
+                      textBox
+                    );
+                    break;
+                  case "회사 이력 보기":
+                    showModalWithIframe(
+                      "이력",
+                      "/assets/htmls/work_history.html",
+                      this,
+                      textBox
+                    );
+                    break;
+                  case "프로젝트들 보기":
+                    showModalWithIframe(
+                      "프로젝트",
+                      "/assets/htmls/project.html",
+                      this,
+                      textBox
+                    );
+                    break;
+                  case "이력서 다운로드":
+                    downloadResume("/assets/resume.pdf");
+                    break;
+                  case "떠나기":
+                    textBox.setVisible(false);
+
+                    const optionGroup: FixWidthButtons =
+                      this.data.get("optionGroup");
+                    const tipText: Phaser.GameObjects.Text | undefined =
+                      this.data.get("tipText");
+
+                    if (tipText) {
+                      tipText.destroy();
+                    }
+                    this.data.set("isTalking", false);
+                    optionGroup.setVisible(false);
+
+                    this.input.keyboard?.on("keydown-SPACE", () =>
+                      handleInteraction(
+                        this,
+                        this.currentBubble,
+                        this.speechBubbles,
+                        this.isCatDistanceOn
+                      )
+                    );
+
+                    break;
+                }
+              }
+            );
+          });
+
+          return;
+        }
+
         handleInteraction(
           this,
           this.currentBubble,
           this.speechBubbles,
           this.isCatDistanceOn
-        )
-      );
+        );
+      });
     }
   }
 
@@ -228,6 +233,8 @@ export default class FirstFloorScene
     const octocat = this.data.get("octocat");
 
     const board = this.data.get("board");
+
+    const jin = this.data.get("jin");
 
     sword.x = player.x;
     sword.y = player.y;
@@ -318,6 +325,41 @@ export default class FirstFloorScene
           boardBubble.setVisible(false);
           boardBubble.destroy();
           this.data.set("boardBubble", null);
+        }
+      }
+    }
+
+    if (jin) {
+      const distance = Phaser.Math.Distance.Between(
+        player.x,
+        player.y,
+        jin.x,
+        jin.y
+      );
+
+      if (distance < 40) {
+        if (!this.data.get("jinBubble")) {
+          const jinBubble = this.add
+            .text(jin.x, jin.y - 50, "대화 하기", {
+              fontFamily: "KoreanPixelFont",
+              fontSize: "20px",
+              color: "#ffffff",
+              backgroundColor: "#000000",
+              padding: { x: 8, y: 4 }
+            })
+            .setOrigin(0.5)
+            .setDepth(15)
+            .setVisible(true);
+
+          this.data.set("jinBubble", jinBubble);
+        }
+      } else {
+        const jinBubble: Phaser.GameObjects.Text = this.data.get("jinBubble");
+
+        if (jinBubble) {
+          jinBubble.setVisible(false);
+          jinBubble.destroy();
+          this.data.set("jinBubble", null);
         }
       }
     }

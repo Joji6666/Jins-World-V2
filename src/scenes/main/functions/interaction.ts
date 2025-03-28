@@ -13,7 +13,6 @@ export const handleInteraction = (
   }
 
   const boardBubble = scene.data.get("boardBubble");
-  const booksBubble = scene.data.get("booksBubble");
 
   if (boardBubble) {
     createGuestbookUI(scene);
