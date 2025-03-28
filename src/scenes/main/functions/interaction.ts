@@ -13,14 +13,19 @@ export const handleInteraction = (
   }
 
   const boardBubble = scene.data.get("boardBubble");
+  const booksBubble = scene.data.get("booksBubble");
 
   if (boardBubble) {
     createGuestbookUI(scene);
   }
 
+  if (booksBubble) {
+    createGuestbookUI(scene);
+  }
+
   if (!currentBubble) return;
 
-  if (currentBubble.text === "SPACE") {
+  if (currentBubble.text === "PRESS SPACE") {
     const iconKey = Object.keys(speechBubbles).find(
       (key) => speechBubbles[key] === currentBubble
     );

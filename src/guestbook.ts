@@ -5,7 +5,8 @@ import {
   query,
   orderBy,
   onSnapshot,
-  DocumentData
+  DocumentData,
+  getDocs
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
@@ -30,4 +31,10 @@ export const displayMessages = (
     const messages = snapshot.docs.map((doc) => doc.data());
     callback(messages);
   });
+};
+
+export const getAllMessages = async () => {
+  const q = query(collection(db, "guestbook"), orderBy("timestamp", "desc"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => doc.data());
 };

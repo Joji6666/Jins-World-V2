@@ -77,8 +77,9 @@ export default class GameScene extends Phaser.Scene {
         wallObjectLayer.setCollisionByProperty({ isWall: true });
 
         const player = createPlayer(this, { x: 800, y: 700 });
-        createLightEffect(this, { x: 577, y: 295 });
+        const booksLightEffect = createLightEffect(this, { x: 577, y: 295 });
         const sword = this.data.get("sword");
+        this.data.set("booksLightEffect", booksLightEffect);
 
         this.physics.add.collider(sword, wallLayer);
         this.physics.add.collider(sword, wallObjectLayer);
@@ -100,7 +101,7 @@ export default class GameScene extends Phaser.Scene {
 
         if (this.input.keyboard) {
           setPlayerInputs(this, this.input.keyboard, player);
-          // setPlayerWeaponInputs(this, this.input.keyboard, this.monsters);
+
           this.input.keyboard?.on("keydown-SPACE", () =>
             handleInteraction(
               this,
@@ -121,6 +122,7 @@ export default class GameScene extends Phaser.Scene {
     const sword = this.data.get("sword");
     const clothes = this.data.get("clothes");
     const hair = this.data.get("hair");
+    const booksLightEffect = this.data.get("booksLightEffect");
 
     sword.x = player.x;
     sword.y = player.y;
@@ -157,5 +159,41 @@ export default class GameScene extends Phaser.Scene {
         this.currentBubble = bubble;
       }
     });
+
+    if (booksLightEffect) {
+      const distance = Phaser.Math.Distance.Between(
+        player.x,
+        player.y,
+        booksLightEffect.x,
+        booksLightEffect.y
+      );
+
+      if (distance < 90) {
+        if (!this.data.get("booksBubble")) {
+          const booksBubble = this.add
+            .text(booksLightEffect.x, booksLightEffect.y - 50, "PRESS SPACE", {
+              fontFamily: "KoreanPixelFont",
+              fontSize: "20px",
+              color: "#ffffff",
+              backgroundColor: "#000000",
+              padding: { x: 8, y: 4 }
+            })
+            .setOrigin(0.5)
+            .setDepth(15)
+            .setVisible(true);
+
+          this.data.set("booksBubble", booksBubble);
+        }
+      } else {
+        const booksBubble: Phaser.GameObjects.Text =
+          this.data.get("booksBubble");
+
+        if (booksBubble) {
+          booksBubble.setVisible(false);
+          booksBubble.destroy();
+          this.data.set("booksBubble", null);
+        }
+      }
+    }
   }
 }

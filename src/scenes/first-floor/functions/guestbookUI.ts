@@ -1,12 +1,12 @@
-import { Timestamp } from "firebase/firestore";
-import { addMessage, displayMessages } from "../../../guestbook";
+import { DocumentData, Timestamp } from "firebase/firestore";
+import { addMessage, getAllMessages } from "../../../guestbook";
 
 const formatTimestamp = (timestamp: Timestamp): string => {
   if (!timestamp || !timestamp.toDate) return "";
 
-  const date = timestamp.toDate(); // Firebase Timestamp → JS Date
+  const date = timestamp.toDate();
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작
+  const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   const hour = String(date.getHours()).padStart(2, "0");
   const minute = String(date.getMinutes()).padStart(2, "0");
@@ -72,7 +72,7 @@ export const createGuestbookUI = (scene: Phaser.Scene) => {
   closeButton.style.cursor = "pointer";
 
   const messageList = document.createElement("div");
-  messageList.style.height = "500px";
+  messageList.style.height = "300px";
   messageList.style.overflowY = "auto";
   messageList.style.background = "#ffffff";
   messageList.style.border = "1px solid #ccc";
@@ -81,32 +81,23 @@ export const createGuestbookUI = (scene: Phaser.Scene) => {
   messageList.style.marginTop = "15px";
   messageList.style.fontSize = "14px";
 
-  let lastSubmitTime = 0;
-  submitButton.onclick = async () => {
-    const now = Date.now();
-    if (now - lastSubmitTime < 3000) {
-      alert("너무 빠르게 보내고 있어요. 잠시만 기다려주세요.");
-      return;
-    }
+  const pagination = document.createElement("div");
+  pagination.style.display = "flex";
+  pagination.style.justifyContent = "center";
+  pagination.style.marginTop = "10px";
+  pagination.style.gap = "6px";
 
-    if (nameInput.value && messageInput.value) {
-      if (messageInput.value.length > 200) {
-        alert("메시지는 200자 이내로 작성해주세요.");
-        return;
-      }
+  let currentPage = 1;
+  const pageSize = 10;
+  let allMessages: DocumentData[] = [];
 
-      await addMessage(nameInput.value, messageInput.value);
-      messageInput.value = "";
-      lastSubmitTime = now;
-    } else {
-      alert("이름과 메시지를 모두 입력해주세요.");
-    }
-  };
-
-  displayMessages((messages) => {
+  const renderMessages = (page: number) => {
     messageList.innerHTML = "";
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const pageMessages = allMessages.slice(start, end);
 
-    messages.forEach((msg) => {
+    pageMessages.forEach((msg) => {
       const row = document.createElement("div");
       row.style.display = "flex";
       row.style.width = "100%";
@@ -140,7 +131,71 @@ export const createGuestbookUI = (scene: Phaser.Scene) => {
       row.appendChild(timeEl);
       messageList.appendChild(row);
     });
-  });
+  };
+
+  const renderPagination = () => {
+    pagination.innerHTML = "";
+    const totalPages = Math.ceil(allMessages.length / pageSize);
+
+    const createButton = (label: string, page?: number) => {
+      const btn = document.createElement("button");
+      btn.innerText = label;
+      btn.style.padding = "4px 10px";
+      btn.style.border = "1px solid #8b5e3c";
+      btn.style.borderRadius = "4px";
+      btn.style.background = page === currentPage ? "#8b5e3c" : "#fff";
+      btn.style.color = page === currentPage ? "#fff" : "#4b382a";
+      btn.style.cursor = "pointer";
+      if (page && page !== currentPage) {
+        btn.onclick = () => {
+          currentPage = page;
+          renderMessages(currentPage);
+          renderPagination();
+        };
+      }
+      return btn;
+    };
+
+    if (currentPage > 1)
+      pagination.appendChild(createButton("←", currentPage - 1));
+
+    const range = Math.min(5, totalPages);
+    let start = Math.max(1, currentPage - Math.floor(range / 2));
+    if (start + range - 1 > totalPages) start = totalPages - range + 1;
+
+    for (let i = start; i < start + range && i <= totalPages; i++) {
+      pagination.appendChild(createButton(i.toString(), i));
+    }
+
+    if (currentPage < totalPages)
+      pagination.appendChild(createButton("→", currentPage + 1));
+  };
+
+  let lastSubmitTime = 0;
+  submitButton.onclick = async () => {
+    const now = Date.now();
+    if (now - lastSubmitTime < 3000) {
+      alert("너무 빠르게 보내고 있어요. 잠시만 기다려주세요.");
+      return;
+    }
+
+    if (nameInput.value && messageInput.value) {
+      if (messageInput.value.length > 200) {
+        alert("메시지는 200자 이내로 작성해주세요.");
+        return;
+      }
+
+      await addMessage(nameInput.value, messageInput.value);
+      messageInput.value = "";
+      lastSubmitTime = now;
+      allMessages = await getAllMessages();
+      currentPage = 1;
+      renderMessages(currentPage);
+      renderPagination();
+    } else {
+      alert("이름과 메시지를 모두 입력해주세요.");
+    }
+  };
 
   closeButton.onclick = () => {
     container.remove();
@@ -152,8 +207,15 @@ export const createGuestbookUI = (scene: Phaser.Scene) => {
   container.appendChild(submitButton);
   container.appendChild(closeButton);
   container.appendChild(messageList);
+  container.appendChild(pagination);
 
   document.body.appendChild(container);
+
+  getAllMessages().then((data) => {
+    allMessages = data;
+    renderMessages(currentPage);
+    renderPagination();
+  });
 
   scene.events.on("shutdown", () => {
     container.remove();
