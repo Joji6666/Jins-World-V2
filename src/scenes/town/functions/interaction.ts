@@ -549,3 +549,43 @@ const updateHP = (
     }
   });
 };
+
+export const updateHPBarPosition = (
+  sprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody,
+  hpBar: Phaser.GameObjects.Graphics,
+  currentHP: number,
+  maxHP: number = 100
+) => {
+  const x = sprite.x - 25;
+  const y = sprite.y - 40;
+  const width = 50;
+  const height = 6;
+  const percentage = Phaser.Math.Clamp(currentHP / maxHP, 0, 1);
+
+  hpBar.clear();
+  hpBar.fillStyle(0x000000);
+  hpBar.fillRect(x - 1, y - 1, width + 2, height + 2);
+
+  hpBar.fillStyle(0xff0000);
+  hpBar.fillRect(x, y, width * percentage, height);
+};
+
+export const updateHPBar = (
+  sprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody,
+  hpBar: Phaser.GameObjects.Graphics,
+  currentHP: number,
+  maxHP: number = 100
+) => {
+  const x = sprite.x - 25;
+  const y = sprite.y - 40;
+  const width = 50;
+  const height = 6;
+  const percentage = Phaser.Math.Clamp(currentHP / maxHP, 0, 1);
+
+  hpBar.clear();
+  hpBar.fillStyle(0x000000);
+  hpBar.fillRect(x - 1, y - 1, width + 2, height + 2);
+
+  hpBar.fillStyle(0xff0000);
+  hpBar.fillRect(x, y, width * percentage, height);
+};

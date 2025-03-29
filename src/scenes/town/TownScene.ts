@@ -37,7 +37,7 @@ import {
   setPlayerWeaponInputs
 } from "../../shared/functions/keyboard_inputs";
 import { handleInteraction } from "../main/functions/interaction";
-import { updateMonster } from "./functions/interaction";
+import { updateHPBarPosition, updateMonster } from "./functions/interaction";
 import {
   createBossAnims,
   createHouseAnims,
@@ -247,6 +247,18 @@ export default class TownScene extends Phaser.Scene {
 
         this.monsters.forEach((monster) => {
           updateMonster(monster, player, this, wallLayer, treeLayer);
+          updateHPBarPosition(
+            monster.sprite,
+            monster.hpBar,
+            monster.hp,
+            monster.numbering === 1
+              ? 10
+              : monster.numbering === 2
+              ? 30
+              : monster.numbering === 3
+              ? 100
+              : 300
+          );
         });
       }
     }

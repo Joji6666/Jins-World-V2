@@ -1,5 +1,6 @@
 import type { Player } from "../../../shared/types";
 import { Monster, Plant } from "../types";
+import { updateHPBar, updateHPBarPosition } from "./interaction";
 
 export const createTownMap = (scene: Phaser.Scene): Phaser.Tilemaps.Tilemap => {
   const map = scene.make.tilemap({ key: "town-map" });
@@ -106,6 +107,20 @@ export const createOrc = (
     )
     .setOrigin(0.5, 0.5);
 
+  const hpBar = scene.add.graphics();
+  hpBar.setDepth(70);
+
+  const x = orc.x - 25;
+  const y = orc.y - 40;
+  const width = 50;
+  const height = 6;
+
+  hpBar.fillStyle(0x000000);
+  hpBar.fillRect(x - 1, y - 1, width + 2, height + 2);
+
+  hpBar.fillStyle(0xff0000);
+  hpBar.fillRect(x, y, width, height);
+
   scene.time.addEvent({
     delay: 16,
     loop: true,
@@ -117,7 +132,7 @@ export const createOrc = (
   monsters.push({
     sprite: orc,
     speed,
-    chaseRange: 200,
+    chaseRange: 300,
     attackRange,
     patrolPoints,
     patrolIndex: 0,
@@ -127,7 +142,8 @@ export const createOrc = (
     numbering,
     isHit: false,
     hp: numbering === 1 ? 10 : numbering === 2 ? 30 : 100,
-    monsterName
+    monsterName,
+    hpBar
   });
 
   return orc;
@@ -162,6 +178,9 @@ export const createBoss = (
     }
   });
 
+  const hpBar = scene.add.graphics();
+  hpBar.setDepth(70);
+
   monsters.push({
     sprite: boss,
     speed: 120,
@@ -175,7 +194,8 @@ export const createBoss = (
     numbering: 10,
     isHit: false,
     hp: 300,
-    monsterName
+    monsterName,
+    hpBar
   });
 
   return boss;

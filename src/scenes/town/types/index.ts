@@ -12,6 +12,7 @@ export interface Monster {
   numbering: number;
   hp: number;
   monsterName: Phaser.GameObjects.Text;
+  hpBar: Phaser.GameObjects.Graphics;
 }
 
 export interface Plant {

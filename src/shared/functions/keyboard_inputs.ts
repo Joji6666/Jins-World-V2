@@ -633,11 +633,11 @@ const handleMonsterHit = (
   monster: Monster,
   player: Player
 ): void => {
+  if (!monster.sprite.body) return;
   monster.isHit = true;
-  if (monster.sprite) {
-    monster.sprite.setVelocityX(0);
-    monster.sprite.setVelocityY(0);
-  }
+
+  monster.sprite.setVelocityX(0);
+  monster.sprite.setVelocityY(0);
 
   scene.cameras.main.shake(100, 0.02);
 
@@ -656,6 +656,7 @@ const handleMonsterHit = (
         `orc_${monster.numbering}_death_${monster.side}`,
         true
       );
+      monster.hpBar.destroy();
 
       scene.time.delayedCall(700, () => {
         monster.sprite.destroy();
