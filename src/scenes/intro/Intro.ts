@@ -50,14 +50,11 @@ export default class IntroScene extends Phaser.Scene {
     });
   }
 
-  create() {
+  createText() {
     if (this.isMobile()) {
       this.showMobileNotSupported();
       return;
     }
-  }
-
-  createText() {
     this.cameras.main.setBackgroundColor("#000000");
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
