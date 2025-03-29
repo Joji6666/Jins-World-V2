@@ -9,6 +9,12 @@ export default class IntroScene extends Phaser.Scene {
   private instructionText!: Phaser.GameObjects.Text;
   private selectIndex = 0;
 
+  private isMobile(): boolean {
+    const userAgent =
+      navigator.userAgent || navigator.vendor || (window as any).opera;
+    return /android|iphone|ipad|ipod/i.test(userAgent);
+  }
+
   constructor() {
     super("intro");
   }
@@ -42,6 +48,13 @@ export default class IntroScene extends Phaser.Scene {
         this.createText();
       }
     });
+  }
+
+  create() {
+    if (this.isMobile()) {
+      this.showMobileNotSupported();
+      return;
+    }
   }
 
   createText() {
@@ -116,5 +129,70 @@ export default class IntroScene extends Phaser.Scene {
         this.scene.start("character-select-scene", { language: this.language });
       }
     );
+  }
+
+  private showMobileNotSupported() {
+    this.cameras.main.setBackgroundColor("#000");
+
+    const { width, height } = this.scale;
+
+    this.add
+      .text(
+        width / 2,
+        height / 2 - 60,
+        "📱 이 페이지는 Phaser로 만든 웹게임입니다.",
+        {
+          fontFamily: "KoreanPixelFont",
+          fontSize: "28px",
+          color: "#ffffff"
+        }
+      )
+      .setOrigin(0.5);
+
+    this.add
+      .text(
+        width / 2,
+        height / 2 - 20,
+        "모바일은 미지원입니다. 죄송하지만 PC에서 접속해주세요!",
+        {
+          fontFamily: "KoreanPixelFont",
+          fontSize: "24px",
+          color: "#ff6666"
+        }
+      )
+      .setOrigin(0.5);
+
+    this.add
+      .text(
+        width / 2,
+        height / 2 + 30,
+        "아래 버튼을 눌러 이력서를 다운로드할 수 있어요.",
+        {
+          fontFamily: "KoreanPixelFont",
+          fontSize: "20px",
+          color: "#aaaaaa"
+        }
+      )
+      .setOrigin(0.5);
+
+    const downloadText = this.add
+      .text(width / 2, height / 2 + 80, "📄 이력서 다운로드", {
+        fontFamily: "KoreanPixelFont",
+        fontSize: "28px",
+        color: "#ffcc00",
+        backgroundColor: "#333",
+        padding: { x: 10, y: 5 }
+      })
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerover", () => {
+        downloadText.setStyle({ color: "#ffff66" });
+      })
+      .on("pointerout", () => {
+        downloadText.setStyle({ color: "#ffcc00" });
+      })
+      .on("pointerdown", () => {
+        downloadResume("/assets/resume.pdf");
+      });
   }
 }
