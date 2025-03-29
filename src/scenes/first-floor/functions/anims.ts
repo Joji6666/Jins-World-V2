@@ -96,6 +96,33 @@ export const createJinAnims = (scene: Phaser.Scene): void => {
       frameRate: 60,
       repeat: 0,
       sourceKey: "jin"
+    },
+
+    {
+      key: `jin_mobile`,
+      start: 24,
+      end: 24,
+      frameRate: 60,
+      repeat: 0,
+      sourceKey: "jin"
+    },
+
+    {
+      key: `jin_hair_mobile`,
+      start: 24,
+      end: 24,
+      frameRate: 60,
+      repeat: 0,
+      sourceKey: "jin_hair"
+    },
+
+    {
+      key: `jin_clothes_mobile`,
+      start: 24,
+      end: 24,
+      frameRate: 60,
+      repeat: 0,
+      sourceKey: "jin_clothes"
     }
   ];
 
