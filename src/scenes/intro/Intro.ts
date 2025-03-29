@@ -1,5 +1,6 @@
 import WebFont from "webfontloader";
 import { downloadResume } from "../first-floor/functions/dialogue";
+import { createJinAnims } from "../first-floor/functions/anims";
 
 export default class IntroScene extends Phaser.Scene {
   private language: "ko" | "en" = "ko";
@@ -40,6 +41,21 @@ export default class IntroScene extends Phaser.Scene {
 
     this.load.audio("sweep", "assets/sounds/sweep.wav");
 
+    this.load.spritesheet("jin", "/assets/jin/char.png", {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+
+    this.load.spritesheet("jin_hair", "/assets/jin/hair.png", {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+
+    this.load.spritesheet("jin_clothes", "/assets/jin/clothes.png", {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+
     WebFont.load({
       custom: {
         families: ["PixelFont", "TitlePixelFont", "KoreanPixelFont"]
@@ -55,6 +71,8 @@ export default class IntroScene extends Phaser.Scene {
       this.showMobileNotSupported();
       return;
     }
+
+    createJinAnims(this);
     this.cameras.main.setBackgroundColor("#000000");
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
