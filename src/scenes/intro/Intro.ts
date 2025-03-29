@@ -61,6 +61,7 @@ export default class IntroScene extends Phaser.Scene {
         families: ["PixelFont", "TitlePixelFont", "KoreanPixelFont"]
       },
       active: () => {
+        createJinAnims(this);
         this.createText();
       }
     });
@@ -72,7 +73,6 @@ export default class IntroScene extends Phaser.Scene {
       return;
     }
 
-    createJinAnims(this);
     this.cameras.main.setBackgroundColor("#000000");
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
