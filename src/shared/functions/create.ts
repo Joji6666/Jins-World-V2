@@ -115,3 +115,32 @@ export const createArrow = (
 
   return arrow;
 };
+
+export const createMuteToggleButton = (scene: Phaser.Scene): void => {
+  const savedMute = localStorage.getItem("isMuted") === "true";
+  scene.sound.mute = savedMute;
+
+  const muteButton = scene.add
+    .text(scene.cameras.main.width - 20, 20, savedMute ? "🔇" : "🔊", {
+      fontFamily: "KoreanPixelFont",
+      fontSize: "24px",
+      color: "#ffffff",
+      backgroundColor: "#333",
+      padding: { x: 10, y: 6 }
+    })
+    .setOrigin(1, 0)
+    .setScrollFactor(0)
+    .setDepth(999)
+    .setInteractive({ useHandCursor: true });
+
+  muteButton.on("pointerdown", () => {
+    const isMuted = !scene.sound.mute;
+    scene.sound.mute = isMuted;
+    localStorage.setItem("isMuted", String(isMuted));
+    muteButton.setText(isMuted ? "🔇" : "🔊");
+  });
+
+  scene.scale.on("resize", (gameSize: Phaser.Structs.Size) => {
+    muteButton.setX(gameSize.width - 20);
+  });
+};

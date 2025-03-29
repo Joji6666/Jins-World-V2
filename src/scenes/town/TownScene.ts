@@ -29,7 +29,11 @@ import {
   playerPreload,
   weaponPreload
 } from "../../shared/functions/preload";
-import { createHPBar, createPlayer } from "../../shared/functions/create";
+import {
+  createHPBar,
+  createMuteToggleButton,
+  createPlayer
+} from "../../shared/functions/create";
 import { Monster, Plant } from "./types";
 import { initPlayerCollider } from "../main/functions/collider";
 import {
@@ -219,6 +223,7 @@ export default class TownScene extends Phaser.Scene {
   create() {
     const map = createTownMap(this);
     const tileset = createTownTileset(map);
+    createMuteToggleButton(this);
 
     const bgm = this.sound.add("town_bgm", {
       volume: 0.35,

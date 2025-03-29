@@ -1,3 +1,4 @@
+import { createMuteToggleButton } from "../../shared/functions/create";
 import { createTitleTexts } from "./functions/create";
 import {
   allClothesPreload,
@@ -121,20 +122,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
 
     this.updateUI();
 
-    const muteButton = this.add
-      .text(this.cameras.main.width - 40, 20, this.sound.mute ? "🔇" : "🔊", {
-        fontFamily: "KoreanPixelFont",
-        fontSize: "24px",
-        color: "#ffffff",
-        backgroundColor: "#333",
-        padding: { x: 8, y: 4 }
-      })
-      .setOrigin(1, 0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        this.sound.mute = !this.sound.mute;
-        muteButton.setText(this.sound.mute ? "🔇" : "🔊");
-      });
+    createMuteToggleButton(this);
 
     createTitleTexts(this, language);
   }

@@ -3,6 +3,7 @@ import type RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
 import {
   createArrow,
   createLightEffect,
+  createMuteToggleButton,
   createPlayer
 } from "../../shared/functions/create";
 import { setPlayerInputs } from "../../shared/functions/keyboard_inputs";
@@ -89,6 +90,7 @@ export default class FirstFloorScene
     });
     createJinAnims(this);
     createCatAnims(this);
+    createMuteToggleButton(this);
     const arrow = createArrow(this, { x: 740, y: 820 });
 
     if (this.insertScene === "town") {

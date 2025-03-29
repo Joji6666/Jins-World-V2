@@ -24,6 +24,7 @@ import {
 import {
   createArrow,
   createLightEffect,
+  createMuteToggleButton,
   createPlayer
 } from "../../shared/functions/create";
 import {
@@ -84,6 +85,7 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
     const map = createMap(this);
     const tileset = createTileset(map);
     const language = this.data.get("language");
+    createMuteToggleButton(this);
 
     const bgm = this.sound.add("main_bgm", {
       volume: 0.35,
