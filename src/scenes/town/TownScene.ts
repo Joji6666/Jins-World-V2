@@ -46,6 +46,136 @@ import {
   createPlantAnims
 } from "./functions/anims";
 
+interface OrcSpawnData {
+  numbering: number;
+  spawn: { x: number; y: number };
+  speed: number;
+  attackRange: number;
+  patrolPoints?: { x: number; y: number }[];
+  initialDirection?: "left" | "right";
+}
+
+const orcSpawnList: OrcSpawnData[] = [
+  {
+    numbering: 1,
+    spawn: { x: 800, y: 900 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "right"
+  },
+  {
+    numbering: 1,
+    spawn: { x: 850, y: 900 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "left"
+  },
+  { numbering: 1, spawn: { x: 825, y: 850 }, speed: 50, attackRange: 50 },
+  { numbering: 1, spawn: { x: 900, y: 700 }, speed: 50, attackRange: 50 },
+  {
+    numbering: 1,
+    spawn: { x: 1700, y: 1400 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "right"
+  },
+  {
+    numbering: 1,
+    spawn: { x: 1800, y: 1350 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "left"
+  },
+  { numbering: 1, spawn: { x: 1750, y: 1300 }, speed: 50, attackRange: 50 },
+  { numbering: 1, spawn: { x: 1700, y: 1380 }, speed: 50, attackRange: 50 },
+  { numbering: 2, spawn: { x: 900, y: 900 }, speed: 70, attackRange: 70 },
+  {
+    numbering: 1,
+    spawn: { x: 2500, y: 1400 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "right"
+  },
+  {
+    numbering: 1,
+    spawn: { x: 2400, y: 1350 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "left"
+  },
+  { numbering: 1, spawn: { x: 2600, y: 1300 }, speed: 50, attackRange: 50 },
+  { numbering: 1, spawn: { x: 2500, y: 1380 }, speed: 50, attackRange: 50 },
+  { numbering: 2, spawn: { x: 2400, y: 1300 }, speed: 70, attackRange: 70 },
+  { numbering: 3, spawn: { x: 1700, y: 900 }, speed: 100, attackRange: 100 },
+  { numbering: 1, spawn: { x: 2600, y: 1600 }, speed: 50, attackRange: 50 },
+  { numbering: 1, spawn: { x: 2700, y: 1680 }, speed: 50, attackRange: 50 },
+  { numbering: 2, spawn: { x: 2650, y: 1640 }, speed: 70, attackRange: 70 },
+  {
+    numbering: 1,
+    spawn: { x: 2700, y: 2150 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "right"
+  },
+  {
+    numbering: 1,
+    spawn: { x: 2800, y: 2200 },
+    speed: 50,
+    attackRange: 50,
+    initialDirection: "left"
+  },
+  { numbering: 1, spawn: { x: 2600, y: 2050 }, speed: 50, attackRange: 50 },
+  { numbering: 1, spawn: { x: 2400, y: 2050 }, speed: 50, attackRange: 50 },
+  { numbering: 1, spawn: { x: 2650, y: 2100 }, speed: 50, attackRange: 50 },
+  { numbering: 2, spawn: { x: 2650, y: 2100 }, speed: 70, attackRange: 70 },
+  { numbering: 2, spawn: { x: 2350, y: 2000 }, speed: 70, attackRange: 70 },
+  { numbering: 3, spawn: { x: 2600, y: 2100 }, speed: 100, attackRange: 100 },
+  {
+    numbering: 3,
+    spawn: { x: 2200, y: 1600 },
+    speed: 100,
+    attackRange: 100,
+    patrolPoints: [
+      { x: 1100, y: 1100 },
+      { x: 3000, y: 2100 }
+    ]
+  },
+  {
+    numbering: 3,
+    spawn: { x: 900, y: 1700 },
+    speed: 100,
+    attackRange: 100,
+    patrolPoints: [
+      { x: 600, y: 800 },
+      { x: 1200, y: 1300 },
+      { x: 2200, y: 2300 }
+    ]
+  },
+  {
+    numbering: 3,
+    spawn: { x: 2300, y: 400 },
+    speed: 100,
+    attackRange: 100,
+    patrolPoints: [
+      { x: 500, y: 800 },
+      { x: 1500, y: 1600 },
+      { x: 2500, y: 2700 }
+    ]
+  },
+
+  {
+    numbering: 3,
+    spawn: { x: 800, y: 800 },
+    speed: 100,
+    attackRange: 100,
+    patrolPoints: [
+      { x: 300, y: 500 },
+      { x: 1100, y: 1000 },
+      { x: 2900, y: 2900 }
+    ]
+  }
+];
+
 export default class TownScene extends Phaser.Scene {
   private monsters: Monster[] = [];
   private plants: Plant[] = [];
@@ -111,64 +241,18 @@ export default class TownScene extends Phaser.Scene {
         treeLayer?.setCollisionBetween(1, 999);
 
         createBoss(this, this.monsters);
-        createOrc(
-          this,
-          1,
-          this.monsters,
-          [
-            { x: 600, y: 400 },
-            { x: 600, y: 500 },
-            { x: 800, y: 600 },
-            { x: 800, y: 700 }
-          ],
-          { x: 800, y: 900 },
-          50,
-          50
-        );
-        createOrc(
-          this,
-          1,
-          this.monsters,
-          [
-            { x: 450, y: -300 },
-            { x: 300, y: 200 },
-            { x: 400, y: 400 },
-            { x: 600, y: 300 }
-          ],
-          { x: 900, y: 700 },
-          50,
-          50
-        );
-
-        createOrc(
-          this,
-          2,
-          this.monsters,
-          [
-            { x: 550, y: -400 },
-            { x: 700, y: 200 },
-            { x: 600, y: 400 },
-            { x: 700, y: 300 }
-          ],
-          { x: 900, y: 900 },
-          70,
-          70
-        );
-
-        createOrc(
-          this,
-          3,
-          this.monsters,
-          [
-            { x: 650, y: -400 },
-            { x: 600, y: 800 },
-            { x: 600, y: 900 },
-            { x: 800, y: 800 }
-          ],
-          { x: 950, y: 700 },
-          100,
-          100
-        );
+        orcSpawnList.forEach((data) => {
+          createOrc(
+            this,
+            data.numbering,
+            this.monsters,
+            data.patrolPoints || [],
+            data.spawn,
+            data.speed,
+            data.attackRange,
+            data.initialDirection
+          );
+        });
 
         createPlant(this, this.plants);
 
@@ -193,6 +277,11 @@ export default class TownScene extends Phaser.Scene {
 
         this.physics.world.setBounds(0, 0, mapWidth, mapHeight);
         player.setCollideWorldBounds(true);
+
+        this.monsters.forEach((monster) => {
+          this.physics.add.collider(wallLayer, monster.sprite);
+          this.physics.add.collider(treeLayer, monster.sprite);
+        });
 
         if (this.input.keyboard) {
           setPlayerInputs(this, this.input.keyboard, player);
@@ -241,12 +330,8 @@ export default class TownScene extends Phaser.Scene {
       }
 
       if (this.monsters.length > 0) {
-        const wallLayer = this.data.get("wallLayer");
-
-        const treeLayer = this.data.get("treeLayer");
-
         this.monsters.forEach((monster) => {
-          updateMonster(monster, player, this, wallLayer, treeLayer);
+          updateMonster(monster, player, this);
           updateHPBarPosition(
             monster.sprite,
             monster.hpBar,

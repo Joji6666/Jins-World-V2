@@ -5,9 +5,7 @@ import { Player } from "../../../shared/types";
 export const updateMonster = (
   monster: Monster,
   player: Player,
-  scene: Phaser.Scene,
-  wallLayer: Phaser.Tilemaps.TilemapLayer,
-  wallObjectLayer: Phaser.Tilemaps.TilemapLayer
+  scene: Phaser.Scene
 ) => {
   const { sprite, chaseRange, attackRange } = monster;
   if (monster.isHit) return;
@@ -30,10 +28,11 @@ export const updateMonster = (
 
     attackPlayer(monster, player, scene);
   } else {
+    monster.isChase = false;
     patrolMovement(monster);
   }
 
-  checkWallCollision(monster, wallLayer, wallObjectLayer, scene);
+  // checkWallCollision(monster, wallLayer, wallObjectLayer, scene);
 
   if (!monster.isAttack) {
     if (monster.numbering < 7) {
@@ -64,6 +63,8 @@ const getMonsterDirection = (monster: Monster): string => {
 };
 
 const triggerMonsterEvent = (monster: Monster, direction: string) => {
+  if (!monster.isChase) return;
+
   switch (direction) {
     case "back":
       if (monster.numbering === 3) {
@@ -143,6 +144,7 @@ const chasePlayer = (monster: Monster, player: Player) => {
     player.y
   );
   monster.isAttack = false;
+  monster.isChase = true;
 
   monster.sprite.setVelocity(
     Math.cos(angle) * monster.speed,
@@ -153,26 +155,39 @@ const chasePlayer = (monster: Monster, player: Player) => {
 const patrolMovement = (monster: Monster) => {
   if (monster.numbering > 7) return;
   monster.isAttack = false;
+
   const { sprite, patrolPoints, speed } = monster;
   const target = patrolPoints[monster.patrolIndex];
-  const distance = Phaser.Math.Distance.Between(
-    sprite.x,
-    sprite.y,
-    target.x,
-    target.y
-  );
 
-  if (distance < 10) {
-    monster.patrolIndex = (monster.patrolIndex + 1) % patrolPoints.length;
+  if (target) {
+    monster.isChase = true;
+    const distance = Phaser.Math.Distance.Between(
+      sprite.x,
+      sprite.y,
+      target.x,
+      target.y
+    );
+
+    if (distance < 10) {
+      monster.patrolIndex = (monster.patrolIndex + 1) % patrolPoints.length;
+    }
+
+    const angle = Phaser.Math.Angle.Between(
+      sprite.x,
+      sprite.y,
+      target.x,
+      target.y
+    );
+    sprite.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
+  } else {
+    const idleKey = `orc_${monster.numbering}_idle_${monster.side}`;
+
+    if (sprite.anims.getName() !== idleKey) {
+      sprite.anims.play(idleKey, true);
+    }
+
+    sprite.setVelocity(0, 0);
   }
-
-  const angle = Phaser.Math.Angle.Between(
-    sprite.x,
-    sprite.y,
-    target.x,
-    target.y
-  );
-  sprite.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
 };
 
 const checkWallCollision = (
@@ -183,18 +198,24 @@ const checkWallCollision = (
 ) => {
   const { sprite, patrolPoints } = monster;
 
+  const camera = scene.cameras.main;
+  const left = camera.scrollX;
+  const right = camera.scrollX + camera.width;
+  const top = camera.scrollY;
+  const bottom = camera.scrollY + camera.height;
+
   if (scene.physics.world.collide(sprite, wallLayer || wallObjectLayer)) {
     reverseMonsterDirection(monster);
     updatePatrolRange(monster);
   }
 
   if (
-    sprite.x <= 0 ||
-    sprite.x >= scene.scale.width ||
-    sprite.y <= 0 ||
-    sprite.y >= scene.scale.height
+    sprite.x <= left ||
+    sprite.x >= right ||
+    sprite.y <= top ||
+    sprite.y >= bottom
   ) {
-    console.log("🌍 씬의 가장자리에 충돌!");
+    console.log("🌍 현재 카메라 시점 기준 가장자리에 충돌!");
 
     reverseMonsterDirection(monster);
     updatePatrolRange(monster);

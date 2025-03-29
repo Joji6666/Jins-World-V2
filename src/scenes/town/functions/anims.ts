@@ -8,7 +8,7 @@ export const createOrcAnims = (
       start: 0,
       end: 3,
       frameRate: 10,
-      repeat: 0,
+      repeat: -1,
       sourceKey: `orc_${numbering}_idle`
     },
     {
@@ -16,7 +16,7 @@ export const createOrcAnims = (
       start: 4,
       end: 7,
       frameRate: 10,
-      repeat: 0,
+      repeat: -1,
       sourceKey: `orc_${numbering}_idle`
     },
     {
@@ -24,7 +24,7 @@ export const createOrcAnims = (
       start: 8,
       end: 11,
       frameRate: 10,
-      repeat: 0,
+      repeat: -1,
       sourceKey: `orc_${numbering}_idle`
     },
     {
@@ -32,7 +32,7 @@ export const createOrcAnims = (
       start: 12,
       end: 15,
       frameRate: 10,
-      repeat: 0,
+      repeat: -1,
       sourceKey: `orc_${numbering}_idle`
     },
 

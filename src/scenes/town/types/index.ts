@@ -13,6 +13,7 @@ export interface Monster {
   hp: number;
   monsterName: Phaser.GameObjects.Text;
   hpBar: Phaser.GameObjects.Graphics;
+  isChase: boolean;
 }
 
 export interface Plant {

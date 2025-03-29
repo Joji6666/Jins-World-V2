@@ -38,8 +38,6 @@ export const createTownLayers = (
 
   scene.data.set("treeLayer", treeLayer);
 
-  console.log(treeTopLayer, "treeTopLayer");
-  console.log(treeTopChildLayer, "treeTopChildLayer");
   if (treeTopLayer && treeTopChildLayer) {
     treeTopLayer.setDepth(100);
     treeTopChildLayer.setDepth(100);
@@ -79,15 +77,15 @@ export const createOrc = (
   patrolPoints: { x: number; y: number }[],
   spawnPoint: { x: number; y: number },
   speed: number,
-  attackRange: number
+  attackRange: number,
+  direction: string = "front"
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
   const orc = scene.physics.add.sprite(
     spawnPoint.x,
     spawnPoint.y,
-    `orc_${numbering}_idle_front`
+    `orc_${numbering}_idle_${direction}`
   );
 
-  orc.body.immovable = true;
   orc.setCollideWorldBounds(true);
   orc.body.offset.y = 7;
   orc.scale = 2;
@@ -110,17 +108,6 @@ export const createOrc = (
   const hpBar = scene.add.graphics();
   hpBar.setDepth(70);
 
-  const x = orc.x - 25;
-  const y = orc.y - 40;
-  const width = 50;
-  const height = 6;
-
-  hpBar.fillStyle(0x000000);
-  hpBar.fillRect(x - 1, y - 1, width + 2, height + 2);
-
-  hpBar.fillStyle(0xff0000);
-  hpBar.fillRect(x, y, width, height);
-
   scene.time.addEvent({
     delay: 16,
     loop: true,
@@ -132,18 +119,19 @@ export const createOrc = (
   monsters.push({
     sprite: orc,
     speed,
-    chaseRange: 300,
+    chaseRange: 500,
     attackRange,
     patrolPoints,
     patrolIndex: 0,
-    side: "front",
+    side: direction,
     isAttack: false,
-    lastDirection: "front",
+    lastDirection: direction,
     numbering,
     isHit: false,
     hp: numbering === 1 ? 10 : numbering === 2 ? 30 : 100,
     monsterName,
-    hpBar
+    hpBar,
+    isChase: false
   });
 
   return orc;
@@ -153,7 +141,7 @@ export const createBoss = (
   scene: Phaser.Scene,
   monsters: Monster[]
 ): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody => {
-  const boss = scene.physics.add.sprite(1200, 400, `boss_idle_left`);
+  const boss = scene.physics.add.sprite(2600, 1945, `boss_idle_left`);
 
   boss.body.immovable = true;
   boss.setCollideWorldBounds(true);
@@ -185,7 +173,7 @@ export const createBoss = (
     sprite: boss,
     speed: 120,
     chaseRange: 300,
-    attackRange: 550,
+    attackRange: 750,
     patrolPoints: [],
     patrolIndex: 0,
     side: "right",
@@ -193,9 +181,10 @@ export const createBoss = (
     lastDirection: "right",
     numbering: 10,
     isHit: false,
-    hp: 300,
+    hp: 200,
     monsterName,
-    hpBar
+    hpBar,
+    isChase: false
   });
 
   return boss;

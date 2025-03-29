@@ -7,16 +7,10 @@ interface DialogConfig {
   height?: number;
 }
 
-/**
- * RexUI가 scene.rexUI로 접근 가능하도록 Scene을 확장
- */
 export interface RexUIScene extends Phaser.Scene {
   rexUI: RexUIPlugin;
 }
 
-/**
- * 대화창을 생성한다
- */
 export const createTextBox = (
   scene: RexUIScene,
   config: DialogConfig = {}
@@ -54,7 +48,8 @@ export const createTextBox = (
       },
       align: { text: "left" }
     })
-    .layout();
+    .layout()
+    .setDepth(3000);
 };
 
 /**
