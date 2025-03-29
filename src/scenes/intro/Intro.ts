@@ -1,4 +1,5 @@
 import WebFont from "webfontloader";
+import { downloadResume } from "../first-floor/functions/dialogue";
 
 export default class IntroScene extends Phaser.Scene {
   private language: "ko" | "en" = "ko";
@@ -6,6 +7,7 @@ export default class IntroScene extends Phaser.Scene {
   private koreanText!: Phaser.GameObjects.Text;
   private englishText!: Phaser.GameObjects.Text;
   private instructionText!: Phaser.GameObjects.Text;
+  private selectIndex = 0;
 
   constructor() {
     super("intro");
@@ -53,31 +55,23 @@ export default class IntroScene extends Phaser.Scene {
     bg.setAlpha(0.7);
 
     this.add
-      .text(centerX, centerY - 100, "WELCOME TO JIN'S WORLD", {
+      .text(centerX, centerY - 50, "WELCOME TO JIN'S WORLD", {
         fontFamily: "KoreanPixelFont",
         fontSize: "64px",
         color: "#ffe066"
       })
       .setOrigin(0.5, 0.5);
 
-    this.languageTitle = this.add
-      .text(centerX, centerY, "언어를 선택하세요", {
-        fontFamily: "KoreanPixelFont",
-        fontSize: "36px",
-        color: "#BFFF00"
-      })
-      .setOrigin(0.5, 0.5);
-
-    this.koreanText = this.add
-      .text(centerX - 100, centerY + 50, "🇰🇷 한국어", {
+    const gameStartText = this.add
+      .text(centerX - 150, centerY + 50, "게임시작", {
         fontFamily: "KoreanPixelFont",
         fontSize: "36px",
         color: "#ffcc00"
       })
       .setOrigin(0.5, 0.5);
 
-    this.englishText = this.add
-      .text(centerX + 100, centerY + 50, "🇺🇸 ENGLISH", {
+    const resumeText = this.add
+      .text(centerX + 100, centerY + 50, "이력서 다운로드", {
         fontFamily: "KoreanPixelFont",
         fontSize: "36px",
         color: "#F0F8FF	"
@@ -85,35 +79,32 @@ export default class IntroScene extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
 
     this.instructionText = this.add
-      .text(centerX, centerY + 100, "스페이스바를 입력하여 진행하세요.", {
+      .text(centerX, centerY + 150, "스페이스바를 입력하여 진행하세요.", {
         fontFamily: "KoreanPixelFont",
-        fontSize: "28px",
+        fontSize: "36px",
         color: "#BFFF00"
       })
       .setOrigin(0.5, 0.5);
 
     if (this.input.keyboard) {
-      this.input.keyboard.on("keydown-LEFT", () => this.switchLanguage("ko"));
-      this.input.keyboard.on("keydown-RIGHT", () => this.switchLanguage("en"));
-      this.input.keyboard.on("keydown-SPACE", () =>
-        this.startCharSelectScene()
-      );
-    }
-  }
+      this.input.keyboard.on("keydown-LEFT", () => {
+        this.selectIndex = 0;
+        gameStartText.setColor("#ffcc00");
+        resumeText.setColor("#F0F8FF");
+      });
 
-  switchLanguage(language: "ko" | "en") {
-    this.language = language;
-
-    if (language === "ko") {
-      this.languageTitle.setText("언어를 선택하세요");
-      this.koreanText.setColor("#ffcc00");
-      this.englishText.setColor("#ffffff");
-      this.instructionText.setText("스페이스바를 입력하여 진행하세요.");
-    } else {
-      this.languageTitle.setText("SELECT LANGUAGE");
-      this.koreanText.setColor("#ffffff");
-      this.englishText.setColor("#ffcc00");
-      this.instructionText.setText("PRESS SPACE TO CONTINUE.");
+      this.input.keyboard.on("keydown-RIGHT", () => {
+        this.selectIndex = 1;
+        resumeText.setColor("#ffcc00");
+        gameStartText.setColor("#F0F8FF");
+      });
+      this.input.keyboard.on("keydown-SPACE", () => {
+        if (this.selectIndex === 1) {
+          downloadResume("/assets/resume.pdf");
+        } else {
+          this.startCharSelectScene();
+        }
+      });
     }
   }
 
