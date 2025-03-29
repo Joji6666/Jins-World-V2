@@ -84,6 +84,25 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
     const map = createMap(this);
     const tileset = createTileset(map);
     const language = this.data.get("language");
+
+    const bgm = this.sound.add("main_bgm", {
+      volume: 0.35,
+      loop: true
+    });
+
+    if (this.insertScene === "intro") {
+      bgm.play();
+    }
+
+    this.data.set("mainBgm", bgm);
+
+    const flapSound = this.sound.add("flap", {
+      volume: 0.9,
+      loop: false
+    });
+
+    this.data.set("flapSound", flapSound);
+
     createPlayerAnims(this);
     createArrowAnims(this);
     createWeaponAnims(this);
@@ -215,11 +234,24 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
 
     player.update();
     if (player.x > 881 && player.x < 883 && player.y > 317 && player.y < 319) {
+      const bgm:
+        | Phaser.Sound.NoAudioSound
+        | Phaser.Sound.HTML5AudioSound
+        | Phaser.Sound.WebAudioSound = this.data.get("mainBgm");
+
+      const flapSound:
+        | Phaser.Sound.NoAudioSound
+        | Phaser.Sound.HTML5AudioSound
+        | Phaser.Sound.WebAudioSound = this.data.get("flapSound");
+
+      flapSound.play();
       this.scene.start("first-floor", {
         hairIndex: this.selectedHairIndex,
         clothesIndex: this.selectedClothesIndex,
         language: this.data.get("language"),
-        insertScene: "main"
+        insertScene: "main",
+        bgm,
+        flapSound
       });
     }
 
@@ -251,13 +283,18 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
       if (distance < 90) {
         if (!this.data.get("booksBubble")) {
           const booksBubble = this.add
-            .text(booksLightEffect.x, booksLightEffect.y - 50, "PRESS SPACE", {
-              fontFamily: "KoreanPixelFont",
-              fontSize: "20px",
-              color: "#ffffff",
-              backgroundColor: "#000000",
-              padding: { x: 8, y: 4 }
-            })
+            .text(
+              booksLightEffect.x,
+              booksLightEffect.y - 50,
+              "스페이스바를 눌러보세요!",
+              {
+                fontFamily: "KoreanPixelFont",
+                fontSize: "20px",
+                color: "#ffffff",
+                backgroundColor: "#000000",
+                padding: { x: 8, y: 4 }
+              }
+            )
             .setOrigin(0.5)
             .setDepth(15)
             .setVisible(true);
@@ -290,7 +327,7 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
             .text(
               macbookLightEffect.x,
               macbookLightEffect.y - 50,
-              "PRESS SPACE",
+              "스페이스바를 눌러보세요!",
               {
                 fontFamily: "KoreanPixelFont",
                 fontSize: "20px",

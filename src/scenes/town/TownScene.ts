@@ -104,11 +104,11 @@ const orcSpawnList: OrcSpawnData[] = [
     initialDirection: "left"
   },
   { numbering: 1, spawn: { x: 2600, y: 1300 }, speed: 50, attackRange: 50 },
-  { numbering: 1, spawn: { x: 2500, y: 1380 }, speed: 50, attackRange: 50 },
+
   { numbering: 2, spawn: { x: 2400, y: 1300 }, speed: 70, attackRange: 70 },
   { numbering: 3, spawn: { x: 1700, y: 900 }, speed: 100, attackRange: 100 },
   { numbering: 1, spawn: { x: 2600, y: 1600 }, speed: 50, attackRange: 50 },
-  { numbering: 1, spawn: { x: 2700, y: 1680 }, speed: 50, attackRange: 50 },
+
   { numbering: 2, spawn: { x: 2650, y: 1640 }, speed: 70, attackRange: 70 },
   {
     numbering: 1,
@@ -129,7 +129,7 @@ const orcSpawnList: OrcSpawnData[] = [
   { numbering: 1, spawn: { x: 2650, y: 2100 }, speed: 50, attackRange: 50 },
   { numbering: 2, spawn: { x: 2650, y: 2100 }, speed: 70, attackRange: 70 },
   { numbering: 2, spawn: { x: 2350, y: 2000 }, speed: 70, attackRange: 70 },
-  { numbering: 3, spawn: { x: 2600, y: 2100 }, speed: 100, attackRange: 100 },
+
   {
     numbering: 3,
     spawn: { x: 2200, y: 1600 },
@@ -186,11 +186,20 @@ export default class TownScene extends Phaser.Scene {
     super("town-scene");
   }
 
-  init(data: { language: string; hairIndex: number; clothesIndex: number }) {
+  init(data: {
+    language: string;
+    hairIndex: number;
+    clothesIndex: number;
+    doorSound:
+      | Phaser.Sound.NoAudioSound
+      | Phaser.Sound.HTML5AudioSound
+      | Phaser.Sound.WebAudioSound;
+  }) {
     this.data.set("language", data.language);
     this.selectedHairIndex = data.hairIndex;
     this.selectedClothesIndex = data.clothesIndex;
     this.monsters = [];
+    this.data.set("doorSound", data.doorSound);
   }
 
   preload() {
@@ -210,6 +219,44 @@ export default class TownScene extends Phaser.Scene {
   create() {
     const map = createTownMap(this);
     const tileset = createTownTileset(map);
+
+    const bgm = this.sound.add("town_bgm", {
+      volume: 0.35,
+      loop: true
+    });
+
+    bgm.play();
+
+    const playerHurtSound = this.sound.add("hurt", {
+      volume: 0.8,
+      loop: false
+    });
+
+    const playerDeathSound = this.sound.add("death", {
+      volume: 0.8,
+      loop: false
+    });
+
+    const playerSweepSound = this.sound.add("sweep", {
+      volume: 0.8,
+      loop: false
+    });
+
+    const bossAttackSound = this.sound.add("boss_attack", {
+      volume: 0.6,
+      loop: false
+    });
+
+    this.data.set("playerHurtSound", playerHurtSound);
+
+    this.data.set("playerDeathSound", playerDeathSound);
+
+    this.data.set("playerSweepSound", playerSweepSound);
+
+    this.data.set("bossAttackSound", bossAttackSound);
+
+    this.data.set("townBgm", bgm);
+
     createPlayerAnims(this);
 
     createWeaponAnims(this);
@@ -254,8 +301,6 @@ export default class TownScene extends Phaser.Scene {
           );
         });
 
-        createPlant(this, this.plants);
-
         const mapWidth = map.widthInPixels;
         const mapHeight = map.heightInPixels;
 
@@ -284,8 +329,25 @@ export default class TownScene extends Phaser.Scene {
         });
 
         if (this.input.keyboard) {
+          const swordSwingSound = this.sound.add("sword_swing", {
+            volume: 0.8,
+            loop: false
+          });
+
+          const swordHitSound = this.sound.add("sword_hit", {
+            volume: 0.8,
+            loop: false
+          });
+
           setPlayerInputs(this, this.input.keyboard, player);
-          setPlayerWeaponInputs(this, this.input.keyboard, this.monsters);
+          setPlayerWeaponInputs(
+            this,
+            this.input.keyboard,
+            this.monsters,
+            swordSwingSound,
+            swordHitSound,
+            playerSweepSound
+          );
         }
       }
     }
@@ -321,6 +383,15 @@ export default class TownScene extends Phaser.Scene {
         player.y > 400 &&
         player.y < 410
       ) {
+        const townBgm = this.data.get("townBgm");
+        townBgm.stop();
+        const doorSound:
+          | Phaser.Sound.NoAudioSound
+          | Phaser.Sound.HTML5AudioSound
+          | Phaser.Sound.WebAudioSound = this.data.get("doorSound");
+
+        doorSound.play();
+
         this.scene.start("first-floor", {
           hairIndex: this.selectedHairIndex,
           clothesIndex: this.selectedClothesIndex,
@@ -341,8 +412,8 @@ export default class TownScene extends Phaser.Scene {
               : monster.numbering === 2
               ? 30
               : monster.numbering === 3
-              ? 100
-              : 300
+              ? 50
+              : 200
           );
         });
       }

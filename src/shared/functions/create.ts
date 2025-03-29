@@ -79,6 +79,7 @@ export const createHPBar = (
     heart.setScrollFactor(0);
 
     heart.anims.play("heart_idle");
+    heart.setDepth(500);
 
     hearts.push(heart);
   }

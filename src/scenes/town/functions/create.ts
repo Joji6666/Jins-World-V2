@@ -128,7 +128,7 @@ export const createOrc = (
     lastDirection: direction,
     numbering,
     isHit: false,
-    hp: numbering === 1 ? 10 : numbering === 2 ? 30 : 100,
+    hp: numbering === 1 ? 10 : numbering === 2 ? 30 : 50,
     monsterName,
     hpBar,
     isChase: false
@@ -146,12 +146,12 @@ export const createBoss = (
   boss.body.immovable = true;
   boss.setCollideWorldBounds(true);
   boss.body.offset.y = 7;
-  boss.scale = 2;
+  boss.scale = 2.5;
   scene.data.set("boss", boss);
 
   const monsterName = scene.add
     .text(boss.x, boss.y - 70, "500_Boss", {
-      fontSize: "14px",
+      fontSize: "18px",
       color: "#FFFFFF",
       fontStyle: "bold",
       fontFamily: "KoreanPixelFont"

@@ -19,6 +19,13 @@ export const createTextBox = (
   const width = scene.scale.width - margin * 2;
   const height = config.height ?? 150;
 
+  const sound = scene.sound.add("textbox", {
+    volume: 0.8,
+    loop: false
+  });
+
+  sound.play();
+
   const background = scene.rexUI.add
     .roundRectangle(0, 0, 0, 0, 20, 0xf5f0e6, 0.8)
     .setStrokeStyle(3, 0x8b5e3c);

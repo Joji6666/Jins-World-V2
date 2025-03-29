@@ -297,7 +297,19 @@ export const setPlayerInputs = (
 export const setPlayerWeaponInputs = (
   scene: Phaser.Scene,
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin,
-  monsters: Monster[]
+  monsters: Monster[],
+  swordSwingSound:
+    | Phaser.Sound.NoAudioSound
+    | Phaser.Sound.HTML5AudioSound
+    | Phaser.Sound.WebAudioSound,
+  swordHitSound:
+    | Phaser.Sound.NoAudioSound
+    | Phaser.Sound.HTML5AudioSound
+    | Phaser.Sound.WebAudioSound,
+  playerSweepSound:
+    | Phaser.Sound.NoAudioSound
+    | Phaser.Sound.HTML5AudioSound
+    | Phaser.Sound.WebAudioSound
 ): void => {
   keyboard.on("keydown-P", () => {
     const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
@@ -371,20 +383,14 @@ export const setPlayerWeaponInputs = (
 
   keyboard.on("keydown-SPACE", () => {
     const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
-
-    console.log(
-      player.isHit,
-      player.isBackStep,
-      player.isAttack,
-      player.isAttackReady
-    );
+    swordSwingSound.play();
 
     if (player.isHit) return;
     if (player.isBackStep) return;
     if (player.isAttack) return;
     if (!player.isAttackReady) return;
 
-    playerAttack(scene, monsters);
+    playerAttack(scene, monsters, swordHitSound);
   });
 
   keyboard.on("keydown-C", () => {
@@ -410,6 +416,8 @@ export const setPlayerWeaponInputs = (
     hair.anims.play(`hair_${playerWeaponStatus}_retreat_${playerSide}`);
     sword.anims.play(`sword_retreat_${playerSide}`);
     player.isBackStep = true;
+
+    playerSweepSound.play();
 
     switch (playerSide) {
       case PLAYER_SIDE_KEYS.FRONT:
@@ -511,7 +519,14 @@ const setPlayerAndWeaponDepth = (
   }
 };
 
-const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
+const playerAttack = (
+  scene: Phaser.Scene,
+  monsters: Monster[],
+  swordHitSound:
+    | Phaser.Sound.NoAudioSound
+    | Phaser.Sound.HTML5AudioSound
+    | Phaser.Sound.WebAudioSound
+) => {
   const player: Player = scene.data.get(PLAYER_KEYS.PLAYER);
   const playerSide = scene.data.get(PLAYER_KEYS.PLAYER_SIDE);
   const playerWeaponStatus = scene.data.get(PLAYER_KEYS.PLAYER_WEAPON_STATUS);
@@ -558,7 +573,7 @@ const playerAttack = (scene: Phaser.Scene, monsters: Monster[]) => {
           monster.sprite.y
         )
       ) {
-        handleMonsterHit(scene, monster, player);
+        handleMonsterHit(scene, monster, player, swordHitSound);
       }
     });
 
@@ -631,10 +646,15 @@ const getAttackRange = (
 const handleMonsterHit = (
   scene: Phaser.Scene,
   monster: Monster,
-  player: Player
+  player: Player,
+  swordHitSound:
+    | Phaser.Sound.NoAudioSound
+    | Phaser.Sound.HTML5AudioSound
+    | Phaser.Sound.WebAudioSound
 ): void => {
   if (!monster.sprite.body) return;
   monster.isHit = true;
+  swordHitSound.play();
 
   monster.sprite.setVelocityX(0);
   monster.sprite.setVelocityY(0);
@@ -668,8 +688,8 @@ const handleMonsterHit = (
       monster.sprite.anims.play(`boss_death_${monster.side}`, true);
       monster.sprite.destroy();
       monster.monsterName.destroy();
-      scene.game.pause();
-      scene.add.text(500, 500, "Clear!");
+
+      handleGameClear(scene, player, "front");
     }
   } else {
     monster.hp = monster.hp - 10;
@@ -751,4 +771,41 @@ const createCooldownBar = (scene: Phaser.Scene, player: Player): void => {
       cooldownContainer.destroy();
     }
   });
+};
+
+const handleGameClear = (
+  scene: Phaser.Scene,
+  player: Player,
+  direction: string
+) => {
+  if (scene.input.keyboard) {
+    scene.input.keyboard.enabled = false;
+    scene.data.get("townBgm").stop();
+    const gameClearText = scene.add
+      .text(
+        scene.cameras.main.width / 2,
+        scene.cameras.main.height / 2,
+        "GAME CLEAR\n축하드립니다!\n 에러 마왕을 무찔렀습니다!\n스페이스바를 입력해 재시작 할 수 있습니다.",
+        {
+          fontSize: "32px",
+          fontFamily: "KoreanPixelFont",
+          color: "#ffffff",
+          align: "center"
+        }
+      )
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setStroke("#000000", 3);
+
+    scene.time.delayedCall(2000, () => {
+      if (scene.input.keyboard) {
+        scene.input.keyboard.once("keydown-SPACE", () => {
+          scene.cameras.main.fadeIn(1000, 0, 0, 0);
+          scene.scene.start("intro");
+        });
+
+        scene.input.keyboard.enabled = true;
+      }
+    });
+  }
 };

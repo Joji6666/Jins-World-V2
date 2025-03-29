@@ -346,7 +346,11 @@ const createBossAttackParticle = (
 ) => {
   const particle = scene.physics.add
     .sprite(boss.sprite.x, boss.sprite.y, "boss_attack_particle")
-    .setScale(0.15);
+    .setScale(0.12);
+
+  const bossAttackSound = scene.data.get("bossAttackSound");
+
+  bossAttackSound.play();
 
   particle.anims.play("boss_attack_particle");
 
@@ -458,6 +462,7 @@ const triggerAttackEvent = (
       });
     }
   });
+  scene.data.get("playerHurtSound").play();
 
   scene.time.delayedCall(350, () => {
     player.anims.play(`char_${getPlayerPosition(monster.lastDirection)}`, true);
@@ -469,9 +474,12 @@ const triggerAttackEvent = (
     hair.anims.play(`hair_${getPlayerPosition(monster.lastDirection)}`);
     if (player.hp - 10 === 0) {
       updateHP(hearts, player.hp - 10);
+      scene.data.get("playerDeathSound").play();
+      scene.data.get("townBgm").stop();
       handleGameOver(scene, player, getPlayerPosition(monster.lastDirection));
       return;
     }
+
     player.hp = player.hp - 10;
     updateHP(hearts, player.hp);
     player.isHit = false;
@@ -502,16 +510,17 @@ const handleGameOver = (
       .text(
         scene.cameras.main.width / 2,
         scene.cameras.main.height / 2,
-        "Game Over\nPress SPACE to Restart",
+        "Game Over\n 스페이스바를 입력해 재시작 할 수 있습니다.",
         {
           fontSize: "32px",
-          fontFamily: "Arial",
+          fontFamily: "KoreanPixelFont",
           color: "#ff0000",
           align: "center"
         }
       )
       .setOrigin(0.5)
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setStroke("#000000", 3);
 
     scene.time.delayedCall(2000, () => {
       if (scene.input.keyboard) {

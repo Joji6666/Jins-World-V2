@@ -13,6 +13,24 @@ export default class IntroScene extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "/assets/intro.webp");
+    this.load.audio("main_bgm", "assets/sounds/main_bgm.mp3");
+    this.load.audio("boss_bgm", "assets/sounds/boss_bgm.mp3");
+    this.load.audio("town_bgm", "assets/sounds/town_bgm.mp3");
+    this.load.audio("hurt", "assets/sounds/hurt.wav");
+    this.load.audio("select", "assets/sounds/select.wav");
+    this.load.audio("sword_swing", "assets/sounds/sword_swing.wav");
+    this.load.audio("sword_hit", "assets/sounds/sword_hit.wav");
+
+    this.load.audio("textbox", "assets/sounds/textbox.wav");
+    this.load.audio("death", "assets/sounds/death.wav");
+
+    this.load.audio("boss_attack", "assets/sounds/boss_attack.wav");
+
+    this.load.audio("door", "assets/sounds/door.mp3");
+
+    this.load.audio("flap", "assets/sounds/walk.wav");
+
+    this.load.audio("sweep", "assets/sounds/sweep.wav");
 
     WebFont.load({
       custom: {

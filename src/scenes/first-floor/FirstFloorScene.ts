@@ -57,11 +57,21 @@ export default class FirstFloorScene
     hairIndex: number;
     clothesIndex: number;
     insertScene: string;
+    bgm:
+      | Phaser.Sound.NoAudioSound
+      | Phaser.Sound.HTML5AudioSound
+      | Phaser.Sound.WebAudioSound;
+    flapSound:
+      | Phaser.Sound.NoAudioSound
+      | Phaser.Sound.HTML5AudioSound
+      | Phaser.Sound.WebAudioSound;
   }) {
     this.data.set("language", data.language);
     this.selectedHairIndex = data.hairIndex;
     this.selectedClothesIndex = data.clothesIndex;
     this.insertScene = data.insertScene;
+    this.data.set("mainBgm", data.bgm);
+    this.data.set("flapSound", data.flapSound);
   }
 
   preload() {
@@ -80,6 +90,24 @@ export default class FirstFloorScene
     createJinAnims(this);
     createCatAnims(this);
     const arrow = createArrow(this, { x: 740, y: 820 });
+
+    if (this.insertScene === "town") {
+      const bgm = this.sound.add("main_bgm", {
+        volume: 0.35,
+        loop: true
+      });
+
+      bgm.play();
+
+      this.data.set("mainBgm", bgm);
+    }
+
+    const doorSound = this.sound.add("door", {
+      volume: 0.5,
+      loop: false
+    });
+
+    this.data.set("doorSound", doorSound);
 
     const board = this.physics.add.image(1000, 520, "board");
     board.depth = 30;
@@ -159,6 +187,13 @@ export default class FirstFloorScene
                 "떠나기"
               ],
               (choice) => {
+                const sound = this.sound.add("select", {
+                  volume: 0.6,
+                  loop: false
+                });
+
+                sound.play();
+
                 switch (choice) {
                   case "자기소개 보기":
                     showModalWithIframe(
@@ -251,10 +286,35 @@ export default class FirstFloorScene
     hair.y = player.y;
 
     if (player.y > 907) {
-      this.scene.start("town-scene");
+      const bgm:
+        | Phaser.Sound.NoAudioSound
+        | Phaser.Sound.HTML5AudioSound
+        | Phaser.Sound.WebAudioSound = this.data.get("mainBgm");
+
+      bgm.stop();
+
+      const doorSound:
+        | Phaser.Sound.NoAudioSound
+        | Phaser.Sound.HTML5AudioSound
+        | Phaser.Sound.WebAudioSound = this.data.get("doorSound");
+
+      doorSound.play();
+
+      this.scene.start("town-scene", {
+        hairIndex: this.selectedHairIndex,
+        clothesIndex: this.selectedClothesIndex,
+        language: this.data.get("language"),
+        doorSound
+      });
     }
 
     if (player.x > 876 && player.y <= 222) {
+      const flapSound:
+        | Phaser.Sound.NoAudioSound
+        | Phaser.Sound.HTML5AudioSound
+        | Phaser.Sound.WebAudioSound = this.data.get("flapSound");
+
+      flapSound.play();
       this.scene.start("main", {
         hairIndex: this.selectedHairIndex,
         clothesIndex: this.selectedClothesIndex,
@@ -274,9 +334,9 @@ export default class FirstFloorScene
       if (distance < 50) {
         if (!this.data.get("catBubble")) {
           const catBubble = this.add
-            .text(octocat.x, octocat.y - 80, "Go GitHub!", {
-              fontFamily: "PixelFont",
-              fontSize: "20px",
+            .text(octocat.x, octocat.y - 80, "GitHub 보러가기", {
+              fontFamily: "KoreanPixelFont",
+              fontSize: "18px",
               color: "#ffffff",
               backgroundColor: "#000000",
               padding: { x: 8, y: 4 }

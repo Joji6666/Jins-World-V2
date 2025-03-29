@@ -171,7 +171,7 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
     });
 
     const speechBubble = scene.add
-      .text(item.x, item.y - 50, "PRESS SPACE", {
+      .text(item.x, item.y - 50, "스페이스바를 눌러보세요!", {
         fontFamily: "PixelFont",
         fontSize: "12px",
         color: "#ffffff",

@@ -141,7 +141,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
       this.selectedClothesIndex = Phaser.Math.Clamp(
         this.selectedClothesIndex + direction,
         1,
-        5
+        4
       );
       this.clothes.setTexture(`clothes_${this.selectedClothesIndex}_front`);
     }
