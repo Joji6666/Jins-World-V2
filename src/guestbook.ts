@@ -10,7 +10,29 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
+const badWords = [
+  "시발",
+  "씨발",
+  "섹스",
+  "개새끼",
+  "병신",
+  "fuck",
+  "지랄",
+  "존나",
+  "ㅅㅂ",
+  "sex"
+];
+
+const containsBadWords = (text: string): boolean => {
+  return badWords.some((word) => text.includes(word));
+};
+
 export const addMessage = async (name: string, message: string) => {
+  if (containsBadWords(name) || containsBadWords(message)) {
+    alert("비속어가 포함되어 있습니다. 수정 후 다시 시도해주세요.");
+    return;
+  }
+
   try {
     await addDoc(collection(db, "guestbook"), {
       name: name,
