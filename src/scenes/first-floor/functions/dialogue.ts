@@ -160,23 +160,35 @@ export const showOptions = (
   if (scene.input.keyboard) {
     const inputKeys = scene.input.keyboard.createCursorKeys();
 
-    const navigate = () => {
+    const navigate = (dir: number) => {
+      if (!buttons[selectedIndex]) return;
+
       unhighlightButton(buttons[selectedIndex]);
 
-      if (inputKeys.up.isDown) {
-        selectedIndex = (selectedIndex - 1 + buttons.length) % buttons.length;
-      } else if (inputKeys.down.isDown) {
-        selectedIndex = (selectedIndex + 1) % buttons.length;
-      }
+      selectedIndex = (selectedIndex + dir + buttons.length) % buttons.length;
 
-      highlightButton(buttons[selectedIndex]);
+      if (buttons[selectedIndex]) {
+        highlightButton(buttons[selectedIndex]);
+      }
     };
 
-    scene.input.keyboard.on("keydown-UP", navigate);
-    scene.input.keyboard.on("keydown-DOWN", navigate);
-    scene.input.keyboard.on("keydown-ENTER", () => {
-      const selected = buttons[selectedIndex];
-      onSelect(selected.getElement("text").text);
+    const handleUp = () => navigate(-1);
+    const handleDown = () => navigate(1);
+    const handleEnter = () => {
+      const isTalking = scene.data.get("isTalking");
+      if (isTalking && buttons[selectedIndex]) {
+        onSelect(buttons[selectedIndex].getElement("text").text);
+      }
+    };
+
+    scene.input.keyboard.on("keydown-UP", handleUp);
+    scene.input.keyboard.on("keydown-DOWN", handleDown);
+    scene.input.keyboard.on("keydown-ENTER", handleEnter);
+
+    scene.data.set("optionKeyEvents", {
+      up: handleUp,
+      down: handleDown,
+      enter: handleEnter
     });
 
     scene.data.set("optionGroup", optionGroup);

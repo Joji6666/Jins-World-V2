@@ -226,6 +226,7 @@ export default class FirstFloorScene
                     break;
                   case "떠나기":
                     textBox.setVisible(false);
+                    textBox.destroy();
 
                     const optionGroup: FixWidthButtons =
                       this.data.get("optionGroup");
@@ -235,17 +236,21 @@ export default class FirstFloorScene
                     if (tipText) {
                       tipText.destroy();
                     }
-                    this.data.set("isTalking", false);
-                    optionGroup.setVisible(false);
+                    const optionKeyEvents = this.data.get("optionKeyEvents");
+                    if (optionKeyEvents && this.input.keyboard) {
+                      this.input.keyboard.off("keydown-UP", optionKeyEvents.up);
+                      this.input.keyboard.off(
+                        "keydown-DOWN",
+                        optionKeyEvents.down
+                      );
+                      this.input.keyboard.off(
+                        "keydown-ENTER",
+                        optionKeyEvents.enter
+                      );
+                    }
+                    optionGroup.destroy();
 
-                    this.input.keyboard?.on("keydown-SPACE", () =>
-                      handleInteraction(
-                        this,
-                        this.currentBubble,
-                        this.speechBubbles,
-                        this.isCatDistanceOn
-                      )
-                    );
+                    this.data.set("isTalking", false);
 
                     break;
                 }
