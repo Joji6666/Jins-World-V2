@@ -120,6 +120,15 @@ export const createMuteToggleButton = (scene: Phaser.Scene): void => {
   const savedMute = localStorage.getItem("isMuted") === "true";
   scene.sound.mute = savedMute;
 
+  const label = scene.add
+    .text(scene.cameras.main.width - 70, 38, "Mute", {
+      fontFamily: "KoreanPixelFont",
+      fontSize: "14px",
+      color: "#aaaaaa"
+    })
+    .setOrigin(1, 0.5)
+    .setScrollFactor(0)
+    .setDepth(999);
   const muteButton = scene.add
     .text(scene.cameras.main.width - 20, 20, savedMute ? "🔇" : "🔊", {
       fontFamily: "KoreanPixelFont",
