@@ -77,7 +77,7 @@ export const createJin = (
     .setScale(2);
 
   scene.data.set("jin_clothes", clothes);
-  clothes.body.immovable = true;
+
   clothes.setCollideWorldBounds(true);
   clothes.body.offset.y = 7;
   clothes.scale = 2;
@@ -90,7 +90,7 @@ export const createJin = (
     .setScale(2);
 
   scene.data.set("jin_hair", hair);
-  hair.body.immovable = true;
+
   hair.setCollideWorldBounds(true);
   hair.body.offset.y = 7;
   hair.scale = 1.95;

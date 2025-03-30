@@ -41,27 +41,11 @@ export default class IntroScene extends Phaser.Scene {
 
     this.load.audio("sweep", "assets/sounds/sweep.wav");
 
-    this.load.spritesheet("jin", "/assets/jin/char.png", {
-      frameWidth: 64,
-      frameHeight: 64
-    });
-
-    this.load.spritesheet("jin_hair", "/assets/jin/hair.png", {
-      frameWidth: 64,
-      frameHeight: 64
-    });
-
-    this.load.spritesheet("jin_clothes", "/assets/jin/clothes.png", {
-      frameWidth: 64,
-      frameHeight: 64
-    });
-
     WebFont.load({
       custom: {
         families: ["PixelFont", "TitlePixelFont", "KoreanPixelFont"]
       },
       active: () => {
-        createJinAnims(this);
         this.createText();
       }
     });
@@ -163,44 +147,6 @@ export default class IntroScene extends Phaser.Scene {
         }
       )
       .setOrigin(0.5);
-
-    const jin = this.physics.add.staticSprite(1000, 700, "jin_mobile");
-
-    jin.body.offset.y = 7;
-    jin.scale = 2;
-
-    jin.body.setSize(30, 30);
-
-    jin.depth = 2;
-
-    jin.anims.play("jin_mobile");
-
-    jin.x = mainText.x + 350;
-    jin.y = mainText.y;
-
-    const clothes = this.physics.add
-      .sprite(jin.x, jin.y, `jin_clothes_mobile`)
-      .setScale(2);
-
-    clothes.body.immovable = true;
-    clothes.setCollideWorldBounds(true);
-    clothes.body.offset.y = 7;
-    clothes.scale = 2;
-    clothes.depth = 3;
-
-    clothes.anims.play("jin_clothes_mobile");
-
-    const hair = this.physics.add
-      .sprite(jin.x, jin.y, `jin_hair_mobile`)
-      .setScale(2);
-
-    hair.body.immovable = true;
-    hair.setCollideWorldBounds(true);
-    hair.body.offset.y = 7;
-    hair.scale = 1.95;
-    hair.depth = 4;
-
-    hair.anims.play("jin_hair_mobile");
 
     this.add
       .text(
