@@ -111,14 +111,14 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
     },
     {
       key: "shutterlab",
-      x: 1085,
+      x: 885,
       y: 600,
       koreanText: "ShutterLab",
       englishText: "ShutterLab"
     },
     {
       key: "filmmate",
-      x: 1085,
+      x: 885,
       y: 500,
       koreanText: "FilmMate",
       englishText: "FilmMate"
