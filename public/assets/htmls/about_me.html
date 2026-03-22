@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -7,75 +7,251 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        line-height: 1.6;
+        line-height: 1.7;
         margin: 0;
         padding: 0;
         background-color: #f4f4f4;
         color: #333;
       }
+
       .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
+        max-width: 860px;
+        margin: 24px auto;
+        padding: 28px;
         background: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
       }
+
       h1,
       h2 {
         color: #444;
+        margin-top: 0;
       }
+
+      h1 {
+        margin-bottom: 16px;
+      }
+
       .section {
-        margin-bottom: 20px;
+        margin-bottom: 32px;
       }
-      .contact a {
+
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .hero img {
+        width: 220px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+
+      .headline {
+        font-size: 22px;
+        font-weight: bold;
+        color: #222;
+        margin-bottom: 8px;
+      }
+
+      .contact a,
+      .footer a {
         color: #007bff;
         text-decoration: none;
         font-weight: bold;
       }
-      .contact a:hover {
+
+      .contact a:hover,
+      .footer a:hover {
         text-decoration: underline;
       }
+
+      .skills-group {
+        margin-bottom: 18px;
+      }
+
+      .skills-group-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #444;
+      }
+
       .skills {
         display: flex;
         flex-wrap: wrap;
       }
+
       .skill {
         background: #007bff;
         color: white;
-        padding: 8px 15px;
+        padding: 8px 14px;
         margin: 5px;
-        border-radius: 5px;
+        border-radius: 999px;
         font-size: 14px;
-      }
-      .footer {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 14px;
-        color: #666;
       }
 
-      .sub {
+      ul {
+        padding-left: 20px;
+        margin-top: 10px;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      .highlight-list li strong {
+        color: #111;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 30px;
         font-size: 14px;
+        color: #666;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          margin: 12px;
+          padding: 20px;
+        }
+
+        .hero img {
+          width: 180px;
+          height: 180px;
+        }
+
+        .headline {
+          font-size: 20px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>About Me</h1>
-      <img src="/assets/main.jpeg" alt="profile" width="300px" height="300px" />
-      <p>
-        <strong
-          >배움은 스프린트, 구현은 마라톤. 둘 다 완주하는 사람이 여기 있습니다.
-        </strong>
-      </p>
-      <p>
-        독학으로 개발을 시작했지만, 단순히 빠르게 기능을 만드는 것을 넘어 팀
-        전체가 효율적으로 일할 수 있는 환경을 만드는 일에 집중해왔습니다.<br />
-        프로젝트마다 반복되는 문제를 해결하는 데 그치지 않고, <br />지속 가능한
-        구조를 만들고 개선 문화를 확산시키는 데 가치를 두고 있습니다.
-      </p>
-      <p>제가 만든 결과물이 세상에 긍정적인 영향을 미치길 바랍니다.</p>
+
+      <div class="section hero">
+        <img src="/assets/main.jpeg" alt="profile" />
+        <div>
+          <p class="headline">
+            배움은 스프린트, 구현은 마라톤. 둘 다 완주하는 사람이 여기 있습니다.
+          </p>
+          <p>
+            맨땅에 부딪히며 책 한 권으로 시작해 독학으로 개발자 커리어를
+            시작했습니다. 사수나 체계적인 교육이 없는 환경에서 공식 문서와 기술
+            커뮤니티를 기반으로 기술을 익혔고, 직접 프로젝트를 기획하고 구현하며
+            실전 경험으로 역량을 키웠습니다.
+          </p>
+          <p>
+            서비스에 필요한 기술이라면 영역을 가리지 않고 학습하며 개발 범위를
+            넓혀 왔고, 그 과정에서 프론트엔드는 단순한 화면 구현이 아니라 데이터
+            구조와 상태 흐름, 권한 체계, 유지보수성까지 함께 설계해야 운영
+            가능한 시스템이 된다는 점을 배웠습니다.
+          </p>
+          <p>
+            멘토링 플랫폼 개발에서는 DB 설계부터 풀스택 개발과 초기 운영
+            대응까지 수행하며 오픈 2개월 만에 기업 35곳이 등록되는 성과를
+            만들었습니다. 이후 스마트스토어와 SNS 중심의 사업을 웹 서비스로
+            전환하는 프로젝트에서는 프론트엔드뿐 아니라 백엔드와 인프라까지 직접
+            구축하며 사용자 1,000여 명, 주문 3,000여 건 규모의 서비스를
+            운영했습니다. 이러한 성장 과정을 바탕으로 입사 2년 만에 리드
+            프론트엔드 역할을 맡게 됐습니다.
+          </p>
+          <p>
+            독학으로 개발을 시작했지만, 단순히 빠르게 기능을 만드는 것을 넘어 팀
+            전체가 효율적으로 일할 수 있는 환경을 만드는 일에 집중해왔습니다.
+            프로젝트마다 반복되는 문제를 해결하는 데 그치지 않고, 지속 가능한
+            구조를 만들고 개선 문화를 확산시키는 데 가치를 두고 있습니다.
+          </p>
+          <p>
+            운영형 업무 시스템 구축, 서비스 운영 안정화, 실시간 데이터 시각화와
+            풀스택 서비스 개발 경험을 바탕으로 복잡한 요구사항을 실제 운영
+            가능한 구조로 바꾸는 데 강점이 있습니다. 제가 만든 결과물이 세상에
+            긍정적인 영향을 미치길 바랍니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Highlights</h2>
+        <ul class="highlight-list">
+          <li><strong>대규모 시스템 구축 프로젝트 5건 수행</strong></li>
+          <li><strong>입사 2년 만에 리드 프론트엔드 역할 수행</strong></li>
+          <li>
+            <strong
+              >오픈소스 커스터마이징으로 약 3천만 원 규모 비용 절감</strong
+            >
+          </li>
+          <li>
+            <strong
+              >누적 사용자 1,000명, 주문 3,000여 건 규모 서비스
+              개발·운영</strong
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>Skills</h2>
+
+        <div class="skills-group">
+          <p class="skills-group-title">Frontend</p>
+          <div class="skills">
+            <span class="skill">HTML/CSS</span>
+            <span class="skill">JavaScript</span>
+            <span class="skill">TypeScript</span>
+            <span class="skill">React</span>
+            <span class="skill">Next.js</span>
+            <span class="skill">React Native</span>
+            <span class="skill">TailwindCSS</span>
+            <span class="skill">Styled-Components</span>
+            <span class="skill">Recoil</span>
+            <span class="skill">Three.js</span>
+            <span class="skill">ECharts</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-title">Backend / DB</p>
+          <div class="skills">
+            <span class="skill">Node.js</span>
+            <span class="skill">NestJS</span>
+            <span class="skill">Java</span>
+            <span class="skill">Kotlin</span>
+            <span class="skill">Spring</span>
+            <span class="skill">MySQL</span>
+            <span class="skill">PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-title">Infra / Realtime</p>
+          <div class="skills">
+            <span class="skill">AWS</span>
+            <span class="skill">Vercel</span>
+            <span class="skill">Firebase</span>
+            <span class="skill">Supabase</span>
+            <span class="skill">WebRTC</span>
+            <span class="skill">MQTT</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-title">Tools</p>
+          <div class="skills">
+            <span class="skill">Git</span>
+            <span class="skill">GitHub Actions</span>
+            <span class="skill">Figma</span>
+            <span class="skill">Electron</span>
+          </div>
+        </div>
+      </div>
 
       <div class="section contact">
         <h2>Contact</h2>
@@ -91,67 +267,6 @@
           >
         </p>
       </div>
-
-      <div class="section">
-        <h2>저는 이런 개발자입니다</h2>
-        <ul>
-          <li>
-            도메인의 깊은 이해를 개발의 첫걸음으로 삼고, 이를 바탕으로 비즈니스
-            요구사항을 충족하는 최적의 기술을 선택합니다.
-          </li>
-          <li>
-            코드 리뷰에 열린 자세를 가지며, 더 나은 코드가 있다면 과감히
-            개선합니다.
-          </li>
-          <li>
-            불필요한 주석을 배제하고 직관적인 코드를 지향합니다. 필요한 경우,
-            명확한 의미를 전달하는 주석만 작성합니다.
-          </li>
-          <li>
-            <p>
-              이론적 학습에 그치지 않고, 실제 프로젝트에서 적용하고 최적화하는
-              경험을 중시합니다. <br />
-            </p>
-          </li>
-          <li>
-            <p>
-              더 나은 협업과 커뮤니케이션 방식을 고민하며, 서로 만족할 수 있는
-              타협점을 찾는 것을 중요하게 생각합니다.<br />
-            </p>
-          </li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <h2>Skills</h2>
-        <div class="skills">
-          <span class="skill">HTML/CSS</span>
-          <span class="skill">JavaScript</span>
-          <span class="skill">TypeScript</span>
-          <span class="skill">React</span>
-          <span class="skill">NextJS</span>
-          <span class="skill">Git</span>
-          <span class="skill">Kotlin</span>
-          <span class="skill">Firebase</span>
-          <span class="skill">MySql</span>
-          <span class="skill">Figma</span>
-        </div>
-      </div>
-
-      <!-- <div class="section">
-        <h2>Work History</h2>
-        <p><strong>(주) 세이프티아</strong> (2023.03 ~ )</p>
-        <p>산업안전보건 관리 솔루션 납품 및 컨설팅</p>
-        <p><strong>개발 1팀</strong> 사원</p>
-        <ul>
-          <li>프론트엔드 개발 리딩</li>
-          <li>프론트엔드 보일러플레이트 개발 및 표준 개발 환경 구축</li>
-          <li>컴포넌트 문서화(Storybook) 및 디자인 시스템 구축</li>
-          <li>공통 컴포넌트 및 셋팅 기반 자동 레이아웃 시스템 개발</li>
-          <li>프로젝트 핵심 비즈니스 로직 개발</li>
-          <li>레거시 코드 TypeScript 마이그레이션</li>
-        </ul>
-      </div> -->
 
       <div class="footer">
         <p>
