@@ -41,5 +41,15 @@ export const handleInteraction = (
       sound.play();
       window.open("https://store.onstove.com/ko/games/2234");
     }
+
+    if (iconKey === "shutterlab") {
+      sound.play();
+      window.open("https://apps.apple.com/us/app/shutterlab/id6758523121");
+    }
+
+    if (iconKey === "filmmate") {
+      sound.play();
+      window.open("https://apps.apple.com/us/app/film-mate/id6757781727");
+    }
   }
 };

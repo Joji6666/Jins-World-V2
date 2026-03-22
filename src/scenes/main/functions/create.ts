@@ -108,6 +108,20 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
       y: 600,
       koreanText: "BulletSamurai",
       englishText: "BulletSamurai"
+    },
+    {
+      key: "shutterlab",
+      x: 1085,
+      y: 600,
+      koreanText: "ShutterLab",
+      englishText: "ShutterLab"
+    },
+    {
+      key: "filmmate",
+      x: 1085,
+      y: 500,
+      koreanText: "FilmMate",
+      englishText: "FilmMate"
     }
   ];
 
@@ -125,6 +139,14 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
 
     if (item.key === "bullet_samurai") {
       icon.setScale(0.9);
+    }
+
+    if (item.key === "shutterlab") {
+      icon.setScale(0.085);
+    }
+
+    if (item.key === "filmmate") {
+      icon.setScale(0.08); // slightly smaller scale for 1080x1080 image to match 1024x1024 Topster
     }
 
     icon.body.setAllowGravity(false);
