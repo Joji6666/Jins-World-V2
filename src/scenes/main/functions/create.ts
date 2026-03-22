@@ -111,14 +111,14 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
     },
     {
       key: "shutterlab",
-      x: 885,
+      x: 830,
       y: 600,
       koreanText: "ShutterLab",
       englishText: "ShutterLab"
     },
     {
       key: "filmmate",
-      x: 885,
+      x: 830,
       y: 500,
       koreanText: "FilmMate",
       englishText: "FilmMate"
@@ -141,12 +141,26 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
       icon.setScale(0.9);
     }
 
+    let maskShape: Phaser.GameObjects.Graphics | null = null;
+
     if (item.key === "shutterlab") {
-      icon.setScale(0.085);
+      const scale = 0.055;
+      icon.setScale(scale);
+      const size = 1024 * scale;
+      maskShape = scene.make.graphics({});
+      maskShape.fillStyle(0xffffff);
+      maskShape.fillRoundedRect(item.x - size / 2, item.y - size / 2, size, size, size * 0.225);
+      icon.setMask(maskShape.createGeometryMask());
     }
 
     if (item.key === "filmmate") {
-      icon.setScale(0.08); // slightly smaller scale for 1080x1080 image to match 1024x1024 Topster
+      const scale = 0.052;
+      icon.setScale(scale);
+      const size = 1080 * scale;
+      maskShape = scene.make.graphics({});
+      maskShape.fillStyle(0xffffff);
+      maskShape.fillRoundedRect(item.x - size / 2, item.y - size / 2, size, size, size * 0.225);
+      icon.setMask(maskShape.createGeometryMask());
     }
 
     icon.body.setAllowGravity(false);
@@ -164,8 +178,13 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
 
     text.setStroke("#000000", 3);
 
+    const targetsToTween: any[] = [icon, text];
+    if (maskShape) {
+      targetsToTween.push(maskShape);
+    }
+
     scene.tweens.add({
-      targets: [icon, text],
+      targets: targetsToTween,
       y: "+=8",
       duration: 1000,
       yoyo: true,
