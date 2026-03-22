@@ -222,7 +222,7 @@ export default class FirstFloorScene
                     );
                     break;
                   case "이력서 다운로드":
-                    downloadResume("/assets/resume.pdf");
+                    downloadResume("/assets/kimjin_resume.pdf");
                     break;
                   case "떠나기":
                     textBox.setVisible(false);

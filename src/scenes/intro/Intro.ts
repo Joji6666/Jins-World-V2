@@ -112,7 +112,7 @@ export default class IntroScene extends Phaser.Scene {
       });
       this.input.keyboard.on("keydown-SPACE", () => {
         if (this.selectIndex === 1) {
-          downloadResume("/assets/resume.pdf");
+          downloadResume("/assets/kimjin_resume.pdf");
         } else {
           this.startCharSelectScene();
         }
@@ -191,7 +191,7 @@ export default class IntroScene extends Phaser.Scene {
         downloadText.setStyle({ color: "#ffcc00" });
       })
       .on("pointerdown", () => {
-        downloadResume("/assets/resume.pdf");
+        downloadResume("/assets/kimjin_resume.pdf");
       });
   }
 }
