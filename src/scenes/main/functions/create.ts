@@ -122,6 +122,13 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
       y: 500,
       koreanText: "FilmMate",
       englishText: "FilmMate"
+    },
+    {
+      key: "nangco",
+      x: 830,
+      y: 700,
+      koreanText: "냉코",
+      englishText: "Nangco"
     }
   ];
 
@@ -157,6 +164,16 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
       const scale = 0.052;
       icon.setScale(scale);
       const size = 1080 * scale;
+      maskShape = scene.make.graphics({});
+      maskShape.fillStyle(0xffffff);
+      maskShape.fillRoundedRect(item.x - size / 2, item.y - size / 2, size, size, size * 0.225);
+      icon.setMask(maskShape.createGeometryMask());
+    }
+
+    if (item.key === "nangco") {
+      const scale = 0.055;
+      icon.setScale(scale);
+      const size = 1024 * scale;
       maskShape = scene.make.graphics({});
       maskShape.fillStyle(0xffffff);
       maskShape.fillRoundedRect(item.x - size / 2, item.y - size / 2, size, size, size * 0.225);

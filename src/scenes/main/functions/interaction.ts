@@ -51,5 +51,10 @@ export const handleInteraction = (
       sound.play();
       window.open("https://apps.apple.com/us/app/film-mate/id6757781727");
     }
+
+    if (iconKey === "nangco") {
+      sound.play();
+      window.open("https://apps.apple.com/kr/app/%EB%83%89%EC%BD%94/id6760968372");
+    }
   }
 };
