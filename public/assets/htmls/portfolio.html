@@ -162,7 +162,7 @@
 
       .diagram-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
         gap: 16px;
         margin-top: 18px;
       }
@@ -279,33 +279,49 @@
         min-width: 980px;
       }
 
-      .section-gallery {
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid var(--line);
+      .app-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
       }
 
-      .section-gallery h3 {
+      .app-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        border: 1px solid #1d4ed8;
+        border-radius: 8px;
+        padding: 8px 12px;
+        background: #1d4ed8;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .visual-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px;
+        background: #ffffff;
+      }
+
+      .visual-card h3 {
         margin: 0 0 12px;
         color: var(--text);
         font-size: 18px;
       }
 
-      .gallery-grid {
+      .sample-grid {
         display: grid;
-        grid-template-columns: repeat(5, minmax(150px, 1fr));
-        gap: 12px;
-      }
-
-      .gallery-grid.wide {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
       }
 
-      .gallery-grid.mixed {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .gallery-shot {
+      .project-shot {
         width: 100%;
         border: 1px solid var(--line);
         border-radius: 8px;
@@ -315,16 +331,12 @@
         box-shadow: 0 10px 26px rgba(23, 32, 51, 0.08);
       }
 
-      .gallery-shot.phone {
-        aspect-ratio: 9 / 16;
-      }
-
-      .gallery-shot.wide {
-        aspect-ratio: 16 / 9;
-      }
-
-      .gallery-shot.square {
+      .project-shot.square {
         aspect-ratio: 1 / 1;
+      }
+
+      .project-shot.wide {
+        aspect-ratio: 16 / 10;
       }
 
       .diagram-note {
@@ -368,15 +380,9 @@
         .section-head,
         .content-grid,
         .diagram-grid,
+        .sample-grid,
         .metric-row {
           grid-template-columns: 1fr;
-        }
-
-        .gallery-grid,
-        .gallery-grid.wide,
-        .gallery-grid.mixed {
-          grid-template-columns: repeat(3, minmax(120px, 1fr));
-          overflow-x: auto;
         }
 
         .role-chip {
@@ -394,21 +400,7 @@
       <header class="page-header">
         <p class="eyebrow">Technical Portfolio</p>
         <h1>Portfolio</h1>
-        <p class="lead">
-          개인 서비스와 사내 자동화 도구를 단순 결과물이 아니라 구조, 흐름,
-          운영 관점에서 정리했습니다. 각 섹션은 실제 레포의 역할 분리와 주요
-          프로세스를 기준으로 작성했습니다.
-        </p>
       </header>
-
-      <nav class="nav" aria-label="포트폴리오 섹션 이동">
-        <a href="#naengko">냉코</a>
-        <a href="#filmmate">FilmMate</a>
-        <a href="#mason">Mason CLI</a>
-        <a href="#flab-business">F-Lab 기업회원</a>
-        <a href="#safetia-map">Safetia Map</a>
-        <a href="#snapshoot">Snapshoot</a>
-      </nav>
 
       <section id="naengko" class="portfolio-section">
         <div class="section-head">
@@ -425,43 +417,49 @@
           <span class="role-chip">기획, 개발, App Store 출시, 운영</span>
         </div>
 
-        <div class="content-grid">
-          <div class="info-card">
-            <h3>핵심 기능</h3>
-            <ul class="point-list">
-              <li>
-                Expo Router 기반 모바일 앱에서 냉장고, 식재료, 레시피, 지출
-                화면을 구성했습니다.
-              </li>
-              <li>
-                Expo SQLite와 Context 상태를 활용해 식재료/소비기한 데이터를
-                앱 내부에서 빠르게 관리합니다.
-              </li>
-              <li>
-                API는 Supabase 상품 DB, 사용자 기여 상품, 공공/외부 데이터,
-                Gemini/OpenAI 기반 분석 흐름을 연결합니다.
-              </li>
-            </ul>
-            <div class="metric-row">
-              <div class="metric">
-                <strong>Offline-first</strong>
-                <span>식재료와 소비기한 중심 로컬 관리</span>
-              </div>
-              <div class="metric">
-                <strong>AI Recipe</strong>
-                <span>보유 식재료 기반 추천 경험</span>
-              </div>
-              <div class="metric">
-                <strong>OCR</strong>
-                <span>영수증 기반 자동 입력 흐름</span>
-              </div>
+        <div class="info-card">
+          <h3>핵심 기능</h3>
+          <ul class="point-list">
+            <li>
+              Expo Router 기반 모바일 앱에서 냉장고, 식재료, 레시피, 지출
+              화면을 구성했습니다.
+            </li>
+            <li>
+              Expo SQLite와 Context 상태를 활용해 식재료/소비기한 데이터를
+              앱 내부에서 빠르게 관리합니다.
+            </li>
+            <li>
+              API는 Supabase 상품 DB, 사용자 기여 상품, 공공/외부 데이터,
+              Gemini/OpenAI 기반 분석 흐름을 연결합니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>Offline-first</strong>
+              <span>식재료와 소비기한 중심 로컬 관리</span>
+            </div>
+            <div class="metric">
+              <strong>AI Recipe</strong>
+              <span>보유 식재료 기반 추천 경험</span>
+            </div>
+            <div class="metric">
+              <strong>OCR</strong>
+              <span>영수증 기반 자동 입력 흐름</span>
             </div>
           </div>
+          <div class="app-links">
+            <a
+              class="app-link"
+              href="https://apps.apple.com/kr/app/%EB%83%89%EC%BD%94/id6760968372"
+              target="_blank"
+              rel="noopener noreferrer"
+            >App Store에서 보기</a>
+          </div>
+        </div>
 
-          <div>
-            <div class="diagram-card">
-              <h3>서비스 아키텍처</h3>
-              <pre class="mermaid">
+        <div class="diagram-card full">
+          <h3>서비스 아키텍처</h3>
+          <pre class="mermaid">
 flowchart LR
   User["사용자"] --> App["냉코 앱<br/>React Native / Expo"]
   App --> LocalDB["로컬 DB<br/>Expo SQLite"]
@@ -473,52 +471,25 @@ flowchart LR
   OCR --> App
   AI --> API
               </pre>
-              <p class="diagram-note">
-                앱은 사용자 경험과 로컬 상태를 책임지고, API는 외부 데이터 조회와
-                AI 분석을 얇게 중계하는 구조로 분리했습니다.
-              </p>
-            </div>
-            <div class="diagram-card">
-              <h3>상품 조회와 입력 흐름</h3>
-              <pre class="mermaid">
-sequenceDiagram
-  participant U as 사용자
-  participant A as 냉코 앱
-  participant L as 로컬 DB
-  participant API as API
-  participant S as Supabase
-  participant E as 외부 식품 API
-
-  U->>A: 바코드 스캔 또는 식재료 입력
-  A->>API: 상품 정보 조회 요청
-  API->>S: 마스터 상품 검색
-  alt 마스터 DB hit
-    S-->>API: 상품/영양성분 반환
-  else 미등록 상품
-    API->>E: 외부 식품 데이터 조회
-    E-->>API: 후보 데이터 반환
-  end
-  API-->>A: source와 contributed 목록 반환
-  A->>L: 식재료와 소비기한 저장
-  A-->>U: 냉장고 상태와 추천 액션 표시
-              </pre>
-            </div>
-          </div>
+          <p class="diagram-note">
+            앱은 사용자 경험과 로컬 상태를 책임지고, API는 외부 데이터 조회와
+            AI 분석을 얇게 중계하는 구조로 분리했습니다.
+          </p>
         </div>
-        <div class="section-gallery">
-          <h3>앱 화면</h3>
-          <div class="gallery-grid" aria-label="냉코 앱 전체 화면">
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-01.png" alt="냉코 앱 화면 1" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-02.png" alt="냉코 앱 화면 2" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-03.png" alt="냉코 앱 화면 3" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-04.png" alt="냉코 앱 화면 4" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-05.png" alt="냉코 앱 화면 5" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-06.png" alt="냉코 앱 화면 6" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-07.png" alt="냉코 앱 화면 7" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-08.png" alt="냉코 앱 화면 8" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-09.png" alt="냉코 앱 화면 9" />
-            <img class="gallery-shot phone" src="/assets/portfolio/naengko-10.png" alt="냉코 앱 화면 10" />
-          </div>
+        <div class="diagram-card full">
+          <h3>상품 조회와 입력 흐름</h3>
+          <pre class="mermaid">
+flowchart LR
+  Scan["바코드 스캔<br/>식재료 입력"] --> Request["앱에서 상품 조회 요청"]
+  Request --> Master["Supabase<br/>마스터 상품 검색"]
+  Master --> Found{"등록 상품?"}
+  Found -->|"예"| Return["상품/영양성분 반환"]
+  Found -->|"아니오"| External["외부 식품 데이터 API<br/>후보 조회"]
+  External --> Return
+  Return --> Select["source / contributed<br/>후보 선택"]
+  Select --> Local["Expo SQLite<br/>식재료와 소비기한 저장"]
+  Local --> Recommend["냉장고 상태 갱신<br/>레시피 추천 액션"]
+              </pre>
         </div>
       </section>
 
@@ -537,76 +508,77 @@ sequenceDiagram
           <span class="role-chip">기획, 개발, App Store 배포</span>
         </div>
 
-        <div class="content-grid">
-          <div class="info-card">
-            <h3>핵심 구현</h3>
-            <ul class="tags">
-              <li>React Native</li>
-              <li>Expo</li>
-              <li>WebRTC</li>
-              <li>Firebase Auth</li>
-              <li>Firestore</li>
-              <li>STUN / TURN</li>
-            </ul>
-            <ul class="point-list">
-              <li>
-                익명 Firebase Auth로 시그널링 권한을 확보하고, Firestore
-                `webrtcRooms` 문서에 offer, answer, ICE candidate를 교환합니다.
-              </li>
-              <li>
-                STUN은 Google 서버를 사용하고, TURN credential은
-                `turn-cred.filmmate.site` 엔드포인트에서 발급받도록 구성했습니다.
-              </li>
-              <li>
-                촬영자와 모델 역할을 분리하고, 연결 후에는 카메라 미리보기,
-                원격 촬영, 사진 전송, 필름/인생네컷 플로우를 제공합니다.
-              </li>
-              <li>
-                연결 실패, ICE 실패, 권한 오류, 타임아웃을 분류해 사용자에게
-                복구 가능한 상태로 안내합니다.
-              </li>
-            </ul>
-            <div class="metric-row">
-              <div class="metric">
-                <strong>Firestore</strong>
-                <span>Offer/Answer/ICE signaling</span>
-              </div>
-              <div class="metric">
-                <strong>VPS TURN</strong>
-                <span>NAT 환경 영상 중계</span>
-              </div>
-              <div class="metric">
-                <strong>Camera UX</strong>
-                <span>원격 촬영과 사진 공유</span>
-              </div>
+        <div class="info-card">
+          <h3>핵심 구현</h3>
+          <ul class="tags">
+            <li>React Native</li>
+            <li>Expo</li>
+            <li>WebRTC</li>
+            <li>Firebase Auth</li>
+            <li>Firestore</li>
+            <li>STUN / TURN</li>
+          </ul>
+          <ul class="point-list">
+            <li>
+              익명 Firebase Auth로 시그널링 권한을 확보하고, Firestore
+              `webrtcRooms` 문서에 offer, answer, ICE candidate를 교환합니다.
+            </li>
+            <li>
+              STUN은 Google 서버를 사용하고, TURN credential은
+              `turn-cred.filmmate.site` 엔드포인트에서 발급받도록 구성했습니다.
+            </li>
+            <li>
+              촬영자와 모델 역할을 분리하고, 연결 후에는 카메라 미리보기,
+              원격 촬영, 사진 전송, 필름/인생네컷 플로우를 제공합니다.
+            </li>
+            <li>
+              연결 실패, ICE 실패, 권한 오류, 타임아웃을 분류해 사용자에게
+              복구 가능한 상태로 안내합니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>Firestore</strong>
+              <span>Offer/Answer/ICE signaling</span>
+            </div>
+            <div class="metric">
+              <strong>VPS TURN</strong>
+              <span>NAT 환경 영상 중계</span>
+            </div>
+            <div class="metric">
+              <strong>Camera UX</strong>
+              <span>원격 촬영과 사진 공유</span>
             </div>
           </div>
-
-          <div class="diagram-card">
-            <h3>WebRTC 시그널링 흐름</h3>
-            <pre class="mermaid">
-sequenceDiagram
-  participant Sender as 촬영자 기기
-  participant Firebase as Firebase Auth / Firestore
-  participant Turn as VPS TURN 서버
-  participant Receiver as 모델 기기
-
-  Sender->>Firebase: 익명 로그인
-  Receiver->>Firebase: 익명 로그인
-  Sender->>Firebase: room 생성 + offer SDP 저장
-  Sender->>Firebase: caller ICE candidates 저장
-  Receiver->>Firebase: room 조회 + offer 수신
-  Receiver->>Firebase: answer SDP 저장
-  Receiver->>Firebase: callee ICE candidates 저장
-  Sender-->>Receiver: P2P 연결 시도
-  alt 직접 연결 가능
-    Sender-->>Receiver: WebRTC 영상 스트림 전송
-  else NAT 또는 방화벽으로 직접 연결 실패
-    Sender->>Turn: TURN relay 사용
-    Turn->>Receiver: 영상 스트림 중계
-  end
-              </pre>
+          <div class="app-links">
+            <a
+              class="app-link"
+              href="https://apps.apple.com/us/app/film-mate/id6757781727"
+              target="_blank"
+              rel="noopener noreferrer"
+            >App Store에서 보기</a>
           </div>
+        </div>
+
+        <div class="diagram-card full">
+          <h3>WebRTC 시그널링 흐름</h3>
+          <pre class="mermaid">
+flowchart LR
+  Sender["촬영자 기기"] --> AuthA["Firebase 익명 로그인"]
+  Receiver["모델 기기"] --> AuthB["Firebase 익명 로그인"]
+  AuthA --> Room["Firestore room 생성"]
+  Room --> Offer["offer SDP 저장"]
+  AuthB --> ReadOffer["room 조회 / offer 수신"]
+  ReadOffer --> Answer["answer SDP 저장"]
+  Sender --> CallerIce["caller ICE candidates"]
+  Receiver --> CalleeIce["callee ICE candidates"]
+  CallerIce --> Firestore["Firestore signaling"]
+  CalleeIce --> Firestore
+  Firestore --> Direct{"P2P 연결 가능?"}
+  Direct -->|"예"| Stream["WebRTC 영상 스트림 직접 전송"]
+  Direct -->|"아니오"| Turn["VPS TURN relay"]
+  Turn --> Stream
+          </pre>
         </div>
 
         <div class="diagram-card full">
@@ -615,17 +587,6 @@ sequenceDiagram
 flowchart LR
   Start["앱 실행"] --> Role["역할 선택<br/>촬영자 / 모델"] --> Pairing["QR 또는 코드 기반 페어링"] --> Signal["Firestore signaling"] --> Connected["WebRTC 연결 완료"] --> Preview["실시간 카메라 화면 공유"] --> RemoteShot["원격 촬영"] --> Edit["필름 LUT / 인생네컷 편집"] --> Save["PhotoKit / MediaStore 저장"]
           </pre>
-        </div>
-        <div class="section-gallery">
-          <h3>앱 화면</h3>
-          <div class="gallery-grid" aria-label="FilmMate 앱 전체 화면">
-            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-01.png" alt="FilmMate 앱 화면 1" />
-            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-02.png" alt="FilmMate 앱 화면 2" />
-            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-03.png" alt="FilmMate 앱 화면 3" />
-            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-04.png" alt="FilmMate 앱 화면 4" />
-            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-05.png" alt="FilmMate 앱 화면 5" />
-            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-06.png" alt="FilmMate 앱 화면 6" />
-          </div>
         </div>
       </section>
 
@@ -636,8 +597,10 @@ flowchart LR
             <h2>Mason CLI</h2>
             <p class="section-summary">
               Mason은 Safetia 모노레포 안에서 자연어 화면 요구사항을
-              ui-spec/flow-spec으로 정규화하고, 디자인 시스템 기반 프로덕션 코드,
-              실제 캡처, 화면설계서 PPTX, 작업 히스토리까지 생성하는 내부 CLI입니다.
+              ui-spec/flow-spec으로 정규화한 뒤 화면설계서와 실제 서비스에 반영
+              가능한 프로덕션 코드 스캐폴드까지 함께 생성하는 내부 CLI입니다. 생성
+              결과는 실제 렌더링 캡처, 화면설계서, 작업 히스토리로 남겨 후속 개발과
+              검수 흐름까지 이어지도록 설계했습니다.
             </p>
           </div>
           <span class="role-chip">설계, 구현, 자동화 파이프라인 구축</span>
@@ -664,8 +627,14 @@ flowchart LR
               컴포넌트를 우선 매칭합니다.
             </li>
             <li>
-              생성된 코드를 실제 렌더링하고 Playwright로 캡처한 뒤, 번호 설명과
-              화면설계서 PPTX를 생성합니다.
+              `packages/safetia-core/app/(app)/generated` 하위에 실제 화면에 붙일
+              수 있는 route, ListSection 설정, 컬럼, 검색조건, 상세 모달,
+              DynamicForms 옵션 코드를 생성합니다.
+            </li>
+            <li>
+              생성된 프로덕션 화면을 실제 렌더링하고 Playwright로 캡처한 뒤,
+              번호 설명이 포함된 화면설계서 Markdown/PPTX와 작업 히스토리를
+              생성합니다.
             </li>
             <li>
               캡처 누락, 빈 이미지, 마커 겹침, callout 누락, 중복 버튼 등을
@@ -679,12 +648,47 @@ flowchart LR
             </div>
             <div class="metric">
               <strong>Code</strong>
-              <span>공통 컴포넌트 기반 스캐폴드</span>
+              <span>프로덕션 반영 가능한 route와 설정 코드</span>
             </div>
             <div class="metric">
               <strong>Docs</strong>
-              <span>캡처, PPTX, history 산출</span>
+              <span>화면설계서, 캡처, PPTX, history 산출</span>
             </div>
+          </div>
+        </div>
+
+        <div class="sample-grid" aria-label="Mason 산출물 예시">
+          <div class="visual-card">
+            <h3>프로덕션 목록 화면</h3>
+            <img
+              class="project-shot wide"
+              src="/assets/portfolio/mason-production-list.png"
+              alt="Mason이 생성한 안전신문고 목록 프로덕션 화면"
+            />
+          </div>
+          <div class="visual-card">
+            <h3>프로덕션 상세 모달</h3>
+            <img
+              class="project-shot wide"
+              src="/assets/portfolio/mason-production-modal.png"
+              alt="Mason이 생성한 안전신문고 상세 모달 화면"
+            />
+          </div>
+          <div class="visual-card">
+            <h3>PPTX 목록 설계서</h3>
+            <img
+              class="project-shot wide"
+              src="/assets/portfolio/mason-design-list.png"
+              alt="Mason이 생성한 안전신문고 목록 PPTX 화면설계서"
+            />
+          </div>
+          <div class="visual-card">
+            <h3>PPTX 상세 모달 설계서</h3>
+            <img
+              class="project-shot wide"
+              src="/assets/portfolio/mason-design-modal.png"
+              alt="Mason이 생성한 안전신문고 상세 모달 PPTX 화면설계서"
+            />
           </div>
         </div>
 
@@ -693,7 +697,16 @@ flowchart LR
             <h3>Mason 파이프라인</h3>
             <pre class="mermaid compact">
 flowchart LR
-  Prompt["자연어 요구사항"] --> Normalize["Codex 정규화<br/>fallback parser"] --> UiSpec["ui-spec 생성"] --> Resolve["Storybook / Registry<br/>컴포넌트 매칭"] --> FlowSpec["flow-spec 생성"] --> Scaffold["코드 스캐폴드"] --> Capture["Playwright 캡처"] --> QA["QA 리포트"] --> Output["PPTX / history"]
+  Prompt["자연어 요구사항"] --> Normalize["Codex 정규화<br/>fallback parser"]
+  Normalize --> UiSpec["ui-spec 생성"]
+  UiSpec --> Resolve["Storybook / Registry<br/>공통 컴포넌트 매칭"]
+  Resolve --> FlowSpec["flow-spec 생성"]
+  FlowSpec --> Scaffold["프로덕션 코드 생성<br/>route / setting / forms"]
+  Scaffold --> Render["safetia-core<br/>실제 화면 렌더링"]
+  Render --> Capture["Playwright 캡처"]
+  Capture --> Docs["화면설계서<br/>Markdown / PPTX"]
+  Capture --> QA["QA 리포트"]
+  Docs --> History["작업 히스토리"]
             </pre>
           </div>
           <div class="diagram-card">
@@ -721,64 +734,71 @@ flowchart LR
               F-Lab 멘토링 플랫폼 안에서 기업회원이 멘티 이력서를 탐색하고,
               후보자를 관리하며, 채용전형을 만들어 제안까지 보낼 수 있는 B2B
               채용 제휴 서비스를 구현했습니다. 프론트는 홈페이지, 백오피스, LMS
-              패키지에 걸쳐 있고, 백엔드는 Kotlin/Spring business 모듈로
-              가입/검수/이력서/제안 흐름을 분리했습니다.
+              패키지에 걸쳐 있고, 백엔드는 Kotlin/Spring 멀티모듈 환경 안에
+              business 모듈을 구성해 가입, 검수, 이력서, 제안 흐름을 분리했습니다.
             </p>
           </div>
           <span class="role-chip">풀스택 개발, DB 설계, 운영 플로우 구현</span>
         </div>
 
-        <div class="content-grid">
-          <div class="info-card">
-            <h3>핵심 구현</h3>
-            <ul class="tags">
-              <li>Next.js</li>
-              <li>React</li>
-              <li>Recoil</li>
-              <li>Ant Design</li>
-              <li>Kotlin</li>
-              <li>Spring</li>
-              <li>JPA</li>
-            </ul>
-            <ul class="point-list">
-              <li>
-                기업회원 가입 폼, 사업자번호/담당자 검증, 기업 권한 확인,
-                서비스 페이지 접근 제어를 구현했습니다.
-              </li>
-              <li>
-                기업회원이 멘티 채용 프로필을 포지션, 경력, 희망 고용형태,
-                제안 여부, 후보자 여부로 탐색할 수 있는 테이블과 상세 모달을
-                만들었습니다.
-              </li>
-              <li>
-                후보자 추가/취소, 채용전형 템플릿 생성, 단건/다건 제안, 제안
-                현황 관리까지 이어지는 기업회원 워크플로우를 구현했습니다.
-              </li>
-              <li>
-                백오피스에서는 기업회원 신청 목록, 상세 폼 조회, 승인/거절
-                처리를 제공하고, LMS에서는 멘티가 받은 제안을 확인하고
-                수락/거절할 수 있게 연결했습니다.
-              </li>
-            </ul>
-            <div class="metric-row">
-              <div class="metric">
-                <strong>35곳</strong>
-                <span>오픈 2개월 내 기업회원 등록</span>
-              </div>
-              <div class="metric">
-                <strong>164건</strong>
-                <span>초기 확보 이력서 규모</span>
-              </div>
-              <div class="metric">
-                <strong>3면 연동</strong>
-                <span>기업회원, 백오피스, LMS 흐름 연결</span>
-              </div>
+        <div class="info-card">
+          <h3>핵심 구현</h3>
+          <ul class="tags">
+            <li>Next.js</li>
+            <li>React</li>
+            <li>Recoil</li>
+            <li>Ant Design</li>
+            <li>Kotlin</li>
+            <li>Spring</li>
+            <li>JPA</li>
+          </ul>
+          <ul class="point-list">
+            <li>
+              기업회원 가입 폼, 사업자번호/담당자 검증, 기업 권한 확인,
+              서비스 페이지 접근 제어를 구현했습니다.
+            </li>
+            <li>
+              기업회원이 멘티 채용 프로필을 포지션, 경력, 희망 고용형태,
+              제안 여부, 후보자 여부로 탐색할 수 있는 테이블과 상세 모달을
+              만들었습니다.
+            </li>
+            <li>
+              후보자 추가/취소, 채용전형 템플릿 생성, 단건/다건 제안, 제안
+              현황 관리까지 이어지는 기업회원 워크플로우를 구현했습니다.
+            </li>
+            <li>
+              백오피스에서는 기업회원 신청 목록, 상세 폼 조회, 승인/거절
+              처리를 제공하고, LMS에서는 멘티가 받은 제안을 확인하고
+              수락/거절할 수 있게 연결했습니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>35곳</strong>
+              <span>오픈 2개월 내 기업회원 등록</span>
+            </div>
+            <div class="metric">
+              <strong>164건</strong>
+              <span>초기 확보 이력서 규모</span>
+            </div>
+            <div class="metric">
+              <strong>3면 연동</strong>
+              <span>기업회원, 백오피스, LMS 흐름 연결</span>
             </div>
           </div>
+          <div class="app-links">
+            <a
+              class="app-link"
+              href="https://f-lab.kr/business"
+              target="_blank"
+              rel="noopener noreferrer"
+            >서비스 보기</a>
+          </div>
+        </div>
 
-          <div class="diagram-card">
-            <h3>서비스 아키텍처</h3>
-            <pre class="mermaid">
+        <div class="diagram-card full">
+          <h3>서비스 아키텍처</h3>
+          <pre class="mermaid">
 flowchart LR
   Business["기업회원"] --> Homepage["homepage<br/>business service"]
   Mentee["멘티"] --> LMS["lms<br/>employment offer"]
@@ -790,49 +810,37 @@ flowchart LR
   Domain --> Infra["JPA Repository / Query Reader"]
   Infra --> DB["DB"]
             </pre>
-          </div>
         </div>
 
         <div class="diagram-grid">
           <div class="diagram-card">
             <h3>기업회원 가입과 검수 흐름</h3>
             <pre class="mermaid compact">
-sequenceDiagram
-  participant User as 기업 담당자
-  participant Home as Business Sign-up
-  participant API as Business API
-  participant Admin as Backoffice
-  participant DB as DB
-
-  User->>Home: 기업회원 신청
-  Home->>API: sign-up 요청
-  API->>DB: Business / BusinessUser 저장
-  Admin->>API: 신청 목록과 상세 폼 조회
-  Admin->>API: 승인 또는 거절 처리
-  API->>DB: 상태와 이력 반영
-  User->>Home: business service 접근
-  Home->>API: business check
+flowchart LR
+  Apply["기업 담당자<br/>가입 신청"] --> Signup["homepage<br/>사업자/담당자 폼"]
+  Signup --> BusinessAPI["Business API<br/>sign-up"]
+  BusinessAPI --> Store["DB<br/>Business / BusinessUser 저장"]
+  Store --> Review["backoffice<br/>신청 목록 / 상세 검수"]
+  Review --> Decision{"승인 여부"}
+  Decision -->|"승인"| Active["기업회원 활성화<br/>business check 통과"]
+  Decision -->|"거절"| Rejected["거절 상태와 이력 반영"]
+  Active --> Access["기업회원 서비스 접근"]
             </pre>
           </div>
           <div class="diagram-card">
             <h3>채용 제안 프로세스</h3>
             <pre class="mermaid compact">
-sequenceDiagram
-  participant B as 기업회원
-  participant S as Business Service
-  participant API as Employment API
-  participant L as LMS
-  participant M as 멘티
-
-  B->>S: 이력서 검색과 상세 열람
-  S->>API: profile-list / read-history
-  B->>S: 후보자 추가
-  S->>API: candidate 등록
-  B->>S: 채용전형 생성과 제안 발송
-  S->>API: offer-form / offer
-  M->>L: 제안 목록 확인
-  L->>API: offer/mentee 조회
-  M->>API: 제안 수락 또는 거절
+flowchart LR
+  Search["기업회원<br/>이력서 검색"] --> Profile["Business Service<br/>프로필 상세 / 열람 이력"]
+  Profile --> Candidate["후보자 추가<br/>candidate 등록"]
+  Candidate --> Form["채용전형 템플릿<br/>offer-form 생성"]
+  Form --> Offer["Employment API<br/>단건/다건 제안 발송"]
+  Offer --> LMS["LMS<br/>멘티 제안함"]
+  LMS --> Response{"멘티 응답"}
+  Response -->|"수락"| Accepted["제안 수락 상태"]
+  Response -->|"거절"| Declined["제안 거절 상태"]
+  Accepted --> History["기업회원 제안 현황 갱신"]
+  Declined --> History
             </pre>
           </div>
         </div>
@@ -898,10 +906,19 @@ sequenceDiagram
             </div>
           </div>
 
-          <div>
-            <div class="diagram-card">
-              <h3>격자 완전 탐색 흐름</h3>
-              <pre class="mermaid">
+          <div class="visual-card">
+            <h3>탐색 화면</h3>
+            <img
+              class="project-shot square"
+              src="/assets/portfolio/safetia-kakao-grid.png"
+              alt="Safetia 카카오맵 격자 분할 탐색 화면"
+            />
+          </div>
+        </div>
+
+        <div class="diagram-card full">
+          <h3>격자 완전 탐색 흐름</h3>
+          <pre class="mermaid">
 flowchart LR
   Address["사업장 주소"] --> Geocoder["Kakao Geocoder<br/>중심 좌표 변환"]
   Geocoder --> Radius["3km 반경 Places 검색"]
@@ -916,36 +933,23 @@ flowchart LR
   Normalize --> Dedupe["장소 ID / 키워드 중복 제거"]
   Dedupe --> Save["사업장 주변 시설 데이터 저장"]
               </pre>
-            </div>
-            <div class="diagram-card">
-              <h3>운영 데이터 갱신 프로세스</h3>
-              <pre class="mermaid">
-sequenceDiagram
-  participant Admin as 운영자
-  participant UI as Safetia Map UI
-  participant Kakao as Kakao Local API
-  participant API as Safetia API
-  participant Excel as Excel Export
-
-  Admin->>UI: 사업장 목록 조회 또는 선택
-  UI->>API: 갱신 가능 사용량 확인
-  loop 대상 사업장별
-    UI->>Kakao: 주소 좌표 검색
-    UI->>Kakao: 반경/격자 Places 검색
-    UI->>UI: 중복 제거와 거리 분류
-    UI->>API: 주변 시설 데이터 저장
-  end
-  Admin->>UI: 결과 목록 확인
-  UI->>Excel: 실패 목록과 시설 집계 다운로드
-              </pre>
-            </div>
-          </div>
         </div>
-        <div class="section-gallery">
-          <h3>탐색 화면</h3>
-          <div class="gallery-grid mixed" aria-label="Safetia 카카오맵 탐색 화면">
-            <img class="gallery-shot square" src="/assets/portfolio/safetia-kakao-grid.png" alt="Safetia 카카오맵 격자 분할 탐색 화면" />
-          </div>
+        <div class="diagram-card full">
+          <h3>운영 데이터 갱신 프로세스</h3>
+          <pre class="mermaid">
+flowchart LR
+  Admin["운영자"] --> Target["사업장 목록 조회<br/>전체 또는 선택 대상"]
+  Target --> Quota["API 사용량 / 갱신 가능 수 확인"]
+  Quota --> Batch["사업장별 반복 처리"]
+  Batch --> Geocode["Kakao Geocoder<br/>주소 좌표 변환"]
+  Geocode --> Search["반경 검색 + 격자 재탐색"]
+  Search --> Normalize["중복 제거<br/>거리 / range 분류"]
+  Normalize --> Save["Safetia API<br/>주변 시설 데이터 저장"]
+  Save --> Result["갱신 결과 목록"]
+  Search --> Error["실패 주소 / 사용량 초과 기록"]
+  Result --> Excel["시설 집계 Excel 다운로드"]
+  Error --> Excel
+              </pre>
         </div>
       </section>
 
@@ -964,54 +968,60 @@ sequenceDiagram
           <span class="role-chip">기획, FE, BE, 인프라, 운영</span>
         </div>
 
-        <div class="content-grid">
-          <div class="info-card">
-            <h3>시스템 구성</h3>
-            <ul class="tags">
-              <li>Next.js</li>
-              <li>NestJS</li>
-              <li>AWS EB / EC2</li>
-              <li>S3</li>
-              <li>RDS</li>
-            </ul>
-            <ul class="point-list">
-              <li>
-                사용자 웹은 주문, 인증, 결제, 다국어, 파트너/가이드 페이지를
-                담당합니다.
-              </li>
-              <li>
-                NestJS API는 주문, 재고, 락커, 반납, 배너, 쿠폰, 포인트, 결제
-                연동 등 운영 도메인을 처리합니다.
-              </li>
-              <li>
-                관리자 웹은 주문/재고/락커/메시지/쿠폰 관리와 운영 이슈 대응
-                도구 역할을 합니다.
-              </li>
-              <li>
-                API 예외와 결제 잠금 타임아웃 등 운영 이슈는 Slack 알림으로
-                빠르게 확인할 수 있게 구성했습니다.
-              </li>
-            </ul>
-            <div class="metric-row">
-              <div class="metric">
-                <strong>3,000건+</strong>
-                <span>누적 주문 처리</span>
-              </div>
-              <div class="metric">
-                <strong>AWS</strong>
-                <span>EB/EC2, S3, RDS 운영</span>
-              </div>
-              <div class="metric">
-                <strong>Admin</strong>
-                <span>주문/재고/락커 운영 도구</span>
-              </div>
+        <div class="info-card">
+          <h3>시스템 구성</h3>
+          <ul class="tags">
+            <li>Next.js</li>
+            <li>NestJS</li>
+            <li>AWS EB / EC2</li>
+            <li>S3</li>
+            <li>RDS</li>
+          </ul>
+          <ul class="point-list">
+            <li>
+              사용자 웹은 주문, 인증, 결제, 다국어, 파트너/가이드 페이지를
+              담당합니다.
+            </li>
+            <li>
+              NestJS API는 주문, 재고, 락커, 반납, 배너, 쿠폰, 포인트, 결제
+              연동 등 운영 도메인을 처리합니다.
+            </li>
+            <li>
+              관리자 웹은 주문/재고/락커/메시지/쿠폰 관리와 운영 이슈 대응
+              도구 역할을 합니다.
+            </li>
+            <li>
+              API 예외와 결제 잠금 타임아웃 등 운영 이슈는 Slack 알림으로
+              빠르게 확인할 수 있게 구성했습니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>3,000건+</strong>
+              <span>누적 주문 처리</span>
+            </div>
+            <div class="metric">
+              <strong>AWS</strong>
+              <span>EB/EC2, S3, RDS 운영</span>
+            </div>
+            <div class="metric">
+              <strong>Admin</strong>
+              <span>주문/재고/락커 운영 도구</span>
             </div>
           </div>
+          <div class="app-links">
+            <a
+              class="app-link"
+              href="https://www.snapshoot.icu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >서비스 보기</a>
+          </div>
+        </div>
 
-          <div>
-            <div class="diagram-card">
-              <h3>AWS 기반 서비스 아키텍처</h3>
-              <pre class="mermaid">
+        <div class="diagram-card full">
+          <h3>AWS 기반 서비스 아키텍처</h3>
+          <pre class="mermaid">
 flowchart LR
   Customer["고객"] --> WWW["snapshoot-www<br/>Next.js 사용자 웹"]
   Operator["운영자"] --> Admin["snapshoot-admin<br/>Next.js 관리자 웹"]
@@ -1023,31 +1033,24 @@ flowchart LR
   API --> Slack["Slack 알림"]
   API --> Mail["Email / 알림"]
               </pre>
-            </div>
-            <div class="diagram-card">
-              <h3>주문과 운영 처리 흐름</h3>
-              <pre class="mermaid">
-sequenceDiagram
-  participant C as 고객
-  participant W as 사용자 웹
-  participant A as API
-  participant DB as RDS
-  participant S3 as S3
-  participant Admin as 관리자 웹
-  participant Slack as Slack
-
-  C->>W: 렌탈 기기 선택 및 주문
-  W->>A: 인증 / 주문 / 결제 요청
-  A->>DB: 주문, 결제, 재고 상태 저장
-  A->>S3: 필요한 이미지와 첨부 자원 관리
-  A-->>W: 주문 완료 또는 후속 안내
-  A->>Slack: 운영 알림 전송
-  Admin->>A: 주문, 재고, 락커, 반납 상태 조회
-  Admin->>A: 배정, 쿠폰, 메시지, 운영 상태 변경
-  A->>DB: 운영 변경 사항 반영
+        </div>
+        <div class="diagram-card full">
+          <h3>주문과 운영 처리 흐름</h3>
+          <pre class="mermaid">
+flowchart LR
+  Order["고객<br/>기기 선택 / 주문"] --> Web["사용자 웹<br/>인증 / 결제 요청"]
+  Web --> API["NestJS API<br/>주문 도메인"]
+  API --> Payment["결제 / 본인인증"]
+  API --> Inventory["재고 / 락커 / 반납 도메인"]
+  API --> DB["RDS<br/>주문 / 결제 / 재고 상태"]
+  API --> Storage["S3<br/>이미지 / 배너 / 첨부 자원"]
+  API --> Notify["Slack / Email<br/>운영 알림"]
+  Admin["관리자 웹"] --> Ops["주문 / 재고 / 락커 / 쿠폰 관리"]
+  Ops --> API
+  DB --> Dashboard["운영 상태 조회"]
+  Dashboard --> Admin
+  Notify --> Admin
               </pre>
-            </div>
-          </div>
         </div>
       </section>
 
