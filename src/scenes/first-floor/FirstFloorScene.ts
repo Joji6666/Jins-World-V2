@@ -38,6 +38,9 @@ import { handleInteraction } from "../main/functions/interaction";
 import FixWidthButtons from "phaser3-rex-plugins/templates/ui/fixwidthbuttons/FixWidthButtons";
 import { createGuestbookUI } from "./functions/guestbookUI";
 
+const PORTFOLIO_DOWNLOAD_URL =
+  "https://docs.google.com/presentation/d/12yJZiz7zL_aMN72hgfjwHl_fvNwtwzpx/export/pptx";
+
 export default class FirstFloorScene
   extends Phaser.Scene
   implements RexUIScene
@@ -236,7 +239,7 @@ export default class FirstFloorScene
                     downloadResume("/assets/kimjin_resume.pdf");
                     break;
                   case "포트폴리오 문서 다운로드":
-                    downloadPortfolio("/assets/kimjin_portfolio.pptx");
+                    downloadPortfolio(PORTFOLIO_DOWNLOAD_URL);
                     break;
                   case "떠나기":
                     textBox.setVisible(false);

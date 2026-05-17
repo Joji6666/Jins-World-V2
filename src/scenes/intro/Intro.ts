@@ -5,6 +5,9 @@ import {
 } from "../first-floor/functions/dialogue";
 import { isMobileGameboyMode } from "../../shared/mobile/mobileGameboyController";
 
+const PORTFOLIO_DOWNLOAD_URL =
+  "https://docs.google.com/presentation/d/12yJZiz7zL_aMN72hgfjwHl_fvNwtwzpx/export/pptx";
+
 export default class IntroScene extends Phaser.Scene {
   private language: "ko" | "en" = "ko";
   private languageTitle!: Phaser.GameObjects.Text;
@@ -86,7 +89,7 @@ export default class IntroScene extends Phaser.Scene {
         label: "포트폴리오 다운로드",
         x: isMobile ? centerX : centerX + 340,
         y: isMobile ? menuY + 108 : menuY,
-        action: () => downloadPortfolio("/assets/kimjin_portfolio.pptx")
+        action: () => downloadPortfolio(PORTFOLIO_DOWNLOAD_URL)
       }
     ];
 

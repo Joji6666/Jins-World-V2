@@ -243,6 +243,8 @@ export const downloadResume = (url: string): void => {
 export const downloadPortfolio = (url: string): void => {
   const a = document.createElement("a");
   a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
   a.download = "김진_포트폴리오.pptx";
   document.body.appendChild(a);
   a.click();
