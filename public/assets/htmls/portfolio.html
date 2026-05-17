@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        if (window.mermaid) {
+          window.mermaid.initialize({
+            startOnLoad: true,
+            theme: "base",
+            securityLevel: "loose",
+            themeVariables: {
+              primaryColor: "#eff6ff",
+              primaryTextColor: "#172033",
+              primaryBorderColor: "#93c5fd",
+              lineColor: "#667085",
+              secondaryColor: "#f8fafc",
+              tertiaryColor: "#ffffff",
+              fontFamily: "Arial, Noto Sans KR, sans-serif"
+            }
+          });
+        }
+      });
+    </script>
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #172033;
+        --muted: #667085;
+        --line: #e4e7ec;
+        --accent: #2563eb;
+        --accent-soft: #eff6ff;
+        --success: #047857;
+        --warning: #b45309;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Arial,
+          "Apple SD Gothic Neo",
+          "Noto Sans KR",
+          sans-serif;
+        line-height: 1.7;
+      }
+
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 48px 24px;
+      }
+
+      .page-header {
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--text);
+        font-size: 38px;
+        line-height: 1.2;
+      }
+
+      .lead {
+        max-width: 780px;
+        margin: 14px 0 0;
+        color: var(--muted);
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 28px 0 34px;
+        padding: 12px 0;
+        background: rgba(247, 248, 251, 0.92);
+        backdrop-filter: blur(12px);
+      }
+
+      .nav a {
+        border: 1px solid #bfdbfe;
+        border-radius: 999px;
+        padding: 7px 12px;
+        background: var(--accent-soft);
+        color: #1d4ed8;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .portfolio-section {
+        margin-top: 28px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 28px;
+        background: var(--surface);
+        box-shadow: 0 16px 44px rgba(23, 32, 51, 0.06);
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 20px;
+        align-items: start;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        margin: 0;
+        color: var(--text);
+        font-size: 28px;
+        line-height: 1.3;
+      }
+
+      .section-summary {
+        max-width: 760px;
+        margin: 10px 0 0;
+        color: #344054;
+      }
+
+      .role-chip {
+        border-radius: 999px;
+        padding: 7px 12px;
+        background: #ecfdf3;
+        color: var(--success);
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 18px;
+      }
+
+      .diagram-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .info-card,
+      .diagram-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 20px;
+        background: #ffffff;
+      }
+
+      .info-card h3,
+      .diagram-card h3 {
+        margin: 0 0 12px;
+        color: var(--text);
+        font-size: 18px;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 18px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .tags li {
+        border: 1px solid #bfdbfe;
+        border-radius: 999px;
+        padding: 5px 9px;
+        background: var(--accent-soft);
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .point-list {
+        margin: 0;
+        padding-left: 18px;
+        color: #344054;
+      }
+
+      .point-list li {
+        margin-bottom: 9px;
+      }
+
+      .point-list li:last-child {
+        margin-bottom: 0;
+      }
+
+      .metric-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: #fcfcfd;
+      }
+
+      .metric strong {
+        display: block;
+        color: var(--text);
+        font-size: 15px;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .diagram-card {
+        overflow: hidden;
+      }
+
+      .diagram-card + .diagram-card {
+        margin-top: 16px;
+      }
+
+      .diagram-grid .diagram-card + .diagram-card {
+        margin-top: 0;
+      }
+
+      .diagram-card.full {
+        margin-top: 16px;
+      }
+
+      .mermaid {
+        display: flex;
+        justify-content: center;
+        min-height: 260px;
+        margin: 0;
+        padding: 16px;
+        overflow-x: auto;
+        border-radius: 8px;
+        background: #fbfdff;
+        color: var(--text);
+      }
+
+      .mermaid.compact {
+        min-height: 220px;
+      }
+
+      .mermaid.wide {
+        min-width: 980px;
+      }
+
+      .image-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .phone-shot {
+        width: 100%;
+        aspect-ratio: 9 / 16;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        object-fit: cover;
+        object-position: top;
+        background: #f8fafc;
+        box-shadow: 0 10px 26px rgba(23, 32, 51, 0.08);
+      }
+
+      .diagram-note {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .footer {
+        margin-top: 36px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .footer a {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      @media (max-width: 860px) {
+        .container {
+          padding: 24px 14px;
+        }
+
+        h1 {
+          font-size: 30px;
+        }
+
+        h2 {
+          font-size: 24px;
+        }
+
+        .portfolio-section {
+          padding: 20px;
+        }
+
+        .section-head,
+        .content-grid,
+        .diagram-grid,
+        .metric-row {
+          grid-template-columns: 1fr;
+        }
+
+        .image-strip {
+          grid-template-columns: repeat(3, minmax(96px, 1fr));
+          overflow-x: auto;
+        }
+
+        .role-chip {
+          width: fit-content;
+        }
+
+        .nav {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="page-header">
+        <p class="eyebrow">Technical Portfolio</p>
+        <h1>Portfolio</h1>
+        <p class="lead">
+          개인 서비스와 사내 자동화 도구를 단순 결과물이 아니라 구조, 흐름,
+          운영 관점에서 정리했습니다. 각 섹션은 실제 레포의 역할 분리와 주요
+          프로세스를 기준으로 작성했습니다.
+        </p>
+      </header>
+
+      <nav class="nav" aria-label="포트폴리오 섹션 이동">
+        <a href="#naengko">냉코</a>
+        <a href="#filmmate">FilmMate</a>
+        <a href="#mason">Mason CLI</a>
+        <a href="#flab-business">F-Lab 기업회원</a>
+        <a href="#snapshoot">Snapshoot</a>
+      </nav>
+
+      <section id="naengko" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Mobile App / AI / OCR</p>
+            <h2>냉코 냉장고 관리 앱</h2>
+            <p class="section-summary">
+              냉코는 식재료 등록, 소비기한 관리, 영수증 OCR, AI 레시피 추천,
+              가계부 흐름을 하나로 묶은 React Native 앱입니다. 앱은 오프라인
+              사용성을 고려해 로컬 데이터를 중심으로 동작하고, API는 상품 조회와
+              AI/OCR 보강 역할을 맡습니다.
+            </p>
+          </div>
+          <span class="role-chip">기획, 개발, App Store 출시, 운영</span>
+        </div>
+
+        <div class="content-grid">
+          <div class="info-card">
+            <h3>핵심 기능</h3>
+            <ul class="point-list">
+              <li>
+                Expo Router 기반 모바일 앱에서 냉장고, 식재료, 레시피, 지출
+                화면을 구성했습니다.
+              </li>
+              <li>
+                Expo SQLite와 Context 상태를 활용해 식재료/소비기한 데이터를
+                앱 내부에서 빠르게 관리합니다.
+              </li>
+              <li>
+                API는 Supabase 상품 DB, 사용자 기여 상품, 공공/외부 데이터,
+                Gemini/OpenAI 기반 분석 흐름을 연결합니다.
+              </li>
+            </ul>
+            <div class="metric-row">
+              <div class="metric">
+                <strong>Offline-first</strong>
+                <span>식재료와 소비기한 중심 로컬 관리</span>
+              </div>
+              <div class="metric">
+                <strong>AI Recipe</strong>
+                <span>보유 식재료 기반 추천 경험</span>
+              </div>
+              <div class="metric">
+                <strong>OCR</strong>
+                <span>영수증 기반 자동 입력 흐름</span>
+              </div>
+            </div>
+            <div class="image-strip" aria-label="냉코 앱 스크린샷">
+              <img
+                class="phone-shot"
+                src="/assets/portfolio/naengko-1.png"
+                alt="냉코 앱 냉장고 화면"
+              />
+              <img
+                class="phone-shot"
+                src="/assets/portfolio/naengko-2.png"
+                alt="냉코 앱 식재료 관리 화면"
+              />
+              <img
+                class="phone-shot"
+                src="/assets/portfolio/naengko-3.png"
+                alt="냉코 앱 AI 기능 화면"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="diagram-card">
+              <h3>서비스 아키텍처</h3>
+              <pre class="mermaid">
+flowchart LR
+  User["사용자"] --> App["냉코 앱<br/>React Native / Expo"]
+  App --> LocalDB["로컬 DB<br/>Expo SQLite"]
+  App --> OCR["Vision OCR 모듈"]
+  App --> API["API 서버<br/>Vercel Functions"]
+  API --> Supabase["Supabase<br/>products / contributed"]
+  API --> FoodAPI["식품 데이터 API<br/>FoodScan / FatSecret"]
+  API --> AI["Gemini / OpenAI"]
+  OCR --> App
+  AI --> API
+              </pre>
+              <p class="diagram-note">
+                앱은 사용자 경험과 로컬 상태를 책임지고, API는 외부 데이터 조회와
+                AI 분석을 얇게 중계하는 구조로 분리했습니다.
+              </p>
+            </div>
+            <div class="diagram-card">
+              <h3>상품 조회와 입력 흐름</h3>
+              <pre class="mermaid">
+sequenceDiagram
+  participant U as 사용자
+  participant A as 냉코 앱
+  participant L as 로컬 DB
+  participant API as API
+  participant S as Supabase
+  participant E as 외부 식품 API
+
+  U->>A: 바코드 스캔 또는 식재료 입력
+  A->>API: 상품 정보 조회 요청
+  API->>S: 마스터 상품 검색
+  alt 마스터 DB hit
+    S-->>API: 상품/영양성분 반환
+  else 미등록 상품
+    API->>E: 외부 식품 데이터 조회
+    E-->>API: 후보 데이터 반환
+  end
+  API-->>A: source와 contributed 목록 반환
+  A->>L: 식재료와 소비기한 저장
+  A-->>U: 냉장고 상태와 추천 액션 표시
+              </pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="filmmate" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Realtime Media / WebRTC</p>
+            <h2>FilmMate</h2>
+            <p class="section-summary">
+              FilmMate는 촬영자와 모델이 서로 다른 기기를 들고 실시간 카메라
+              화면을 공유하며 원격 촬영할 수 있는 모바일 앱입니다. Firebase
+              Firestore는 시그널링 저장소로 사용하고, P2P 연결이 어려운 네트워크
+              환경에서는 VPS 기반 TURN 중계를 사용합니다.
+            </p>
+          </div>
+          <span class="role-chip">기획, 개발, App Store 배포</span>
+        </div>
+
+        <div class="content-grid">
+          <div class="info-card">
+            <h3>핵심 구현</h3>
+            <ul class="tags">
+              <li>React Native</li>
+              <li>Expo</li>
+              <li>WebRTC</li>
+              <li>Firebase Auth</li>
+              <li>Firestore</li>
+              <li>STUN / TURN</li>
+            </ul>
+            <ul class="point-list">
+              <li>
+                익명 Firebase Auth로 시그널링 권한을 확보하고, Firestore
+                `webrtcRooms` 문서에 offer, answer, ICE candidate를 교환합니다.
+              </li>
+              <li>
+                STUN은 Google 서버를 사용하고, TURN credential은
+                `turn-cred.filmmate.site` 엔드포인트에서 발급받도록 구성했습니다.
+              </li>
+              <li>
+                촬영자와 모델 역할을 분리하고, 연결 후에는 카메라 미리보기,
+                원격 촬영, 사진 전송, 필름/인생네컷 플로우를 제공합니다.
+              </li>
+              <li>
+                연결 실패, ICE 실패, 권한 오류, 타임아웃을 분류해 사용자에게
+                복구 가능한 상태로 안내합니다.
+              </li>
+            </ul>
+            <div class="metric-row">
+              <div class="metric">
+                <strong>Firestore</strong>
+                <span>Offer/Answer/ICE signaling</span>
+              </div>
+              <div class="metric">
+                <strong>VPS TURN</strong>
+                <span>NAT 환경 영상 중계</span>
+              </div>
+              <div class="metric">
+                <strong>Camera UX</strong>
+                <span>원격 촬영과 사진 공유</span>
+              </div>
+            </div>
+            <div class="image-strip" aria-label="FilmMate 앱 스크린샷">
+              <img
+                class="phone-shot"
+                src="/assets/portfolio/filmmate-1.png"
+                alt="FilmMate 역할 선택 화면"
+              />
+              <img
+                class="phone-shot"
+                src="/assets/portfolio/filmmate-2.png"
+                alt="FilmMate 카메라 공유 화면"
+              />
+              <img
+                class="phone-shot"
+                src="/assets/portfolio/filmmate-3.png"
+                alt="FilmMate 촬영 결과 화면"
+              />
+            </div>
+          </div>
+
+          <div class="diagram-card">
+            <h3>WebRTC 시그널링 흐름</h3>
+            <pre class="mermaid">
+sequenceDiagram
+  participant Sender as 촬영자 기기
+  participant Firebase as Firebase Auth / Firestore
+  participant Turn as VPS TURN 서버
+  participant Receiver as 모델 기기
+
+  Sender->>Firebase: 익명 로그인
+  Receiver->>Firebase: 익명 로그인
+  Sender->>Firebase: room 생성 + offer SDP 저장
+  Sender->>Firebase: caller ICE candidates 저장
+  Receiver->>Firebase: room 조회 + offer 수신
+  Receiver->>Firebase: answer SDP 저장
+  Receiver->>Firebase: callee ICE candidates 저장
+  Sender-->>Receiver: P2P 연결 시도
+  alt 직접 연결 가능
+    Sender-->>Receiver: WebRTC 영상 스트림 전송
+  else NAT 또는 방화벽으로 직접 연결 실패
+    Sender->>Turn: TURN relay 사용
+    Turn->>Receiver: 영상 스트림 중계
+  end
+              </pre>
+          </div>
+        </div>
+
+        <div class="diagram-card full">
+          <h3>앱 기능 흐름</h3>
+          <pre class="mermaid wide compact">
+flowchart LR
+  Start["앱 실행"] --> Role["역할 선택<br/>촬영자 / 모델"] --> Pairing["QR 또는 코드 기반 페어링"] --> Signal["Firestore signaling"] --> Connected["WebRTC 연결 완료"] --> Preview["실시간 카메라 화면 공유"] --> RemoteShot["원격 촬영"] --> Edit["필름 LUT / 인생네컷 편집"] --> Save["PhotoKit / MediaStore 저장"]
+          </pre>
+        </div>
+      </section>
+
+      <section id="mason" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Internal CLI / AI Codegen</p>
+            <h2>Mason CLI</h2>
+            <p class="section-summary">
+              Mason은 Safetia 모노레포 안에서 자연어 화면 요구사항을
+              ui-spec/flow-spec으로 정규화하고, 디자인 시스템 기반 프로덕션 코드,
+              실제 캡처, 화면설계서 PPTX, 작업 히스토리까지 생성하는 내부 CLI입니다.
+            </p>
+          </div>
+          <span class="role-chip">설계, 구현, 자동화 파이프라인 구축</span>
+        </div>
+
+        <div class="info-card">
+          <h3>자동화 대상</h3>
+          <ul class="tags">
+            <li>Codex CLI</li>
+            <li>Storybook</li>
+            <li>Design System</li>
+            <li>Playwright</li>
+            <li>PPTX</li>
+            <li>QA Report</li>
+          </ul>
+          <ul class="point-list">
+            <li>
+              한국어 요구사항을 Mason이 이해할 수 있는 화면 명세와 필드 단위
+              의도로 변환합니다.
+            </li>
+            <li>
+              Storybook index와 컴포넌트 레지스트리를 기반으로
+              ListSection, DynamicForms, Table, FileUploader 같은 공통
+              컴포넌트를 우선 매칭합니다.
+            </li>
+            <li>
+              생성된 코드를 실제 렌더링하고 Playwright로 캡처한 뒤, 번호 설명과
+              화면설계서 PPTX를 생성합니다.
+            </li>
+            <li>
+              캡처 누락, 빈 이미지, 마커 겹침, callout 누락, 중복 버튼 등을
+              QA 리포트로 검증합니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>Spec</strong>
+              <span>ui-spec / flow-spec 정규화</span>
+            </div>
+            <div class="metric">
+              <strong>Code</strong>
+              <span>공통 컴포넌트 기반 스캐폴드</span>
+            </div>
+            <div class="metric">
+              <strong>Docs</strong>
+              <span>캡처, PPTX, history 산출</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram-grid">
+          <div class="diagram-card">
+            <h3>Mason 파이프라인</h3>
+            <pre class="mermaid compact">
+flowchart LR
+  Prompt["자연어 요구사항"] --> Normalize["Codex 정규화<br/>fallback parser"] --> UiSpec["ui-spec 생성"] --> Resolve["Storybook / Registry<br/>컴포넌트 매칭"] --> FlowSpec["flow-spec 생성"] --> Scaffold["코드 스캐폴드"] --> Capture["Playwright 캡처"] --> QA["QA 리포트"] --> Output["PPTX / history"]
+            </pre>
+          </div>
+          <div class="diagram-card">
+            <h3>모노레포 연동 구조</h3>
+            <pre class="mermaid compact">
+flowchart LR
+  Mason["packages/mason<br/>CLI"] --> Core["safetia-core<br/>Generated routes"]
+  Mason --> DS["safetia-design-system<br/>Stories / Components"]
+  Mason --> Studio["mason-studio<br/>ui-spec editor"]
+  DS --> StoryIndex["storybook index"]
+  StoryIndex --> Mason
+  Studio --> RunSpec["mason run-spec"]
+  RunSpec --> Mason
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="flab-business" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">B2B Recruiting / LMS / Backoffice</p>
+            <h2>F-Lab 기업회원 채용 제휴 서비스</h2>
+            <p class="section-summary">
+              F-Lab 멘토링 플랫폼 안에서 기업회원이 멘티 이력서를 탐색하고,
+              후보자를 관리하며, 채용전형을 만들어 제안까지 보낼 수 있는 B2B
+              채용 제휴 서비스를 구현했습니다. 프론트는 홈페이지, 백오피스, LMS
+              패키지에 걸쳐 있고, 백엔드는 Kotlin/Spring business 모듈로
+              가입/검수/이력서/제안 흐름을 분리했습니다.
+            </p>
+          </div>
+          <span class="role-chip">풀스택 개발, DB 설계, 운영 플로우 구현</span>
+        </div>
+
+        <div class="content-grid">
+          <div class="info-card">
+            <h3>핵심 구현</h3>
+            <ul class="tags">
+              <li>Next.js</li>
+              <li>React</li>
+              <li>Recoil</li>
+              <li>Ant Design</li>
+              <li>Kotlin</li>
+              <li>Spring</li>
+              <li>JPA</li>
+            </ul>
+            <ul class="point-list">
+              <li>
+                기업회원 가입 폼, 사업자번호/담당자 검증, 기업 권한 확인,
+                서비스 페이지 접근 제어를 구현했습니다.
+              </li>
+              <li>
+                기업회원이 멘티 채용 프로필을 포지션, 경력, 희망 고용형태,
+                제안 여부, 후보자 여부로 탐색할 수 있는 테이블과 상세 모달을
+                만들었습니다.
+              </li>
+              <li>
+                후보자 추가/취소, 채용전형 템플릿 생성, 단건/다건 제안, 제안
+                현황 관리까지 이어지는 기업회원 워크플로우를 구현했습니다.
+              </li>
+              <li>
+                백오피스에서는 기업회원 신청 목록, 상세 폼 조회, 승인/거절
+                처리를 제공하고, LMS에서는 멘티가 받은 제안을 확인하고
+                수락/거절할 수 있게 연결했습니다.
+              </li>
+            </ul>
+            <div class="metric-row">
+              <div class="metric">
+                <strong>35곳</strong>
+                <span>오픈 2개월 내 기업회원 등록</span>
+              </div>
+              <div class="metric">
+                <strong>164건</strong>
+                <span>초기 확보 이력서 규모</span>
+              </div>
+              <div class="metric">
+                <strong>3면 연동</strong>
+                <span>기업회원, 백오피스, LMS 흐름 연결</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="diagram-card">
+            <h3>서비스 아키텍처</h3>
+            <pre class="mermaid">
+flowchart LR
+  Business["기업회원"] --> Homepage["homepage<br/>business service"]
+  Mentee["멘티"] --> LMS["lms<br/>employment offer"]
+  Operator["운영자"] --> Backoffice["backoffice<br/>business admin"]
+  Homepage --> API["core-api<br/>business-api"]
+  LMS --> API
+  Backoffice --> API
+  API --> Domain["Business / Offer / Profile Domain"]
+  Domain --> Infra["JPA Repository / Query Reader"]
+  Infra --> DB["DB"]
+            </pre>
+          </div>
+        </div>
+
+        <div class="diagram-grid">
+          <div class="diagram-card">
+            <h3>기업회원 가입과 검수 흐름</h3>
+            <pre class="mermaid compact">
+sequenceDiagram
+  participant User as 기업 담당자
+  participant Home as Business Sign-up
+  participant API as Business API
+  participant Admin as Backoffice
+  participant DB as DB
+
+  User->>Home: 기업회원 신청
+  Home->>API: sign-up 요청
+  API->>DB: Business / BusinessUser 저장
+  Admin->>API: 신청 목록과 상세 폼 조회
+  Admin->>API: 승인 또는 거절 처리
+  API->>DB: 상태와 이력 반영
+  User->>Home: business service 접근
+  Home->>API: business check
+            </pre>
+          </div>
+          <div class="diagram-card">
+            <h3>채용 제안 프로세스</h3>
+            <pre class="mermaid compact">
+sequenceDiagram
+  participant B as 기업회원
+  participant S as Business Service
+  participant API as Employment API
+  participant L as LMS
+  participant M as 멘티
+
+  B->>S: 이력서 검색과 상세 열람
+  S->>API: profile-list / read-history
+  B->>S: 후보자 추가
+  S->>API: candidate 등록
+  B->>S: 채용전형 생성과 제안 발송
+  S->>API: offer-form / offer
+  M->>L: 제안 목록 확인
+  L->>API: offer/mentee 조회
+  M->>API: 제안 수락 또는 거절
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="snapshoot" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Full-stack Service / AWS</p>
+            <h2>Snapshoot 스마트폰 렌탈 서비스</h2>
+            <p class="section-summary">
+              Snapshoot은 SNS 기반 스마트폰 렌탈 서비스를 웹, API, 관리자
+              시스템으로 분리해 운영한 풀스택 프로젝트입니다. Next.js 사용자 웹과
+              관리자 웹, NestJS API, AWS EB/EC2, S3, RDS를 연결해 주문과 운영
+              대응 흐름을 구축했습니다.
+            </p>
+          </div>
+          <span class="role-chip">기획, FE, BE, 인프라, 운영</span>
+        </div>
+
+        <div class="content-grid">
+          <div class="info-card">
+            <h3>시스템 구성</h3>
+            <ul class="tags">
+              <li>Next.js</li>
+              <li>NestJS</li>
+              <li>AWS EB / EC2</li>
+              <li>S3</li>
+              <li>RDS</li>
+            </ul>
+            <ul class="point-list">
+              <li>
+                사용자 웹은 주문, 인증, 결제, 다국어, 파트너/가이드 페이지를
+                담당합니다.
+              </li>
+              <li>
+                NestJS API는 주문, 재고, 락커, 반납, 배너, 쿠폰, 포인트, 결제
+                연동 등 운영 도메인을 처리합니다.
+              </li>
+              <li>
+                관리자 웹은 주문/재고/락커/메시지/쿠폰 관리와 운영 이슈 대응
+                도구 역할을 합니다.
+              </li>
+              <li>
+                API 예외와 결제 잠금 타임아웃 등 운영 이슈는 Slack 알림으로
+                빠르게 확인할 수 있게 구성했습니다.
+              </li>
+            </ul>
+            <div class="metric-row">
+              <div class="metric">
+                <strong>3,000건+</strong>
+                <span>누적 주문 처리</span>
+              </div>
+              <div class="metric">
+                <strong>AWS</strong>
+                <span>EB/EC2, S3, RDS 운영</span>
+              </div>
+              <div class="metric">
+                <strong>Admin</strong>
+                <span>주문/재고/락커 운영 도구</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="diagram-card">
+              <h3>AWS 기반 서비스 아키텍처</h3>
+              <pre class="mermaid">
+flowchart LR
+  Customer["고객"] --> WWW["snapshoot-www<br/>Next.js 사용자 웹"]
+  Operator["운영자"] --> Admin["snapshoot-admin<br/>Next.js 관리자 웹"]
+  WWW --> API["snapshoot-api<br/>NestJS on AWS EB / EC2"]
+  Admin --> API
+  API --> RDS["AWS RDS<br/>MySQL"]
+  API --> S3["AWS S3<br/>이미지 / 배너 / 업로드"]
+  API --> Payment["결제 / 본인인증 연동"]
+  API --> Slack["Slack 알림"]
+  API --> Mail["Email / 알림"]
+              </pre>
+            </div>
+            <div class="diagram-card">
+              <h3>주문과 운영 처리 흐름</h3>
+              <pre class="mermaid">
+sequenceDiagram
+  participant C as 고객
+  participant W as 사용자 웹
+  participant A as API
+  participant DB as RDS
+  participant S3 as S3
+  participant Admin as 관리자 웹
+  participant Slack as Slack
+
+  C->>W: 렌탈 기기 선택 및 주문
+  W->>A: 인증 / 주문 / 결제 요청
+  A->>DB: 주문, 결제, 재고 상태 저장
+  A->>S3: 필요한 이미지와 첨부 자원 관리
+  A-->>W: 주문 완료 또는 후속 안내
+  A->>Slack: 운영 알림 전송
+  Admin->>A: 주문, 재고, 락커, 반납 상태 조회
+  Admin->>A: 배정, 쿠폰, 메시지, 운영 상태 변경
+  A->>DB: 운영 변경 사항 반영
+              </pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        김진 | <a href="https://github.com/Joji6666" target="_blank">GitHub</a>
+      </footer>
+    </main>
+  </body>
+</html>

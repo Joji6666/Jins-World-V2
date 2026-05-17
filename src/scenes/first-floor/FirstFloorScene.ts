@@ -185,6 +185,7 @@ export default class FirstFloorScene
                 "자기소개 보기",
                 "회사 이력 보기",
                 "프로젝트들 보기",
+                "포트폴리오",
                 "이력서 다운로드",
                 "떠나기"
               ],
@@ -217,6 +218,14 @@ export default class FirstFloorScene
                     showModalWithIframe(
                       "프로젝트",
                       "/assets/htmls/project.html",
+                      this,
+                      textBox
+                    );
+                    break;
+                  case "포트폴리오":
+                    showModalWithIframe(
+                      "포트폴리오",
+                      "/assets/htmls/portfolio.html",
                       this,
                       textBox
                     );
