@@ -39,7 +39,7 @@ import FixWidthButtons from "phaser3-rex-plugins/templates/ui/fixwidthbuttons/Fi
 import { createGuestbookUI } from "./functions/guestbookUI";
 
 const PORTFOLIO_DOWNLOAD_URL =
-  "https://docs.google.com/presentation/d/12yJZiz7zL_aMN72hgfjwHl_fvNwtwzpx/export/pptx";
+  "/assets/kimjin_portfoilo.pptx";
 
 export default class FirstFloorScene
   extends Phaser.Scene
