@@ -181,7 +181,7 @@ export const mountMobileGameboyController = (game: Phaser.Game): void => {
   const header = document.createElement("div");
   header.className = "mobile-gameboy-header";
   header.innerHTML =
-    "<span>A 상호작용/공격 · B 백스텝 · △ 결정 · □ 닫기 · 검 무기</span>";
+    "<span>A 상호작용/결정/공격 · B 백스텝 · △ 보조 결정 · □ 닫기 · 검 무기</span>";
 
   const controls = document.createElement("div");
   controls.className = "mobile-gameboy-controls";

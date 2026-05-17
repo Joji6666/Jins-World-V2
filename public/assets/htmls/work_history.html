@@ -98,7 +98,7 @@
 
       .section-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         gap: 16px;
       }
 
@@ -128,10 +128,6 @@
 
       li:last-child {
         margin-bottom: 0;
-      }
-
-      .wide {
-        grid-column: 1 / -1;
       }
 
       .footer {
@@ -188,19 +184,28 @@
 
         <div class="section-grid">
           <section class="section-card">
-            <h2>대규모 시스템 리딩</h2>
+            <h2>대규모 시스템 리딩 및 개발 기술 표준 정립</h2>
             <ul>
               <li>
                 공기업, 대기업, 정부기관 대상 대규모 시스템 5건의 프론트엔드
                 구조 설계와 핵심 기능 개발을 총괄했습니다.
               </li>
               <li>
-                React, React Native, Electron 멀티플랫폼 구조와 공통 로직 분리를
-                설계했습니다.
+                프로젝트마다 요구사항과 운영 환경이 달라지는 상황에서 화면 구조,
+                상태 흐름, 권한, 라우팅 기준을 정리해 팀이 같은 방식으로 개발할
+                수 있도록 리딩했습니다.
               </li>
               <li>
-                WebRTC 실시간 영상, MQTT 장비 통신, Bluetooth 연동, Three.js
-                LiDAR/SLAM 3D 맵 시각화를 구현했습니다.
+                검색, 리스트, 테이블, CRUD처럼 반복되는 업무 화면을 설정 기반
+                구조로 표준화해 기능 추가와 유지보수가 쉬운 형태로 정리했습니다.
+              </li>
+              <li>
+                ESLint, Prettier, Husky, GitHub Actions 기반 린트, 타입체크,
+                빌드 검증 파이프라인을 표준화했습니다.
+              </li>
+              <li>
+                생태계, 러닝 커브, 유지보수성을 기준으로 프로젝트별 기술
+                방향성을 검토하고 팀 내 개발 기준을 맞춰갔습니다.
               </li>
             </ul>
           </section>
@@ -224,24 +229,6 @@
           </section>
 
           <section class="section-card">
-            <h2>품질 게이트와 개발 표준화</h2>
-            <ul>
-              <li>
-                ESLint, Prettier, Husky, GitHub Actions 기반 린트, 타입체크,
-                빌드 검증 파이프라인을 표준화했습니다.
-              </li>
-              <li>
-                PR 자동 검증과 머지 전 품질 게이트를 정착시켜 반복적인 품질
-                확인 비용을 줄였습니다.
-              </li>
-              <li>
-                생태계, 러닝 커브, 유지보수성을 기준으로 프로젝트별 기술
-                방향성을 검토했습니다.
-              </li>
-            </ul>
-          </section>
-
-          <section class="section-card">
             <h2>비용 절감과 도메인 문제 해결</h2>
             <ul>
               <li>
@@ -259,7 +246,7 @@
             </ul>
           </section>
 
-          <section class="section-card wide">
+          <section class="section-card">
             <h2>AI 기반 화면설계 자동화 CLI</h2>
             <ul>
               <li>

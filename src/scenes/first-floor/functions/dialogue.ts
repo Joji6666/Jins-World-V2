@@ -124,11 +124,14 @@ export const showOptions = (
   onSelect: (label: string) => void = () => {}
 ): any => {
   const buttons = options.map((label) => createOptionButton(scene, label));
+  const isMobile = isMobileGameboyMode();
+  const optionY = isMobile ? scene.scale.height - 300 : scene.scale.height - 220;
+  const tipY = isMobile ? scene.scale.height - 465 : scene.scale.height - 385;
 
   const optionGroup = scene.rexUI.add
     .fixWidthButtons({
       x: scene.scale.width - 200,
-      y: scene.scale.height - 220,
+      y: optionY,
       width: 180,
       height: buttons.length * 50 + 20,
       // @ts-ignore
@@ -147,9 +150,9 @@ export const showOptions = (
 
   const tipText = scene.add.text(
     scene.scale.width - 90,
-    scene.scale.height - 385,
-    isMobileGameboyMode()
-      ? "십자키 ↑ ↓로 선택하고, △ 버튼으로 결정하세요"
+    tipY,
+    isMobile
+      ? "십자키 ↑ ↓로 선택하고, A 버튼으로 결정하세요"
       : "↑ ↓ 방향키로 선택하고, Enter 키로 결정하세요",
     {
       fontSize: "18px",
@@ -191,11 +194,13 @@ export const showOptions = (
     scene.input.keyboard.on("keydown-UP", handleUp);
     scene.input.keyboard.on("keydown-DOWN", handleDown);
     scene.input.keyboard.on("keydown-ENTER", handleEnter);
+    scene.input.keyboard.on("keydown-SPACE", handleEnter);
 
     scene.data.set("optionKeyEvents", {
       up: handleUp,
       down: handleDown,
-      enter: handleEnter
+      enter: handleEnter,
+      space: handleEnter
     });
 
     scene.data.set("optionGroup", optionGroup);

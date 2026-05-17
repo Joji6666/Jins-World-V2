@@ -256,6 +256,10 @@ export default class FirstFloorScene
                         "keydown-ENTER",
                         optionKeyEvents.enter
                       );
+                      this.input.keyboard.off(
+                        "keydown-SPACE",
+                        optionKeyEvents.space
+                      );
                     }
                     optionGroup.destroy();
 
