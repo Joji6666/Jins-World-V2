@@ -1,5 +1,8 @@
 import WebFont from "webfontloader";
-import { downloadResume } from "../first-floor/functions/dialogue";
+import {
+  downloadPortfolio,
+  downloadResume
+} from "../first-floor/functions/dialogue";
 import { isMobileGameboyMode } from "../../shared/mobile/mobileGameboyController";
 
 export default class IntroScene extends Phaser.Scene {
@@ -64,26 +67,49 @@ export default class IntroScene extends Phaser.Scene {
       })
       .setOrigin(0.5, 0.5);
 
-    const gameStartText = this.add
-      .text(centerX - 150, centerY + 50, "게임시작", {
-        fontFamily: "KoreanPixelFont",
-        fontSize: "36px",
-        color: "#ffcc00"
-      })
-      .setOrigin(0.5, 0.5);
+    const menuY = isMobile ? centerY + 24 : centerY + 50;
+    const menuFontSize = isMobile ? "30px" : "32px";
+    const menuItems = [
+      {
+        label: "게임시작",
+        x: isMobile ? centerX : centerX - 310,
+        y: menuY,
+        action: () => this.startCharSelectScene()
+      },
+      {
+        label: "이력서 다운로드",
+        x: isMobile ? centerX : centerX,
+        y: isMobile ? menuY + 54 : menuY,
+        action: () => downloadResume("/assets/kimjin_resume.pdf")
+      },
+      {
+        label: "포트폴리오 다운로드",
+        x: isMobile ? centerX : centerX + 340,
+        y: isMobile ? menuY + 108 : menuY,
+        action: () => downloadPortfolio("/assets/kimjin_portfolio.pptx")
+      }
+    ];
 
-    const resumeText = this.add
-      .text(centerX + 100, centerY + 50, "이력서 다운로드", {
-        fontFamily: "KoreanPixelFont",
-        fontSize: "36px",
-        color: "#F0F8FF	"
-      })
-      .setOrigin(0.5, 0.5);
+    const menuTexts = menuItems.map((item, index) =>
+      this.add
+        .text(item.x, item.y, item.label, {
+          fontFamily: "KoreanPixelFont",
+          fontSize: menuFontSize,
+          color: index === this.selectIndex ? "#ffcc00" : "#F0F8FF"
+        })
+        .setOrigin(0.5, 0.5)
+    );
+
+    const updateSelectedMenu = () => {
+      menuTexts.forEach((text, index) => {
+        text.setColor(index === this.selectIndex ? "#ffcc00" : "#F0F8FF");
+      });
+    };
 
     this.instructionText = this.add
       .text(
         centerX,
-        centerY + 150,
+        isMobile ? centerY + 210 : centerY + 150,
         isMobile
           ? "십자키로 선택하고 A 버튼으로 진행하세요."
           : "스페이스바를 입력하여 진행하세요.",
@@ -96,23 +122,37 @@ export default class IntroScene extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
 
     if (this.input.keyboard) {
-      this.input.keyboard.on("keydown-LEFT", () => {
-        this.selectIndex = 0;
-        gameStartText.setColor("#ffcc00");
-        resumeText.setColor("#F0F8FF");
+      const selectPrevious = () => {
+        this.selectIndex =
+          (this.selectIndex - 1 + menuItems.length) % menuItems.length;
+        updateSelectedMenu();
+      };
+
+      const selectNext = () => {
+        this.selectIndex = (this.selectIndex + 1) % menuItems.length;
+        updateSelectedMenu();
+      };
+
+      this.input.keyboard.on("keydown-LEFT", selectPrevious);
+      this.input.keyboard.on("keydown-UP", selectPrevious);
+
+      this.input.keyboard.on("keydown-RIGHT", selectNext);
+      this.input.keyboard.on("keydown-DOWN", selectNext);
+
+      menuTexts.forEach((text, index) => {
+        text.setInteractive({ useHandCursor: true });
+        text.on("pointerover", () => {
+          this.selectIndex = index;
+          updateSelectedMenu();
+        });
+        text.on("pointerdown", () => {
+          this.selectIndex = index;
+          menuItems[this.selectIndex].action();
+        });
       });
 
-      this.input.keyboard.on("keydown-RIGHT", () => {
-        this.selectIndex = 1;
-        resumeText.setColor("#ffcc00");
-        gameStartText.setColor("#F0F8FF");
-      });
       this.input.keyboard.on("keydown-SPACE", () => {
-        if (this.selectIndex === 1) {
-          downloadResume("/assets/kimjin_resume.pdf");
-        } else {
-          this.startCharSelectScene();
-        }
+        menuItems[this.selectIndex].action();
       });
     }
   }

@@ -101,13 +101,19 @@ export const createOptionButton = (
   label: string,
   onClick: (label: string) => void = () => {}
 ): any => {
+  const isMobile = isMobileGameboyMode();
   const button = scene.rexUI.add.label({
     background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 10, 0xf5f0e6),
     text: scene.add.text(0, 0, label, {
-      fontSize: "20px",
+      fontSize: isMobile ? "17px" : "20px",
       color: "#4b382a"
     }),
-    space: { left: 10, right: 10, top: 10, bottom: 10 }
+    space: {
+      left: isMobile ? 8 : 10,
+      right: isMobile ? 8 : 10,
+      top: isMobile ? 8 : 10,
+      bottom: isMobile ? 8 : 10
+    }
   });
 
   button.setInteractive().on("pointerup", () => onClick(label));
@@ -125,15 +131,18 @@ export const showOptions = (
 ): any => {
   const buttons = options.map((label) => createOptionButton(scene, label));
   const isMobile = isMobileGameboyMode();
-  const optionY = isMobile ? scene.scale.height - 300 : scene.scale.height - 220;
-  const tipY = isMobile ? scene.scale.height - 465 : scene.scale.height - 385;
+  const buttonHeight = isMobile ? 44 : 50;
+  const optionWidth = isMobile ? 230 : 180;
+  const optionX = isMobile ? scene.scale.width - 150 : scene.scale.width - 200;
+  const optionY = isMobile ? scene.scale.height - 350 : scene.scale.height - 220;
+  const tipY = isMobile ? scene.scale.height - 540 : scene.scale.height - 385;
 
   const optionGroup = scene.rexUI.add
     .fixWidthButtons({
-      x: scene.scale.width - 200,
+      x: optionX,
       y: optionY,
-      width: 180,
-      height: buttons.length * 50 + 20,
+      width: optionWidth,
+      height: buttons.length * buttonHeight + 20,
       // @ts-ignore
       orientation: 1,
       buttons,
@@ -226,6 +235,15 @@ export const downloadResume = (url: string): void => {
   const a = document.createElement("a");
   a.href = url;
   a.download = "개발자_김진_이력서.pdf";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
+export const downloadPortfolio = (url: string): void => {
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "김진_포트폴리오.pptx";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

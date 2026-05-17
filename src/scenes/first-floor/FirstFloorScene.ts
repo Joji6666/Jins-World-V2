@@ -23,6 +23,7 @@ import {
 } from "./functions/create";
 import {
   createTextBox,
+  downloadPortfolio,
   downloadResume,
   openHtmlDialog,
   showModalWithIframe,
@@ -187,6 +188,7 @@ export default class FirstFloorScene
                 "프로젝트들 보기",
                 "포트폴리오",
                 "이력서 다운로드",
+                "포트폴리오 문서 다운로드",
                 "떠나기"
               ],
               (choice) => {
@@ -232,6 +234,9 @@ export default class FirstFloorScene
                     break;
                   case "이력서 다운로드":
                     downloadResume("/assets/kimjin_resume.pdf");
+                    break;
+                  case "포트폴리오 문서 다운로드":
+                    downloadPortfolio("/assets/kimjin_portfolio.pptx");
                     break;
                   case "떠나기":
                     textBox.setVisible(false);
