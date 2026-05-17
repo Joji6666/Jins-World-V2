@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work History</title>
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #172033;
+        --muted: #667085;
+        --line: #e4e7ec;
+        --accent: #2563eb;
+        --accent-soft: #eff6ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Arial,
+          "Apple SD Gothic Neo",
+          "Noto Sans KR",
+          sans-serif;
+        line-height: 1.75;
+      }
+
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 48px 24px;
+      }
+
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 36px;
+        box-shadow: 0 18px 50px rgba(23, 32, 51, 0.06);
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--text);
+        font-size: 38px;
+        line-height: 1.2;
+      }
+
+      .company-header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+        align-items: start;
+        margin-bottom: 28px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .company-header p {
+        margin: 0;
+      }
+
+      .role {
+        color: #344054;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .period {
+        border-radius: 999px;
+        padding: 7px 12px;
+        background: var(--accent-soft);
+        color: #1d4ed8;
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .summary {
+        margin-top: 10px;
+        color: var(--muted);
+      }
+
+      .section-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .section-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 20px;
+        background: #ffffff;
+      }
+
+      .section-card h2 {
+        margin: 0 0 12px;
+        color: var(--text);
+        font-size: 18px;
+        line-height: 1.4;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 18px;
+        color: #344054;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      li:last-child {
+        margin-bottom: 0;
+      }
+
+      .wide {
+        grid-column: 1 / -1;
+      }
+
+      .footer {
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .footer a {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      @media (max-width: 760px) {
+        .container {
+          padding: 24px 14px;
+        }
+
+        .panel {
+          padding: 24px;
+        }
+
+        .company-header,
+        .section-grid {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 30px;
+        }
+
+        .period {
+          width: fit-content;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <section class="panel">
+        <p class="eyebrow">Career</p>
+        <div class="company-header">
+          <div>
+            <h1>(주)세이프티아</h1>
+            <p class="role">책임 / 리드 프론트엔드 개발자</p>
+            <p class="summary">산업안전보건 솔루션 구축, 납품, 컨설팅</p>
+          </div>
+          <span class="period">2023.03 - 현재</span>
+        </div>
+
+        <div class="section-grid">
+          <section class="section-card">
+            <h2>대규모 시스템 리딩</h2>
+            <ul>
+              <li>
+                공기업, 대기업, 정부기관 대상 대규모 시스템 5건의 프론트엔드
+                구조 설계와 핵심 기능 개발을 총괄했습니다.
+              </li>
+              <li>
+                React, React Native, Electron 멀티플랫폼 구조와 공통 로직 분리를
+                설계했습니다.
+              </li>
+              <li>
+                WebRTC 실시간 영상, MQTT 장비 통신, Bluetooth 연동, Three.js
+                LiDAR/SLAM 3D 맵 시각화를 구현했습니다.
+              </li>
+            </ul>
+          </section>
+
+          <section class="section-card">
+            <h2>디자인 시스템과 공통 구조</h2>
+            <ul>
+              <li>
+                Storybook, FSD, Atomic Design 기반 컴포넌트 라이브러리를 구축하고
+                Figma 토큰을 연동했습니다.
+              </li>
+              <li>
+                검색, 리스트, 테이블, CRUD를 선언적으로 조합하는 설정 기반
+                레이아웃 시스템을 설계했습니다.
+              </li>
+              <li>
+                다중 권한 계층의 동적 메뉴 트리와 Route Guard를 설계해 접근
+                제어 일관성을 확보했습니다.
+              </li>
+            </ul>
+          </section>
+
+          <section class="section-card">
+            <h2>품질 게이트와 개발 표준화</h2>
+            <ul>
+              <li>
+                ESLint, Prettier, Husky, GitHub Actions 기반 린트, 타입체크,
+                빌드 검증 파이프라인을 표준화했습니다.
+              </li>
+              <li>
+                PR 자동 검증과 머지 전 품질 게이트를 정착시켜 반복적인 품질
+                확인 비용을 줄였습니다.
+              </li>
+              <li>
+                생태계, 러닝 커브, 유지보수성을 기준으로 프로젝트별 기술
+                방향성을 검토했습니다.
+              </li>
+            </ul>
+          </section>
+
+          <section class="section-card">
+            <h2>비용 절감과 도메인 문제 해결</h2>
+            <ul>
+              <li>
+                React-Quill 에디터 커스터마이징으로 약 3,000만 원 규모의 유료
+                솔루션을 대체했습니다.
+              </li>
+              <li>
+                격자 분할 완전 탐색 알고리즘으로 Kakao Map API 제한을 극복해
+                반경 내 수용체 데이터를 전수 확보했습니다.
+              </li>
+              <li>
+                Next.js 서비스에서 CSR/SSR 런타임 에러를 실시간 알림으로
+                전송하는 모니터링 체계를 구축했습니다.
+              </li>
+            </ul>
+          </section>
+
+          <section class="section-card wide">
+            <h2>AI 기반 화면설계 자동화 CLI</h2>
+            <ul>
+              <li>
+                사내 디자인시스템, Storybook, Codex CLI를 연동한 AI 기반
+                화면설계 자동화 CLI를 설계하고 구현했습니다.
+              </li>
+              <li>
+                자연어 요구사항을 ui-spec/flow-spec으로 정규화하고, 공통
+                컴포넌트 기반 프로덕션 UI 코드 생성부터 Playwright 실제 화면
+                캡처까지 이어지는 파이프라인을 구축했습니다.
+              </li>
+              <li>
+                DOM 좌표 기반 번호 설명, 화면설계서 PPTX, 작업 히스토리 산출까지
+                연결해 설계서와 구현 사이의 반복 작업을 자동화했습니다.
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        <footer class="footer">
+          김진 | <a href="https://github.com/Joji6666" target="_blank">GitHub</a>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>
