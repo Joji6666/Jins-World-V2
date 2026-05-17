@@ -52,6 +52,21 @@ export const isMobileGameboyMode = (): boolean => {
   );
 };
 
+export const getMobileViewportHeight = (): number =>
+  window.visualViewport?.height ?? window.innerHeight;
+
+export const getMobileControllerHeight = (): number => {
+  const value = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue("--mobile-controller-height");
+  const parsed = Number.parseFloat(value);
+
+  return Number.isFinite(parsed) ? parsed : 220;
+};
+
+export const getMobileGameAreaHeight = (): number =>
+  Math.max(0, getMobileViewportHeight() - getMobileControllerHeight());
+
 const createKeyboardEvent = (
   type: "keydown" | "keyup",
   virtualKey: VirtualKey
@@ -149,10 +164,9 @@ export const mountMobileGameboyController = (game: Phaser.Game): void => {
   document.documentElement.classList.add("mobile-gameboy-mode");
 
   const syncViewportHeight = () => {
-    const height = window.visualViewport?.height ?? window.innerHeight;
     document.documentElement.style.setProperty(
       "--mobile-viewport-height",
-      `${height}px`
+      `${getMobileViewportHeight()}px`
     );
   };
 

@@ -1,7 +1,10 @@
 import Phaser from "phaser";
 import TextBox from "phaser3-rex-plugins/templates/ui/textbox/TextBox";
 import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
-import { isMobileGameboyMode } from "../../../shared/mobile/mobileGameboyController";
+import {
+  getMobileGameAreaHeight,
+  isMobileGameboyMode
+} from "../../../shared/mobile/mobileGameboyController";
 
 interface DialogConfig {
   margin?: number;
@@ -19,6 +22,7 @@ export const createTextBox = (
   const margin = config.margin ?? 40;
   const width = scene.scale.width - margin * 2;
   const height = config.height ?? 150;
+  const mobileBottomOffset = isMobileGameboyMode() ? 120 : 20;
 
   const sound = scene.sound.add("textbox", {
     volume: 0.8,
@@ -43,7 +47,7 @@ export const createTextBox = (
   return scene.rexUI.add
     .textBox({
       x: scene.scale.width / 2,
-      y: scene.scale.height - height / 2 - 20,
+      y: scene.scale.height - height / 2 - mobileBottomOffset,
       background,
       text,
       action,
@@ -243,8 +247,10 @@ export const showModalWithIframe = (
   tooltip.innerText = isMobileGameboyMode()
     ? "□ 버튼을 누르면 닫을 수 있어요"
     : "ESC 키를 누르면 닫을 수 있어요";
-  tooltip.style.position = "absolute";
-  tooltip.style.top = "calc(90% + 20px)";
+  tooltip.style.position = "fixed";
+  tooltip.style.top = isMobileGameboyMode()
+    ? `${Math.max(12, getMobileGameAreaHeight() - 42)}px`
+    : "calc(90% + 20px)";
   tooltip.style.left = "50%";
   tooltip.style.transform = "translateX(-50%)";
   tooltip.style.zIndex = "1001";
@@ -258,14 +264,19 @@ export const showModalWithIframe = (
 
   const iframe = document.createElement("iframe");
   iframe.src = url;
-  iframe.style.width = `80%`;
-  iframe.style.height = `80%`;
+  iframe.style.width = isMobileGameboyMode() ? "100vw" : "80%";
+  iframe.style.height = isMobileGameboyMode()
+    ? `${getMobileGameAreaHeight()}px`
+    : "80%";
   iframe.style.border = "none";
-  iframe.style.position = "absolute";
-  iframe.style.top = `50%`;
-  iframe.style.left = `50%`;
+  iframe.style.position = "fixed";
+  iframe.style.top = isMobileGameboyMode() ? "0" : "50%";
+  iframe.style.left = isMobileGameboyMode() ? "0" : "50%";
   iframe.style.zIndex = "1000";
-  iframe.style.transform = "translate(-50%, -50%)";
+  iframe.style.transform = isMobileGameboyMode()
+    ? "none"
+    : "translate(-50%, -50%)";
+  iframe.style.background = "#ffffff";
   document.body.appendChild(iframe);
 
   scene.input.keyboard?.once("keydown-ESC", () => {
@@ -297,13 +308,17 @@ export const showModalWithImage = (
 
   const image = document.createElement("img");
   image.src = url;
-  image.style.width = `80%`;
-  image.style.height = `80%`;
-  image.style.position = "absolute";
-  image.style.top = `50%`;
-  image.style.left = `50%`;
+  image.style.width = isMobileGameboyMode() ? "100vw" : "80%";
+  image.style.height = isMobileGameboyMode()
+    ? `${getMobileGameAreaHeight()}px`
+    : "80%";
+  image.style.position = "fixed";
+  image.style.top = isMobileGameboyMode() ? "0" : "50%";
+  image.style.left = isMobileGameboyMode() ? "0" : "50%";
   image.style.zIndex = "1000";
-  image.style.transform = "translate(-50%, -50%)";
+  image.style.transform = isMobileGameboyMode()
+    ? "none"
+    : "translate(-50%, -50%)";
   image.style.border = "2px solid #8b5e3c";
   image.style.borderRadius = "8px";
   image.style.boxShadow = "0 4px 10px rgba(0,0,0,0.4)";
@@ -313,8 +328,10 @@ export const showModalWithImage = (
   tooltip.innerText = isMobileGameboyMode()
     ? "□ 버튼을 누르면 닫을 수 있어요"
     : "ESC 키를 누르면 닫을 수 있어요";
-  tooltip.style.position = "absolute";
-  tooltip.style.top = "calc(90% + 20px)";
+  tooltip.style.position = "fixed";
+  tooltip.style.top = isMobileGameboyMode()
+    ? `${Math.max(12, getMobileGameAreaHeight() - 42)}px`
+    : "calc(90% + 20px)";
   tooltip.style.left = "50%";
   tooltip.style.transform = "translateX(-50%)";
   tooltip.style.zIndex = "1001";

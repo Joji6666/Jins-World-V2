@@ -154,6 +154,40 @@
         white-space: nowrap;
       }
 
+      .section-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .icon-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: #1d4ed8;
+        text-decoration: none;
+        box-shadow: 0 8px 18px rgba(23, 32, 51, 0.08);
+      }
+
+      .icon-link img {
+        width: 28px;
+        height: 28px;
+        display: block;
+      }
+
+      .icon-link svg {
+        width: 21px;
+        height: 21px;
+        display: block;
+      }
+
       .content-grid {
         display: grid;
         grid-template-columns: 0.9fr 1.1fr;
@@ -290,6 +324,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         min-height: 38px;
         border: 1px solid #1d4ed8;
         border-radius: 8px;
@@ -299,6 +334,12 @@
         font-size: 13px;
         font-weight: 700;
         text-decoration: none;
+      }
+
+      .app-link svg {
+        width: 17px;
+        height: 17px;
+        flex: 0 0 auto;
       }
 
       .visual-card {
@@ -385,7 +426,8 @@
           grid-template-columns: 1fr;
         }
 
-        .role-chip {
+        .role-chip,
+        .section-actions {
           width: fit-content;
         }
 
@@ -401,194 +443,6 @@
         <p class="eyebrow">Technical Portfolio</p>
         <h1>Portfolio</h1>
       </header>
-
-      <section id="naengko" class="portfolio-section">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Mobile App / AI / OCR</p>
-            <h2>냉코 냉장고 관리 앱</h2>
-            <p class="section-summary">
-              냉코는 식재료 등록, 소비기한 관리, 영수증 OCR, AI 레시피 추천,
-              가계부 흐름을 하나로 묶은 React Native 앱입니다. 앱은 오프라인
-              사용성을 고려해 로컬 데이터를 중심으로 동작하고, API는 상품 조회와
-              AI/OCR 보강 역할을 맡습니다.
-            </p>
-          </div>
-          <span class="role-chip">기획, 개발, App Store 출시, 운영</span>
-        </div>
-
-        <div class="info-card">
-          <h3>핵심 기능</h3>
-          <ul class="point-list">
-            <li>
-              Expo Router 기반 모바일 앱에서 냉장고, 식재료, 레시피, 지출
-              화면을 구성했습니다.
-            </li>
-            <li>
-              Expo SQLite와 Context 상태를 활용해 식재료/소비기한 데이터를
-              앱 내부에서 빠르게 관리합니다.
-            </li>
-            <li>
-              API는 Supabase 상품 DB, 사용자 기여 상품, 공공/외부 데이터,
-              Gemini/OpenAI 기반 분석 흐름을 연결합니다.
-            </li>
-          </ul>
-          <div class="metric-row">
-            <div class="metric">
-              <strong>Offline-first</strong>
-              <span>식재료와 소비기한 중심 로컬 관리</span>
-            </div>
-            <div class="metric">
-              <strong>AI Recipe</strong>
-              <span>보유 식재료 기반 추천 경험</span>
-            </div>
-            <div class="metric">
-              <strong>OCR</strong>
-              <span>영수증 기반 자동 입력 흐름</span>
-            </div>
-          </div>
-          <div class="app-links">
-            <a
-              class="app-link"
-              href="https://apps.apple.com/kr/app/%EB%83%89%EC%BD%94/id6760968372"
-              target="_blank"
-              rel="noopener noreferrer"
-            >App Store에서 보기</a>
-          </div>
-        </div>
-
-        <div class="diagram-card full">
-          <h3>서비스 아키텍처</h3>
-          <pre class="mermaid">
-flowchart LR
-  User["사용자"] --> App["냉코 앱<br/>React Native / Expo"]
-  App --> LocalDB["로컬 DB<br/>Expo SQLite"]
-  App --> OCR["Vision OCR 모듈"]
-  App --> API["API 서버<br/>Vercel Functions"]
-  API --> Supabase["Supabase<br/>products / contributed"]
-  API --> FoodAPI["식품 데이터 API<br/>FoodScan / FatSecret"]
-  API --> AI["Gemini / OpenAI"]
-  OCR --> App
-  AI --> API
-              </pre>
-          <p class="diagram-note">
-            앱은 사용자 경험과 로컬 상태를 책임지고, API는 외부 데이터 조회와
-            AI 분석을 얇게 중계하는 구조로 분리했습니다.
-          </p>
-        </div>
-        <div class="diagram-card full">
-          <h3>상품 조회와 입력 흐름</h3>
-          <pre class="mermaid">
-flowchart LR
-  Scan["바코드 스캔<br/>식재료 입력"] --> Request["앱에서 상품 조회 요청"]
-  Request --> Master["Supabase<br/>마스터 상품 검색"]
-  Master --> Found{"등록 상품?"}
-  Found -->|"예"| Return["상품/영양성분 반환"]
-  Found -->|"아니오"| External["외부 식품 데이터 API<br/>후보 조회"]
-  External --> Return
-  Return --> Select["source / contributed<br/>후보 선택"]
-  Select --> Local["Expo SQLite<br/>식재료와 소비기한 저장"]
-  Local --> Recommend["냉장고 상태 갱신<br/>레시피 추천 액션"]
-              </pre>
-        </div>
-      </section>
-
-      <section id="filmmate" class="portfolio-section">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Realtime Media / WebRTC</p>
-            <h2>FilmMate</h2>
-            <p class="section-summary">
-              FilmMate는 촬영자와 모델이 서로 다른 기기를 들고 실시간 카메라
-              화면을 공유하며 원격 촬영할 수 있는 모바일 앱입니다. Firebase
-              Firestore는 시그널링 저장소로 사용하고, P2P 연결이 어려운 네트워크
-              환경에서는 VPS 기반 TURN 중계를 사용합니다.
-            </p>
-          </div>
-          <span class="role-chip">기획, 개발, App Store 배포</span>
-        </div>
-
-        <div class="info-card">
-          <h3>핵심 구현</h3>
-          <ul class="tags">
-            <li>React Native</li>
-            <li>Expo</li>
-            <li>WebRTC</li>
-            <li>Firebase Auth</li>
-            <li>Firestore</li>
-            <li>STUN / TURN</li>
-          </ul>
-          <ul class="point-list">
-            <li>
-              익명 Firebase Auth로 시그널링 권한을 확보하고, Firestore
-              `webrtcRooms` 문서에 offer, answer, ICE candidate를 교환합니다.
-            </li>
-            <li>
-              STUN은 Google 서버를 사용하고, TURN credential은
-              `turn-cred.filmmate.site` 엔드포인트에서 발급받도록 구성했습니다.
-            </li>
-            <li>
-              촬영자와 모델 역할을 분리하고, 연결 후에는 카메라 미리보기,
-              원격 촬영, 사진 전송, 필름/인생네컷 플로우를 제공합니다.
-            </li>
-            <li>
-              연결 실패, ICE 실패, 권한 오류, 타임아웃을 분류해 사용자에게
-              복구 가능한 상태로 안내합니다.
-            </li>
-          </ul>
-          <div class="metric-row">
-            <div class="metric">
-              <strong>Firestore</strong>
-              <span>Offer/Answer/ICE signaling</span>
-            </div>
-            <div class="metric">
-              <strong>VPS TURN</strong>
-              <span>NAT 환경 영상 중계</span>
-            </div>
-            <div class="metric">
-              <strong>Camera UX</strong>
-              <span>원격 촬영과 사진 공유</span>
-            </div>
-          </div>
-          <div class="app-links">
-            <a
-              class="app-link"
-              href="https://apps.apple.com/us/app/film-mate/id6757781727"
-              target="_blank"
-              rel="noopener noreferrer"
-            >App Store에서 보기</a>
-          </div>
-        </div>
-
-        <div class="diagram-card full">
-          <h3>WebRTC 시그널링 흐름</h3>
-          <pre class="mermaid">
-flowchart LR
-  Sender["촬영자 기기"] --> AuthA["Firebase 익명 로그인"]
-  Receiver["모델 기기"] --> AuthB["Firebase 익명 로그인"]
-  AuthA --> Room["Firestore room 생성"]
-  Room --> Offer["offer SDP 저장"]
-  AuthB --> ReadOffer["room 조회 / offer 수신"]
-  ReadOffer --> Answer["answer SDP 저장"]
-  Sender --> CallerIce["caller ICE candidates"]
-  Receiver --> CalleeIce["callee ICE candidates"]
-  CallerIce --> Firestore["Firestore signaling"]
-  CalleeIce --> Firestore
-  Firestore --> Direct{"P2P 연결 가능?"}
-  Direct -->|"예"| Stream["WebRTC 영상 스트림 직접 전송"]
-  Direct -->|"아니오"| Turn["VPS TURN relay"]
-  Turn --> Stream
-          </pre>
-        </div>
-
-        <div class="diagram-card full">
-          <h3>앱 기능 흐름</h3>
-          <pre class="mermaid wide compact">
-flowchart LR
-  Start["앱 실행"] --> Role["역할 선택<br/>촬영자 / 모델"] --> Pairing["QR 또는 코드 기반 페어링"] --> Signal["Firestore signaling"] --> Connected["WebRTC 연결 완료"] --> Preview["실시간 카메라 화면 공유"] --> RemoteShot["원격 촬영"] --> Edit["필름 LUT / 인생네컷 편집"] --> Save["PhotoKit / MediaStore 저장"]
-          </pre>
-        </div>
-      </section>
 
       <section id="mason" class="portfolio-section">
         <div class="section-head">
@@ -725,126 +579,6 @@ flowchart LR
         </div>
       </section>
 
-      <section id="flab-business" class="portfolio-section">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">B2B Recruiting / LMS / Backoffice</p>
-            <h2>F-Lab 기업회원 채용 제휴 서비스</h2>
-            <p class="section-summary">
-              F-Lab 멘토링 플랫폼 안에서 기업회원이 멘티 이력서를 탐색하고,
-              후보자를 관리하며, 채용전형을 만들어 제안까지 보낼 수 있는 B2B
-              채용 제휴 서비스를 구현했습니다. 프론트는 홈페이지, 백오피스, LMS
-              패키지에 걸쳐 있고, 백엔드는 Kotlin/Spring 멀티모듈 환경 안에
-              business 모듈을 구성해 가입, 검수, 이력서, 제안 흐름을 분리했습니다.
-            </p>
-          </div>
-          <span class="role-chip">풀스택 개발, DB 설계, 운영 플로우 구현</span>
-        </div>
-
-        <div class="info-card">
-          <h3>핵심 구현</h3>
-          <ul class="tags">
-            <li>Next.js</li>
-            <li>React</li>
-            <li>Recoil</li>
-            <li>Ant Design</li>
-            <li>Kotlin</li>
-            <li>Spring</li>
-            <li>JPA</li>
-          </ul>
-          <ul class="point-list">
-            <li>
-              기업회원 가입 폼, 사업자번호/담당자 검증, 기업 권한 확인,
-              서비스 페이지 접근 제어를 구현했습니다.
-            </li>
-            <li>
-              기업회원이 멘티 채용 프로필을 포지션, 경력, 희망 고용형태,
-              제안 여부, 후보자 여부로 탐색할 수 있는 테이블과 상세 모달을
-              만들었습니다.
-            </li>
-            <li>
-              후보자 추가/취소, 채용전형 템플릿 생성, 단건/다건 제안, 제안
-              현황 관리까지 이어지는 기업회원 워크플로우를 구현했습니다.
-            </li>
-            <li>
-              백오피스에서는 기업회원 신청 목록, 상세 폼 조회, 승인/거절
-              처리를 제공하고, LMS에서는 멘티가 받은 제안을 확인하고
-              수락/거절할 수 있게 연결했습니다.
-            </li>
-          </ul>
-          <div class="metric-row">
-            <div class="metric">
-              <strong>35곳</strong>
-              <span>오픈 2개월 내 기업회원 등록</span>
-            </div>
-            <div class="metric">
-              <strong>164건</strong>
-              <span>초기 확보 이력서 규모</span>
-            </div>
-            <div class="metric">
-              <strong>3면 연동</strong>
-              <span>기업회원, 백오피스, LMS 흐름 연결</span>
-            </div>
-          </div>
-          <div class="app-links">
-            <a
-              class="app-link"
-              href="https://f-lab.kr/business"
-              target="_blank"
-              rel="noopener noreferrer"
-            >서비스 보기</a>
-          </div>
-        </div>
-
-        <div class="diagram-card full">
-          <h3>서비스 아키텍처</h3>
-          <pre class="mermaid">
-flowchart LR
-  Business["기업회원"] --> Homepage["homepage<br/>business service"]
-  Mentee["멘티"] --> LMS["lms<br/>employment offer"]
-  Operator["운영자"] --> Backoffice["backoffice<br/>business admin"]
-  Homepage --> API["core-api<br/>business-api"]
-  LMS --> API
-  Backoffice --> API
-  API --> Domain["Business / Offer / Profile Domain"]
-  Domain --> Infra["JPA Repository / Query Reader"]
-  Infra --> DB["DB"]
-            </pre>
-        </div>
-
-        <div class="diagram-grid">
-          <div class="diagram-card">
-            <h3>기업회원 가입과 검수 흐름</h3>
-            <pre class="mermaid compact">
-flowchart LR
-  Apply["기업 담당자<br/>가입 신청"] --> Signup["homepage<br/>사업자/담당자 폼"]
-  Signup --> BusinessAPI["Business API<br/>sign-up"]
-  BusinessAPI --> Store["DB<br/>Business / BusinessUser 저장"]
-  Store --> Review["backoffice<br/>신청 목록 / 상세 검수"]
-  Review --> Decision{"승인 여부"}
-  Decision -->|"승인"| Active["기업회원 활성화<br/>business check 통과"]
-  Decision -->|"거절"| Rejected["거절 상태와 이력 반영"]
-  Active --> Access["기업회원 서비스 접근"]
-            </pre>
-          </div>
-          <div class="diagram-card">
-            <h3>채용 제안 프로세스</h3>
-            <pre class="mermaid compact">
-flowchart LR
-  Search["기업회원<br/>이력서 검색"] --> Profile["Business Service<br/>프로필 상세 / 열람 이력"]
-  Profile --> Candidate["후보자 추가<br/>candidate 등록"]
-  Candidate --> Form["채용전형 템플릿<br/>offer-form 생성"]
-  Form --> Offer["Employment API<br/>단건/다건 제안 발송"]
-  Offer --> LMS["LMS<br/>멘티 제안함"]
-  LMS --> Response{"멘티 응답"}
-  Response -->|"수락"| Accepted["제안 수락 상태"]
-  Response -->|"거절"| Declined["제안 거절 상태"]
-  Accepted --> History["기업회원 제안 현황 갱신"]
-  Declined --> History
-            </pre>
-          </div>
-        </div>
-      </section>
 
       <section id="safetia-map" class="portfolio-section">
         <div class="section-head">
@@ -953,6 +687,7 @@ flowchart LR
         </div>
       </section>
 
+
       <section id="snapshoot" class="portfolio-section">
         <div class="section-head">
           <div>
@@ -1015,7 +750,15 @@ flowchart LR
               href="https://www.snapshoot.icu"
               target="_blank"
               rel="noopener noreferrer"
-            >서비스 보기</a>
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"
+                />
+              </svg>
+              웹사이트 바로가기
+            </a>
           </div>
         </div>
 
@@ -1051,6 +794,334 @@ flowchart LR
   Dashboard --> Admin
   Notify --> Admin
               </pre>
+        </div>
+      </section>
+
+
+      <section id="flab-business" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">B2B Recruiting / LMS / Backoffice</p>
+            <h2>F-Lab 기업회원 채용 제휴 서비스</h2>
+            <p class="section-summary">
+              F-Lab 멘토링 플랫폼 안에서 기업회원이 멘티 이력서를 탐색하고,
+              후보자를 관리하며, 채용전형을 만들어 제안까지 보낼 수 있는 B2B
+              채용 제휴 서비스를 구현했습니다. 프론트는 홈페이지, 백오피스, LMS
+              패키지에 걸쳐 있고, 백엔드는 Kotlin/Spring 멀티모듈 환경 안에
+              business 모듈을 구성해 가입, 검수, 이력서, 제안 흐름을 분리했습니다.
+            </p>
+          </div>
+          <span class="role-chip">풀스택 개발, DB 설계, 운영 플로우 구현</span>
+        </div>
+
+        <div class="info-card">
+          <h3>핵심 구현</h3>
+          <ul class="tags">
+            <li>Next.js</li>
+            <li>React</li>
+            <li>Recoil</li>
+            <li>Ant Design</li>
+            <li>Kotlin</li>
+            <li>Spring</li>
+            <li>JPA</li>
+          </ul>
+          <ul class="point-list">
+            <li>
+              기업회원 가입 폼, 사업자번호/담당자 검증, 기업 권한 확인,
+              서비스 페이지 접근 제어를 구현했습니다.
+            </li>
+            <li>
+              기업회원이 멘티 채용 프로필을 포지션, 경력, 희망 고용형태,
+              제안 여부, 후보자 여부로 탐색할 수 있는 테이블과 상세 모달을
+              만들었습니다.
+            </li>
+            <li>
+              후보자 추가/취소, 채용전형 템플릿 생성, 단건/다건 제안, 제안
+              현황 관리까지 이어지는 기업회원 워크플로우를 구현했습니다.
+            </li>
+            <li>
+              백오피스에서는 기업회원 신청 목록, 상세 폼 조회, 승인/거절
+              처리를 제공하고, LMS에서는 멘티가 받은 제안을 확인하고
+              수락/거절할 수 있게 연결했습니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>35곳</strong>
+              <span>오픈 2개월 내 기업회원 등록</span>
+            </div>
+            <div class="metric">
+              <strong>164건</strong>
+              <span>초기 확보 이력서 규모</span>
+            </div>
+            <div class="metric">
+              <strong>3면 연동</strong>
+              <span>기업회원, 백오피스, LMS 흐름 연결</span>
+            </div>
+          </div>
+          <div class="app-links">
+            <a
+              class="app-link"
+              href="https://f-lab.kr/business"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"
+                />
+              </svg>
+              웹사이트 바로가기
+            </a>
+          </div>
+        </div>
+
+        <div class="diagram-card full">
+          <h3>서비스 아키텍처</h3>
+          <pre class="mermaid">
+flowchart LR
+  Business["기업회원"] --> Homepage["homepage<br/>business service"]
+  Mentee["멘티"] --> LMS["lms<br/>employment offer"]
+  Operator["운영자"] --> Backoffice["backoffice<br/>business admin"]
+  Homepage --> API["core-api<br/>business-api"]
+  LMS --> API
+  Backoffice --> API
+  API --> Domain["Business / Offer / Profile Domain"]
+  Domain --> Infra["JPA Repository / Query Reader"]
+  Infra --> DB["DB"]
+            </pre>
+        </div>
+
+        <div class="diagram-grid">
+          <div class="diagram-card">
+            <h3>기업회원 가입과 검수 흐름</h3>
+            <pre class="mermaid compact">
+flowchart LR
+  Apply["기업 담당자<br/>가입 신청"] --> Signup["homepage<br/>사업자/담당자 폼"]
+  Signup --> BusinessAPI["Business API<br/>sign-up"]
+  BusinessAPI --> Store["DB<br/>Business / BusinessUser 저장"]
+  Store --> Review["backoffice<br/>신청 목록 / 상세 검수"]
+  Review --> Decision{"승인 여부"}
+  Decision -->|"승인"| Active["기업회원 활성화<br/>business check 통과"]
+  Decision -->|"거절"| Rejected["거절 상태와 이력 반영"]
+  Active --> Access["기업회원 서비스 접근"]
+            </pre>
+          </div>
+          <div class="diagram-card">
+            <h3>채용 제안 프로세스</h3>
+            <pre class="mermaid compact">
+flowchart LR
+  Search["기업회원<br/>이력서 검색"] --> Profile["Business Service<br/>프로필 상세 / 열람 이력"]
+  Profile --> Candidate["후보자 추가<br/>candidate 등록"]
+  Candidate --> Form["채용전형 템플릿<br/>offer-form 생성"]
+  Form --> Offer["Employment API<br/>단건/다건 제안 발송"]
+  Offer --> LMS["LMS<br/>멘티 제안함"]
+  LMS --> Response{"멘티 응답"}
+  Response -->|"수락"| Accepted["제안 수락 상태"]
+  Response -->|"거절"| Declined["제안 거절 상태"]
+  Accepted --> History["기업회원 제안 현황 갱신"]
+  Declined --> History
+            </pre>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="naengko" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Mobile App / AI / OCR</p>
+            <h2>냉코 냉장고 관리 앱</h2>
+            <p class="section-summary">
+              냉코는 식재료 등록, 소비기한 관리, 영수증 OCR, AI 레시피 추천,
+              가계부 흐름을 하나로 묶은 React Native 앱입니다. 앱은 오프라인
+              사용성을 고려해 로컬 데이터를 중심으로 동작하고, API는 상품 조회와
+              AI/OCR 보강 역할을 맡습니다.
+            </p>
+          </div>
+          <div class="section-actions">
+            <a
+              class="icon-link"
+              href="https://apps.apple.com/kr/app/%EB%83%89%EC%BD%94/id6760968372"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="냉코 App Store 바로가기"
+              title="냉코 App Store 바로가기"
+            >
+              <img src="/assets/portfolio/app-store-icon.png" alt="" />
+            </a>
+            <span class="role-chip">기획, 개발, App Store 출시, 운영</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3>핵심 기능</h3>
+          <ul class="point-list">
+            <li>
+              Expo Router 기반 모바일 앱에서 냉장고, 식재료, 레시피, 지출
+              화면을 구성했습니다.
+            </li>
+            <li>
+              Expo SQLite와 Context 상태를 활용해 식재료/소비기한 데이터를
+              앱 내부에서 빠르게 관리합니다.
+            </li>
+            <li>
+              API는 Supabase 상품 DB, 사용자 기여 상품, 공공/외부 데이터,
+              Gemini/OpenAI 기반 분석 흐름을 연결합니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>Offline-first</strong>
+              <span>식재료와 소비기한 중심 로컬 관리</span>
+            </div>
+            <div class="metric">
+              <strong>AI Recipe</strong>
+              <span>보유 식재료 기반 추천 경험</span>
+            </div>
+            <div class="metric">
+              <strong>OCR</strong>
+              <span>영수증 기반 자동 입력 흐름</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram-card full">
+          <h3>서비스 아키텍처</h3>
+          <pre class="mermaid">
+flowchart LR
+  User["사용자"] --> App["냉코 앱<br/>React Native / Expo"]
+  App --> LocalDB["로컬 DB<br/>Expo SQLite"]
+  App --> OCR["Vision OCR 모듈"]
+  App --> API["API 서버<br/>Vercel Functions"]
+  API --> Supabase["Supabase<br/>products / contributed"]
+  API --> FoodAPI["식품 데이터 API<br/>FoodScan / FatSecret"]
+  API --> AI["Gemini / OpenAI"]
+  OCR --> App
+  AI --> API
+              </pre>
+          <p class="diagram-note">
+            앱은 사용자 경험과 로컬 상태를 책임지고, API는 외부 데이터 조회와
+            AI 분석을 얇게 중계하는 구조로 분리했습니다.
+          </p>
+        </div>
+        <div class="diagram-card full">
+          <h3>상품 조회와 입력 흐름</h3>
+          <pre class="mermaid">
+flowchart LR
+  Scan["바코드 스캔<br/>식재료 입력"] --> Request["앱에서 상품 조회 요청"]
+  Request --> Master["Supabase<br/>마스터 상품 검색"]
+  Master --> Found{"등록 상품?"}
+  Found -->|"예"| Return["상품/영양성분 반환"]
+  Found -->|"아니오"| External["외부 식품 데이터 API<br/>후보 조회"]
+  External --> Return
+  Return --> Select["source / contributed<br/>후보 선택"]
+  Select --> Local["Expo SQLite<br/>식재료와 소비기한 저장"]
+  Local --> Recommend["냉장고 상태 갱신<br/>레시피 추천 액션"]
+              </pre>
+        </div>
+      </section>
+
+
+      <section id="filmmate" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Realtime Media / WebRTC</p>
+            <h2>FilmMate</h2>
+            <p class="section-summary">
+              FilmMate는 촬영자와 모델이 서로 다른 기기를 들고 실시간 카메라
+              화면을 공유하며 원격 촬영할 수 있는 모바일 앱입니다. Firebase
+              Firestore는 시그널링 저장소로 사용하고, P2P 연결이 어려운 네트워크
+              환경에서는 VPS 기반 TURN 중계를 사용합니다.
+            </p>
+          </div>
+          <div class="section-actions">
+            <a
+              class="icon-link"
+              href="https://apps.apple.com/us/app/film-mate/id6757781727"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="FilmMate App Store 바로가기"
+              title="FilmMate App Store 바로가기"
+            >
+              <img src="/assets/portfolio/app-store-icon.png" alt="" />
+            </a>
+            <span class="role-chip">기획, 개발, App Store 배포</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3>핵심 구현</h3>
+          <ul class="tags">
+            <li>React Native</li>
+            <li>Expo</li>
+            <li>WebRTC</li>
+            <li>Firebase Auth</li>
+            <li>Firestore</li>
+            <li>STUN / TURN</li>
+          </ul>
+          <ul class="point-list">
+            <li>
+              익명 Firebase Auth로 시그널링 권한을 확보하고, Firestore
+              `webrtcRooms` 문서에 offer, answer, ICE candidate를 교환합니다.
+            </li>
+            <li>
+              STUN은 Google 서버를 사용하고, TURN credential은
+              `turn-cred.filmmate.site` 엔드포인트에서 발급받도록 구성했습니다.
+            </li>
+            <li>
+              촬영자와 모델 역할을 분리하고, 연결 후에는 카메라 미리보기,
+              원격 촬영, 사진 전송, 필름/인생네컷 플로우를 제공합니다.
+            </li>
+            <li>
+              연결 실패, ICE 실패, 권한 오류, 타임아웃을 분류해 사용자에게
+              복구 가능한 상태로 안내합니다.
+            </li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>Firestore</strong>
+              <span>Offer/Answer/ICE signaling</span>
+            </div>
+            <div class="metric">
+              <strong>VPS TURN</strong>
+              <span>NAT 환경 영상 중계</span>
+            </div>
+            <div class="metric">
+              <strong>Camera UX</strong>
+              <span>원격 촬영과 사진 공유</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram-card full">
+          <h3>WebRTC 시그널링 흐름</h3>
+          <pre class="mermaid">
+flowchart LR
+  Sender["촬영자 기기"] --> AuthA["Firebase 익명 로그인"]
+  Receiver["모델 기기"] --> AuthB["Firebase 익명 로그인"]
+  AuthA --> Room["Firestore room 생성"]
+  Room --> Offer["offer SDP 저장"]
+  AuthB --> ReadOffer["room 조회 / offer 수신"]
+  ReadOffer --> Answer["answer SDP 저장"]
+  Sender --> CallerIce["caller ICE candidates"]
+  Receiver --> CalleeIce["callee ICE candidates"]
+  CallerIce --> Firestore["Firestore signaling"]
+  CalleeIce --> Firestore
+  Firestore --> Direct{"P2P 연결 가능?"}
+  Direct -->|"예"| Stream["WebRTC 영상 스트림 직접 전송"]
+  Direct -->|"아니오"| Turn["VPS TURN relay"]
+  Turn --> Stream
+          </pre>
+        </div>
+
+        <div class="diagram-card full">
+          <h3>앱 기능 흐름</h3>
+          <pre class="mermaid wide compact">
+flowchart LR
+  Start["앱 실행"] --> Role["역할 선택<br/>촬영자 / 모델"] --> Pairing["QR 또는 코드 기반 페어링"] --> Signal["Firestore signaling"] --> Connected["WebRTC 연결 완료"] --> Preview["실시간 카메라 화면 공유"] --> RemoteShot["원격 촬영"] --> Edit["필름 LUT / 인생네컷 편집"] --> Save["PhotoKit / MediaStore 저장"]
+          </pre>
         </div>
       </section>
 
