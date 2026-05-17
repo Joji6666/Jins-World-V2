@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import TextBox from "phaser3-rex-plugins/templates/ui/textbox/TextBox";
 import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
+import { isMobileGameboyMode } from "../../../shared/mobile/mobileGameboyController";
 
 interface DialogConfig {
   margin?: number;
@@ -143,7 +144,9 @@ export const showOptions = (
   const tipText = scene.add.text(
     scene.scale.width - 90,
     scene.scale.height - 385,
-    "↑ ↓ 방향키로 선택하고, Enter 키로 결정하세요",
+    isMobileGameboyMode()
+      ? "십자키 ↑ ↓로 선택하고, △ 버튼으로 결정하세요"
+      : "↑ ↓ 방향키로 선택하고, Enter 키로 결정하세요",
     {
       fontSize: "18px",
       color: "#FFFFFF",
@@ -237,7 +240,9 @@ export const showModalWithIframe = (
   modalBackground.setDepth(10);
 
   const tooltip = document.createElement("div");
-  tooltip.innerText = "❎ ESC 키를 누르면 닫을 수 있어요";
+  tooltip.innerText = isMobileGameboyMode()
+    ? "□ 버튼을 누르면 닫을 수 있어요"
+    : "ESC 키를 누르면 닫을 수 있어요";
   tooltip.style.position = "absolute";
   tooltip.style.top = "calc(90% + 20px)";
   tooltip.style.left = "50%";
@@ -305,7 +310,9 @@ export const showModalWithImage = (
   document.body.appendChild(image);
 
   const tooltip = document.createElement("div");
-  tooltip.innerText = "❎ ESC 키를 누르면 닫을 수 있어요";
+  tooltip.innerText = isMobileGameboyMode()
+    ? "□ 버튼을 누르면 닫을 수 있어요"
+    : "ESC 키를 누르면 닫을 수 있어요";
   tooltip.style.position = "absolute";
   tooltip.style.top = "calc(90% + 20px)";
   tooltip.style.left = "50%";

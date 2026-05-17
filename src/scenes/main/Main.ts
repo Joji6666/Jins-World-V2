@@ -44,6 +44,7 @@ import {
   startDialog
 } from "../first-floor/functions/dialogue";
 import type RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
+import { isMobileGameboyMode } from "../../shared/mobile/mobileGameboyController";
 
 export default class GameScene extends Phaser.Scene implements RexUIScene {
   rexUI!: RexUIPlugin;
@@ -288,7 +289,9 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
             .text(
               booksLightEffect.x,
               booksLightEffect.y - 50,
-              "스페이스바를 눌러보세요!",
+              isMobileGameboyMode()
+                ? "A 버튼을 눌러보세요!"
+                : "스페이스바를 눌러보세요!",
               {
                 fontFamily: "KoreanPixelFont",
                 fontSize: "20px",
@@ -329,7 +332,9 @@ export default class GameScene extends Phaser.Scene implements RexUIScene {
             .text(
               macbookLightEffect.x,
               macbookLightEffect.y - 50,
-              "스페이스바를 눌러보세요!",
+              isMobileGameboyMode()
+                ? "A 버튼을 눌러보세요!"
+                : "스페이스바를 눌러보세요!",
               {
                 fontFamily: "KoreanPixelFont",
                 fontSize: "20px",

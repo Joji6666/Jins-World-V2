@@ -1,3 +1,5 @@
+import { isMobileGameboyMode } from "../../../shared/mobile/mobileGameboyController";
+
 const arrowTextStyle = {
   fontSize: "36px",
   color: "#FFFFFF",
@@ -8,6 +10,8 @@ export const createTitleTexts = (
   scene: Phaser.Scene,
   language: string
 ): void => {
+  const isMobile = isMobileGameboyMode();
+
   scene.add.text(1050, 100, language !== "ko" ? "How To Move" : "조작 방법", {
     fontFamily: "KoreanPixelFont",
     fontSize: "36px",
@@ -46,14 +50,18 @@ export const createTitleTexts = (
   scene.add.text(
     1070,
     310,
-    language !== "ko" ? "space Interaction" : "SPACE 상호작용",
+    isMobile
+      ? "A 상호작용/공격"
+      : language !== "ko"
+      ? "space Interaction"
+      : "SPACE 상호작용",
     arrowTextStyle
   );
 
   scene.add.text(
     1070,
     350,
-    language !== "ko" ? "space Interaction" : "ESC 닫기",
+    isMobile ? "□ 닫기" : language !== "ko" ? "ESC Close" : "ESC 닫기",
     arrowTextStyle
   );
 
@@ -67,21 +75,25 @@ export const createTitleTexts = (
   scene.add.text(
     1070,
     450,
-    language !== "ko" ? "space Interaction" : "P 무기 꺼내기/넣기",
+    isMobile
+      ? "검 무기 꺼내기/넣기"
+      : language !== "ko"
+      ? "P Weapon"
+      : "P 무기 꺼내기/넣기",
     arrowTextStyle
   );
 
   scene.add.text(
     1070,
     490,
-    language !== "ko" ? "space Interaction" : "C 백스텝",
+    isMobile ? "B 백스텝" : language !== "ko" ? "C Backstep" : "C 백스텝",
     arrowTextStyle
   );
 
   scene.add.text(
     1070,
     530,
-    language !== "ko" ? "space Interaction" : "SPACE 공격",
+    isMobile ? "A 공격" : language !== "ko" ? "SPACE Attack" : "SPACE 공격",
     arrowTextStyle
   );
 };

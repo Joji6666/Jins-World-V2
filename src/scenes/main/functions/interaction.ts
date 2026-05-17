@@ -27,7 +27,10 @@ export const handleInteraction = (
 
   if (!currentBubble) return;
 
-  if (currentBubble.text === "스페이스바를 눌러보세요!") {
+  if (
+    currentBubble.text === "스페이스바를 눌러보세요!" ||
+    currentBubble.text === "A 버튼을 눌러보세요!"
+  ) {
     const iconKey = Object.keys(speechBubbles).find(
       (key) => speechBubbles[key] === currentBubble
     );

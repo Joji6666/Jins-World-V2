@@ -1,6 +1,6 @@
 import WebFont from "webfontloader";
 import { downloadResume } from "../first-floor/functions/dialogue";
-import { createJinAnims } from "../first-floor/functions/anims";
+import { isMobileGameboyMode } from "../../shared/mobile/mobileGameboyController";
 
 export default class IntroScene extends Phaser.Scene {
   private language: "ko" | "en" = "ko";
@@ -9,12 +9,6 @@ export default class IntroScene extends Phaser.Scene {
   private englishText!: Phaser.GameObjects.Text;
   private instructionText!: Phaser.GameObjects.Text;
   private selectIndex = 0;
-
-  private isMobile(): boolean {
-    const userAgent =
-      navigator.userAgent || navigator.vendor || (window as any).opera;
-    return /android|iphone|ipad|ipod/i.test(userAgent);
-  }
 
   constructor() {
     super("intro");
@@ -52,12 +46,8 @@ export default class IntroScene extends Phaser.Scene {
   }
 
   createText() {
-    if (this.isMobile()) {
-      this.showMobileNotSupported();
-      return;
-    }
-
     this.cameras.main.setBackgroundColor("#000000");
+    const isMobile = isMobileGameboyMode();
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
     const { width, height } = this.scale;
@@ -91,11 +81,18 @@ export default class IntroScene extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
 
     this.instructionText = this.add
-      .text(centerX, centerY + 150, "스페이스바를 입력하여 진행하세요.", {
-        fontFamily: "KoreanPixelFont",
-        fontSize: "36px",
-        color: "#BFFF00"
-      })
+      .text(
+        centerX,
+        centerY + 150,
+        isMobile
+          ? "십자키로 선택하고 A 버튼으로 진행하세요."
+          : "스페이스바를 입력하여 진행하세요.",
+        {
+          fontFamily: "KoreanPixelFont",
+          fontSize: "36px",
+          color: "#BFFF00"
+        }
+      )
       .setOrigin(0.5, 0.5);
 
     if (this.input.keyboard) {
@@ -128,70 +125,5 @@ export default class IntroScene extends Phaser.Scene {
         this.scene.start("character-select-scene", { language: this.language });
       }
     );
-  }
-
-  private showMobileNotSupported() {
-    this.cameras.main.setBackgroundColor("#000");
-
-    const { width, height } = this.scale;
-
-    const mainText = this.add
-      .text(
-        width / 2,
-        height / 2 - 60,
-        "📱 이 페이지는 Phaser로 만든 웹게임입니다.",
-        {
-          fontFamily: "KoreanPixelFont",
-          fontSize: "28px",
-          color: "#ffffff"
-        }
-      )
-      .setOrigin(0.5);
-
-    this.add
-      .text(
-        width / 2,
-        height / 2 - 20,
-        "모바일은 미지원입니다. 죄송하지만 PC에서 접속해주세요!",
-        {
-          fontFamily: "KoreanPixelFont",
-          fontSize: "24px",
-          color: "#ff6666"
-        }
-      )
-      .setOrigin(0.5);
-
-    this.add
-      .text(
-        width / 2,
-        height / 2 + 30,
-        "아래 버튼을 눌러 이력서를 다운로드할 수 있어요.",
-        {
-          fontFamily: "KoreanPixelFont",
-          fontSize: "20px",
-          color: "#aaaaaa"
-        }
-      )
-      .setOrigin(0.5);
-
-    const downloadText = this.add
-      .text(width / 2, height / 2 + 80, "📄 이력서 다운로드", {
-        fontFamily: "KoreanPixelFont",
-        fontSize: "28px",
-        color: "#ffcc00",
-        backgroundColor: "#333",
-        padding: { x: 10, y: 5 }
-      })
-      .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerover", () => {
-        downloadText.setStyle({ color: "#ffff66" });
-      })
-      .on("pointerout", () => {
-        downloadText.setStyle({ color: "#ffcc00" });
-      })
-      .on("pointerdown", () => {
-        downloadResume("/assets/kimjin_resume.pdf");
-      });
   }
 }

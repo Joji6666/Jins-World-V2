@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { Monster } from "../types";
 import { Player } from "../../../shared/types";
+import { isMobileGameboyMode } from "../../../shared/mobile/mobileGameboyController";
 
 export const updateMonster = (
   monster: Monster,
@@ -510,7 +511,9 @@ const handleGameOver = (
       .text(
         scene.cameras.main.width / 2,
         scene.cameras.main.height / 2,
-        "Game Over\n 스페이스바를 입력해 재시작 할 수 있습니다.",
+        isMobileGameboyMode()
+          ? "Game Over\n A 버튼을 눌러 재시작 할 수 있습니다."
+          : "Game Over\n 스페이스바를 입력해 재시작 할 수 있습니다.",
         {
           fontSize: "32px",
           fontFamily: "KoreanPixelFont",

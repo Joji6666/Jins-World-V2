@@ -12,6 +12,7 @@ import TownScene from "./scenes/town/TownScene";
 import IntroScene from "./scenes/intro/Intro";
 import CharacterSelectScene from "./scenes/character-select/CharacterSelectScene";
 import FirstFloorScene from "./scenes/first-floor/FirstFloorScene";
+import { mountMobileGameboyController } from "./shared/mobile/mobileGameboyController";
 
 const config: Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -42,4 +43,8 @@ const config: Types.Core.GameConfig = {
   }
 };
 
-export default new Game(config);
+const game = new Game(config);
+
+mountMobileGameboyController(game);
+
+export default game;

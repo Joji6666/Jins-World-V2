@@ -1,3 +1,5 @@
+import { isMobileGameboyMode } from "../../../shared/mobile/mobileGameboyController";
+
 const arrowTextStyle = {
   fontFamily: "KoreanPixelFont",
   fontSize: "20px",
@@ -229,13 +231,20 @@ export const createIcons = (scene: Phaser.Scene, language: string) => {
     });
 
     const speechBubble = scene.add
-      .text(item.x, item.y - 50, "스페이스바를 눌러보세요!", {
-        fontFamily: "KoreanPixelFont",
-        fontSize: "20px",
-        color: "#ffffff",
-        backgroundColor: "#000000",
-        padding: { x: 4, y: 4 }
-      })
+      .text(
+        item.x,
+        item.y - 50,
+        isMobileGameboyMode()
+          ? "A 버튼을 눌러보세요!"
+          : "스페이스바를 눌러보세요!",
+        {
+          fontFamily: "KoreanPixelFont",
+          fontSize: "20px",
+          color: "#ffffff",
+          backgroundColor: "#000000",
+          padding: { x: 4, y: 4 }
+        }
+      )
       .setOrigin(0.5)
       .setVisible(false);
 

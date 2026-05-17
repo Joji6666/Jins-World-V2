@@ -5,6 +5,7 @@ import {
   allHairPreload,
   playerFrontPreload
 } from "./functions/preload";
+import { isMobileGameboyMode } from "../../shared/mobile/mobileGameboyController";
 
 export default class CharacterSelectScene extends Phaser.Scene {
   private hair!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -80,7 +81,9 @@ export default class CharacterSelectScene extends Phaser.Scene {
       .text(
         centerX,
         centerY + 200,
-        this.data.get("language") === "ko"
+        isMobileGameboyMode()
+          ? "십자키로 선택하고 A 버튼으로 진행하세요."
+          : this.data.get("language") === "ko"
           ? "스페이스바를 입력하여 진행하세요."
           : "PRESS SPACE TO CONTINUE.",
         {

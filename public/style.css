@@ -1,15 +1,263 @@
 body {
-    margin: 0;
-    padding: 0;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #000000;
+  margin: 0;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #000000;
+  overscroll-behavior: none;
 }
 
 #app {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-container {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.mobile-gameboy-controller {
+  display: none;
+}
+
+@media (max-width: 860px), (pointer: coarse) {
+  html.mobile-gameboy-mode,
+  html.mobile-gameboy-mode body {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
+    touch-action: none;
+  }
+
+  html.mobile-gameboy-mode #app {
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-items: stretch;
+    justify-items: stretch;
+    background: #050505;
+  }
+
+  html.mobile-gameboy-mode #game-container {
+    width: 100%;
+    height: calc(100dvh - 248px);
+    min-height: 300px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #000000;
+  }
+
+  html.mobile-gameboy-mode canvas {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .mobile-gameboy-controller {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    display: block;
+    height: 248px;
+    padding: 12px 12px calc(14px + env(safe-area-inset-bottom));
+    background:
+      linear-gradient(180deg, #111111 0%, #050505 100%),
+      #050505;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.55);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+  }
+
+  .mobile-gameboy-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 36px;
+    color: #e5e7eb;
+    font-family: Arial, sans-serif;
+  }
+
+  .mobile-gameboy-header strong {
+    color: #ffffff;
+    font-size: 15px;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .mobile-gameboy-header span {
+    color: #a7b0c0;
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: right;
+  }
+
+  .mobile-gameboy-controls {
+    display: grid;
+    grid-template-columns: 132px minmax(154px, 1fr);
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    height: 180px;
+  }
+
+  .mobile-key {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    border: 0;
+    color: #d8dde8;
+    font-weight: 800;
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+  }
+
+  .mobile-key span {
+    pointer-events: none;
+  }
+
+  .mobile-key.is-pressed {
+    filter: brightness(1.25);
+    transform: translateY(2px) scale(0.98);
+  }
+
+  .mobile-dpad {
+    position: relative;
+    width: 132px;
+    height: 132px;
+  }
+
+  .dpad-key {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(180deg, #2c2c2f, #151519);
+    box-shadow:
+      inset 0 2px 3px rgba(255, 255, 255, 0.14),
+      inset 0 -5px 8px rgba(0, 0, 0, 0.45),
+      0 5px 12px rgba(0, 0, 0, 0.55);
+    font-size: 28px;
+  }
+
+  .dpad-up {
+    top: 0;
+    left: 44px;
+    border-radius: 10px 10px 4px 4px;
+  }
+
+  .dpad-left {
+    top: 44px;
+    left: 0;
+    border-radius: 10px 4px 4px 10px;
+  }
+
+  .dpad-center {
+    top: 44px;
+    left: 44px;
+    border-radius: 4px;
+    cursor: default;
+  }
+
+  .dpad-right {
+    top: 44px;
+    right: 0;
+    border-radius: 4px 10px 10px 4px;
+  }
+
+  .dpad-down {
+    bottom: 0;
+    left: 44px;
+    border-radius: 4px 4px 10px 10px;
+  }
+
+  .mobile-action-pad {
+    position: relative;
+    justify-self: start;
+    width: 166px;
+    height: 154px;
+  }
+
+  .action-key {
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 25px;
+    box-shadow:
+      inset 0 3px 5px rgba(255, 255, 255, 0.24),
+      inset 0 -7px 10px rgba(0, 0, 0, 0.3),
+      0 6px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  .action-enter {
+    left: 0;
+    top: 52px;
+    background: #5b2ca0;
+  }
+
+  .action-escape {
+    left: 54px;
+    top: 0;
+    background: #8b261f;
+  }
+
+  .action-space {
+    right: 0;
+    top: 42px;
+    background: #2d6fae;
+    font-size: 27px;
+  }
+
+  .action-backstep {
+    left: 52px;
+    bottom: 0;
+    background: #4b8a2f;
+    font-size: 27px;
+  }
+
+  .weapon-key {
+    position: absolute;
+    right: 4px;
+    bottom: 2px;
+    width: 42px;
+    height: 28px;
+    border-radius: 999px;
+    background: #30343d;
+    color: #f6d56c;
+    font-size: 13px;
+    box-shadow:
+      inset 0 2px 3px rgba(255, 255, 255, 0.14),
+      inset 0 -4px 6px rgba(0, 0, 0, 0.4),
+      0 4px 10px rgba(0, 0, 0, 0.45);
+  }
+}
+
+@media (max-width: 380px) {
+  html.mobile-gameboy-mode #game-container {
+    height: calc(100dvh - 236px);
+  }
+
+  .mobile-gameboy-controller {
+    height: 236px;
+    padding-inline: 10px;
+  }
+
+  .mobile-gameboy-controls {
+    gap: 10px;
+  }
 }

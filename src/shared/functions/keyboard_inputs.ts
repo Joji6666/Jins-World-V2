@@ -5,6 +5,7 @@ import {
   PLAYER_MOVE_STATE_KEYS,
   PLAYER_SIDE_KEYS
 } from "../constants/keys";
+import { isMobileGameboyMode } from "../mobile/mobileGameboyController";
 import { Player } from "../types";
 
 export const setPlayerInputs = (
@@ -785,7 +786,9 @@ const handleGameClear = (
       .text(
         scene.cameras.main.width / 2,
         scene.cameras.main.height / 2,
-        "GAME CLEAR\n축하드립니다!\n 에러 마왕을 무찔렀습니다!\n스페이스바를 입력해 재시작 할 수 있습니다.",
+        isMobileGameboyMode()
+          ? "GAME CLEAR\n축하드립니다!\n 에러 마왕을 무찔렀습니다!\nA 버튼을 눌러 재시작 할 수 있습니다."
+          : "GAME CLEAR\n축하드립니다!\n 에러 마왕을 무찔렀습니다!\n스페이스바를 입력해 재시작 할 수 있습니다.",
         {
           fontSize: "32px",
           fontFamily: "KoreanPixelFont",
