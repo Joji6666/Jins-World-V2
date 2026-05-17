@@ -279,22 +279,52 @@
         min-width: 980px;
       }
 
-      .image-strip {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 18px;
+      .section-gallery {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
       }
 
-      .phone-shot {
+      .section-gallery h3 {
+        margin: 0 0 12px;
+        color: var(--text);
+        font-size: 18px;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(150px, 1fr));
+        gap: 12px;
+      }
+
+      .gallery-grid.wide {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-grid.mixed {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .gallery-shot {
         width: 100%;
-        aspect-ratio: 9 / 16;
         border: 1px solid var(--line);
         border-radius: 8px;
         object-fit: cover;
         object-position: top;
         background: #f8fafc;
         box-shadow: 0 10px 26px rgba(23, 32, 51, 0.08);
+      }
+
+      .gallery-shot.phone {
+        aspect-ratio: 9 / 16;
+      }
+
+      .gallery-shot.wide {
+        aspect-ratio: 16 / 9;
+      }
+
+      .gallery-shot.square {
+        aspect-ratio: 1 / 1;
       }
 
       .diagram-note {
@@ -342,8 +372,10 @@
           grid-template-columns: 1fr;
         }
 
-        .image-strip {
-          grid-template-columns: repeat(3, minmax(96px, 1fr));
+        .gallery-grid,
+        .gallery-grid.wide,
+        .gallery-grid.mixed {
+          grid-template-columns: repeat(3, minmax(120px, 1fr));
           overflow-x: auto;
         }
 
@@ -374,6 +406,7 @@
         <a href="#filmmate">FilmMate</a>
         <a href="#mason">Mason CLI</a>
         <a href="#flab-business">F-Lab 기업회원</a>
+        <a href="#safetia-map">Safetia Map</a>
         <a href="#snapshoot">Snapshoot</a>
       </nav>
 
@@ -423,23 +456,6 @@
                 <span>영수증 기반 자동 입력 흐름</span>
               </div>
             </div>
-            <div class="image-strip" aria-label="냉코 앱 스크린샷">
-              <img
-                class="phone-shot"
-                src="/assets/portfolio/naengko-1.png"
-                alt="냉코 앱 냉장고 화면"
-              />
-              <img
-                class="phone-shot"
-                src="/assets/portfolio/naengko-2.png"
-                alt="냉코 앱 식재료 관리 화면"
-              />
-              <img
-                class="phone-shot"
-                src="/assets/portfolio/naengko-3.png"
-                alt="냉코 앱 AI 기능 화면"
-              />
-            </div>
           </div>
 
           <div>
@@ -487,6 +503,21 @@ sequenceDiagram
   A-->>U: 냉장고 상태와 추천 액션 표시
               </pre>
             </div>
+          </div>
+        </div>
+        <div class="section-gallery">
+          <h3>앱 화면</h3>
+          <div class="gallery-grid" aria-label="냉코 앱 전체 화면">
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-01.png" alt="냉코 앱 화면 1" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-02.png" alt="냉코 앱 화면 2" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-03.png" alt="냉코 앱 화면 3" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-04.png" alt="냉코 앱 화면 4" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-05.png" alt="냉코 앱 화면 5" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-06.png" alt="냉코 앱 화면 6" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-07.png" alt="냉코 앱 화면 7" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-08.png" alt="냉코 앱 화면 8" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-09.png" alt="냉코 앱 화면 9" />
+            <img class="gallery-shot phone" src="/assets/portfolio/naengko-10.png" alt="냉코 앱 화면 10" />
           </div>
         </div>
       </section>
@@ -549,23 +580,6 @@ sequenceDiagram
                 <span>원격 촬영과 사진 공유</span>
               </div>
             </div>
-            <div class="image-strip" aria-label="FilmMate 앱 스크린샷">
-              <img
-                class="phone-shot"
-                src="/assets/portfolio/filmmate-1.png"
-                alt="FilmMate 역할 선택 화면"
-              />
-              <img
-                class="phone-shot"
-                src="/assets/portfolio/filmmate-2.png"
-                alt="FilmMate 카메라 공유 화면"
-              />
-              <img
-                class="phone-shot"
-                src="/assets/portfolio/filmmate-3.png"
-                alt="FilmMate 촬영 결과 화면"
-              />
-            </div>
           </div>
 
           <div class="diagram-card">
@@ -601,6 +615,17 @@ sequenceDiagram
 flowchart LR
   Start["앱 실행"] --> Role["역할 선택<br/>촬영자 / 모델"] --> Pairing["QR 또는 코드 기반 페어링"] --> Signal["Firestore signaling"] --> Connected["WebRTC 연결 완료"] --> Preview["실시간 카메라 화면 공유"] --> RemoteShot["원격 촬영"] --> Edit["필름 LUT / 인생네컷 편집"] --> Save["PhotoKit / MediaStore 저장"]
           </pre>
+        </div>
+        <div class="section-gallery">
+          <h3>앱 화면</h3>
+          <div class="gallery-grid" aria-label="FilmMate 앱 전체 화면">
+            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-01.png" alt="FilmMate 앱 화면 1" />
+            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-02.png" alt="FilmMate 앱 화면 2" />
+            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-03.png" alt="FilmMate 앱 화면 3" />
+            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-04.png" alt="FilmMate 앱 화면 4" />
+            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-05.png" alt="FilmMate 앱 화면 5" />
+            <img class="gallery-shot phone" src="/assets/portfolio/filmmate-06.png" alt="FilmMate 앱 화면 6" />
+          </div>
         </div>
       </section>
 
@@ -809,6 +834,117 @@ sequenceDiagram
   L->>API: offer/mentee 조회
   M->>API: 제안 수락 또는 거절
             </pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="safetia-map" class="portfolio-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Kakao Map / Exhaustive Search</p>
+            <h2>Safetia 카카오맵 격자 완전 탐색</h2>
+            <p class="section-summary">
+              Safetia 지도 기능은 사업장 주소를 기준으로 주변 시설을 탐색하고,
+              카카오 Places API의 페이지/검색 한계에 도달하면 검색 영역을 사각
+              격자로 재귀 분할해 누락 가능성을 줄이는 지도 기반 데이터 수집
+              도구입니다.
+            </p>
+          </div>
+          <span class="role-chip">지도 검색 알고리즘, 일괄 갱신, Excel 운영 도구 구현</span>
+        </div>
+
+        <div class="content-grid">
+          <div class="info-card">
+            <h3>핵심 구현</h3>
+            <ul class="tags">
+              <li>Next.js</li>
+              <li>TypeScript</li>
+              <li>Kakao Map API</li>
+              <li>Kakao Local API</li>
+              <li>Recoil</li>
+              <li>ExcelJS</li>
+            </ul>
+            <ul class="point-list">
+              <li>
+                주소를 Kakao Geocoder로 좌표화하고, 중심 좌표 기준 3km 반경의
+                시설 데이터를 수집합니다.
+              </li>
+              <li>
+                Places API 결과가 페이지 한계에 걸리면 검색 영역을 사각 bounds로
+                전환하고, rect를 4분할해 각 격자를 다시 탐색합니다.
+              </li>
+              <li>
+                격자별 결과는 장소 ID와 키워드 기준으로 중복 제거하고, 중심점과의
+                거리 계산을 통해 1km/2km/3km range로 분류합니다.
+              </li>
+              <li>
+                사업장 일괄 갱신, API 사용량 제한, 실패 주소 목록, 엑셀 다운로드
+                흐름을 운영 도구로 연결했습니다.
+              </li>
+            </ul>
+            <div class="metric-row">
+              <div class="metric">
+                <strong>3km</strong>
+                <span>사업장 중심 반경 탐색</span>
+              </div>
+              <div class="metric">
+                <strong>4-way split</strong>
+                <span>포화 영역 재귀 격자 분할</span>
+              </div>
+              <div class="metric">
+                <strong>Excel</strong>
+                <span>운영용 일괄 갱신/다운로드</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="diagram-card">
+              <h3>격자 완전 탐색 흐름</h3>
+              <pre class="mermaid">
+flowchart LR
+  Address["사업장 주소"] --> Geocoder["Kakao Geocoder<br/>중심 좌표 변환"]
+  Geocoder --> Radius["3km 반경 Places 검색"]
+  Radius --> Saturated{"검색 결과 포화?"}
+  Saturated -->|"아니오"| Normalize["거리 계산<br/>range 분류"]
+  Saturated -->|"예"| Bounds["검색 bounds 생성"]
+  Bounds --> Split["rect 4분할"]
+  Split --> RectSearch["격자별 Places API 검색"]
+  RectSearch --> Again{"다시 포화?"}
+  Again -->|"예"| Split
+  Again -->|"아니오"| Normalize
+  Normalize --> Dedupe["장소 ID / 키워드 중복 제거"]
+  Dedupe --> Save["사업장 주변 시설 데이터 저장"]
+              </pre>
+            </div>
+            <div class="diagram-card">
+              <h3>운영 데이터 갱신 프로세스</h3>
+              <pre class="mermaid">
+sequenceDiagram
+  participant Admin as 운영자
+  participant UI as Safetia Map UI
+  participant Kakao as Kakao Local API
+  participant API as Safetia API
+  participant Excel as Excel Export
+
+  Admin->>UI: 사업장 목록 조회 또는 선택
+  UI->>API: 갱신 가능 사용량 확인
+  loop 대상 사업장별
+    UI->>Kakao: 주소 좌표 검색
+    UI->>Kakao: 반경/격자 Places 검색
+    UI->>UI: 중복 제거와 거리 분류
+    UI->>API: 주변 시설 데이터 저장
+  end
+  Admin->>UI: 결과 목록 확인
+  UI->>Excel: 실패 목록과 시설 집계 다운로드
+              </pre>
+            </div>
+          </div>
+        </div>
+        <div class="section-gallery">
+          <h3>탐색 화면</h3>
+          <div class="gallery-grid mixed" aria-label="Safetia 카카오맵 탐색 화면">
+            <img class="gallery-shot square" src="/assets/portfolio/safetia-kakao-grid.png" alt="Safetia 카카오맵 격자 분할 탐색 화면" />
           </div>
         </div>
       </section>
