@@ -148,6 +148,16 @@ export const mountMobileGameboyController = (game: Phaser.Game): void => {
 
   document.documentElement.classList.add("mobile-gameboy-mode");
 
+  const syncViewportHeight = () => {
+    const height = window.visualViewport?.height ?? window.innerHeight;
+    document.documentElement.style.setProperty(
+      "--mobile-viewport-height",
+      `${height}px`
+    );
+  };
+
+  syncViewportHeight();
+
   const activeKeys = new Set<string>();
   const controller = document.createElement("section");
   controller.id = "mobile-gameboy-controller";
@@ -156,10 +166,8 @@ export const mountMobileGameboyController = (game: Phaser.Game): void => {
 
   const header = document.createElement("div");
   header.className = "mobile-gameboy-header";
-  header.innerHTML = `
-    <strong>JIN'S WORLD</strong>
-    <span>A 상호작용/공격 · B 백스텝 · △ 결정 · □ 닫기 · 검 무기</span>
-  `;
+  header.innerHTML =
+    "<span>A 상호작용/공격 · B 백스텝 · △ 결정 · □ 닫기 · 검 무기</span>";
 
   const controls = document.createElement("div");
   controls.className = "mobile-gameboy-controls";
@@ -259,6 +267,8 @@ export const mountMobileGameboyController = (game: Phaser.Game): void => {
   controller.append(header, controls);
   document.body.appendChild(controller);
 
+  window.visualViewport?.addEventListener("resize", syncViewportHeight);
+  window.addEventListener("resize", syncViewportHeight);
   window.addEventListener("blur", () => releaseAllKeys(game, activeKeys));
   window.addEventListener("contextmenu", (event) => {
     if (controller.contains(event.target as Node)) {

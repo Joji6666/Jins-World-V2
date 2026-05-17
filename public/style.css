@@ -27,16 +27,17 @@ body {
 @media (max-width: 860px), (pointer: coarse) {
   html.mobile-gameboy-mode,
   html.mobile-gameboy-mode body {
+    --mobile-controller-height: 220px;
     width: 100%;
-    height: 100%;
+    height: var(--mobile-viewport-height, 100svh);
     overflow: hidden;
     touch-action: none;
   }
 
   html.mobile-gameboy-mode #app {
-    height: 100dvh;
+    height: var(--mobile-viewport-height, 100svh);
     display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr);
     align-items: stretch;
     justify-items: stretch;
     background: #050505;
@@ -44,10 +45,12 @@ body {
 
   html.mobile-gameboy-mode #game-container {
     width: 100%;
-    height: calc(100dvh - 248px);
-    min-height: 300px;
+    height: calc(
+      var(--mobile-viewport-height, 100svh) - var(--mobile-controller-height)
+    );
+    min-height: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     overflow: hidden;
     background: #000000;
@@ -65,8 +68,8 @@ body {
     bottom: 0;
     z-index: 2000;
     display: block;
-    height: 248px;
-    padding: 12px 12px calc(14px + env(safe-area-inset-bottom));
+    height: var(--mobile-controller-height);
+    padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
     background:
       linear-gradient(180deg, #111111 0%, #050505 100%),
       #050505;
@@ -80,18 +83,10 @@ body {
   .mobile-gameboy-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 36px;
+    justify-content: flex-end;
+    min-height: 24px;
     color: #e5e7eb;
     font-family: Arial, sans-serif;
-  }
-
-  .mobile-gameboy-header strong {
-    color: #ffffff;
-    font-size: 15px;
-    letter-spacing: 0;
-    white-space: nowrap;
   }
 
   .mobile-gameboy-header span {
@@ -107,7 +102,7 @@ body {
     gap: 14px;
     align-items: center;
     justify-content: space-between;
-    height: 180px;
+    height: 176px;
   }
 
   .mobile-key {
@@ -248,16 +243,12 @@ body {
 }
 
 @media (max-width: 380px) {
-  html.mobile-gameboy-mode #game-container {
-    height: calc(100dvh - 236px);
-  }
-
-  .mobile-gameboy-controller {
-    height: 236px;
-    padding-inline: 10px;
+  html.mobile-gameboy-mode {
+    --mobile-controller-height: 208px;
   }
 
   .mobile-gameboy-controls {
+    height: 164px;
     gap: 10px;
   }
 }
