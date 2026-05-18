@@ -251,7 +251,7 @@
 
       .metric-row {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 10px;
         margin-top: 18px;
       }
@@ -447,23 +447,26 @@
       <section id="mason" class="portfolio-section">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Internal CLI / AI Codegen</p>
-            <h2>Mason CLI</h2>
+            <p class="eyebrow">AI Harness CLI / Codex Orchestration</p>
+            <h2>Mason AI Harness CLI</h2>
             <p class="section-summary">
-              Mason은 Safetia 모노레포 안에서 자연어 화면 요구사항을
-              ui-spec/flow-spec으로 정규화한 뒤 화면설계서와 실제 서비스에 반영
-              가능한 프로덕션 코드 스캐폴드까지 함께 생성하는 내부 CLI입니다. 생성
-              결과는 실제 렌더링 캡처, 화면설계서, 작업 히스토리로 남겨 후속 개발과
-              검수 흐름까지 이어지도록 설계했습니다.
+              Mason은 단순 코드 생성 CLI가 아니라, Codex CLI를 Safetia 업무
+              화면 생성 흐름에 맞게 감싼 AI harness입니다. Codex가
+              AGENTS.md, prompt.md, ui-spec/flow-spec 같은 Markdown/JSON 문맥을
+              읽고 요구사항을 정규화하면, Mason은 그 결과를 검증 가능한
+              flow-spec으로 고정한 뒤 화면설계서와 실제 서비스에 반영 가능한
+              프로덕션 코드 스캐폴드까지 함께 생성합니다.
             </p>
           </div>
-          <span class="role-chip">설계, 구현, 자동화 파이프라인 구축</span>
+          <span class="role-chip">Codex harness 설계, 구현, 자동화 파이프라인 구축</span>
         </div>
 
         <div class="info-card">
-          <h3>자동화 대상</h3>
+          <h3>AI Harness 자동화 대상</h3>
           <ul class="tags">
             <li>Codex CLI</li>
+            <li>AGENTS.md</li>
+            <li>prompt.md</li>
             <li>Storybook</li>
             <li>Design System</li>
             <li>Playwright</li>
@@ -472,8 +475,13 @@
           </ul>
           <ul class="point-list">
             <li>
-              한국어 요구사항을 Mason이 이해할 수 있는 화면 명세와 필드 단위
-              의도로 변환합니다.
+              사용자가 입력한 한국어 요구사항을 prompt.md로 저장하고, Codex CLI가
+              AGENTS.md의 Mason 전용 규칙을 읽어 업무 의도를 정규화합니다.
+            </li>
+            <li>
+              Codex가 정리한 요구사항을 Mason parser와 validator가 다시 검증해
+              ui-spec/flow-spec으로 고정하고, Codex 실패 시에는 자체 fallback
+              parser로 계속 진행합니다.
             </li>
             <li>
               Storybook index와 컴포넌트 레지스트리를 기반으로
@@ -487,15 +495,19 @@
             </li>
             <li>
               생성된 프로덕션 화면을 실제 렌더링하고 Playwright로 캡처한 뒤,
-              번호 설명이 포함된 화면설계서 Markdown/PPTX와 작업 히스토리를
+              번호 설명이 포함된 화면설계서 Markdown/PPTX와 history.md를
               생성합니다.
             </li>
             <li>
               캡처 누락, 빈 이미지, 마커 겹침, callout 누락, 중복 버튼 등을
-              QA 리포트로 검증합니다.
+              로컬 QA와 Codex QA로 함께 검토합니다.
             </li>
           </ul>
           <div class="metric-row">
+            <div class="metric">
+              <strong>Harness</strong>
+              <span>Codex CLI + AGENTS.md 기반 요구사항 정규화</span>
+            </div>
             <div class="metric">
               <strong>Spec</strong>
               <span>ui-spec / flow-spec 정규화</span>
@@ -548,28 +560,37 @@
 
         <div class="diagram-grid">
           <div class="diagram-card">
-            <h3>Mason 파이프라인</h3>
+            <h3>Codex 기반 AI Harness 파이프라인</h3>
             <pre class="mermaid compact">
 flowchart LR
-  Prompt["자연어 요구사항"] --> Normalize["Codex 정규화<br/>fallback parser"]
-  Normalize --> UiSpec["ui-spec 생성"]
-  UiSpec --> Resolve["Storybook / Registry<br/>공통 컴포넌트 매칭"]
-  Resolve --> FlowSpec["flow-spec 생성"]
-  FlowSpec --> Scaffold["프로덕션 코드 생성<br/>route / setting / forms"]
+  Prompt["자연어 요구사항"] --> PromptMd["prompt.md 저장"]
+  AgentGuide["AGENTS.md<br/>Mason 전용 규칙"] --> Codex["Codex CLI<br/>의도 정규화"]
+  PromptMd --> Codex
+  Codex --> Normalized["정규화된 요구사항<br/>prompt.normalized.md"]
+  Normalized --> Parser["Mason parser / fallback"]
+  Parser --> UiSpec["ui-spec 보강"]
+  UiSpec --> FlowSpec["flow-spec 생성 및 검증"]
+  FlowSpec --> Resolve["Storybook / Registry<br/>공통 컴포넌트 매칭"]
+  Resolve --> Scaffold["프로덕션 코드 생성<br/>route / setting / forms"]
   Scaffold --> Render["safetia-core<br/>실제 화면 렌더링"]
   Render --> Capture["Playwright 캡처"]
   Capture --> Docs["화면설계서<br/>Markdown / PPTX"]
-  Capture --> QA["QA 리포트"]
-  Docs --> History["작업 히스토리"]
+  Capture --> QA["로컬 QA + Codex QA"]
+  Docs --> History["history.md"]
             </pre>
           </div>
           <div class="diagram-card">
             <h3>모노레포 연동 구조</h3>
             <pre class="mermaid compact">
 flowchart LR
-  Mason["packages/mason<br/>CLI"] --> Core["safetia-core<br/>Generated routes"]
+  Codex["Codex CLI"] --> Mason["packages/mason<br/>AI Harness CLI"]
+  Rules["packages/mason/AGENTS.md<br/>Codex 지침"] --> Codex
+  Prompt[".mason/runs/*/input<br/>prompt.md"] --> Codex
+  Mason --> Spec[".mason/runs/*/specs<br/>flow-spec.json"]
+  Mason --> Core["safetia-core<br/>Generated routes"]
   Mason --> DS["safetia-design-system<br/>Stories / Components"]
   Mason --> Studio["mason-studio<br/>ui-spec editor"]
+  Mason --> Docs[".mason/runs/*/docs<br/>PPTX / history / QA"]
   DS --> StoryIndex["storybook index"]
   StoryIndex --> Mason
   Studio --> RunSpec["mason run-spec"]
