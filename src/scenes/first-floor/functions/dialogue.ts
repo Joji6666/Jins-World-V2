@@ -245,7 +245,7 @@ export const downloadPortfolio = (url: string): void => {
   a.href = url;
   a.target = "_blank";
   a.rel = "noopener noreferrer";
-  a.download = "김진_포트폴리오.pptx";
+  a.download = "김진_포트폴리오.pdf";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

@@ -6,7 +6,7 @@ import {
 import { isMobileGameboyMode } from "../../shared/mobile/mobileGameboyController";
 
 const PORTFOLIO_DOWNLOAD_URL =
-  "/assets/kimjin_portfoilo.pptx";
+  "/assets/kimjin_portfolio.pdf";
 
 export default class IntroScene extends Phaser.Scene {
   private language: "ko" | "en" = "ko";
